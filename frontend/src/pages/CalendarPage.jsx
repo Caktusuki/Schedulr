@@ -309,7 +309,7 @@ const CalendarPage = () => {
                                 </span>
                                 {dayTasks.length > 0 && (
                                   <div className="flex-1 overflow-hidden">
-                                    {dayTasks.slice(0, 2).map((task, taskIndex) => (
+                                    {dayTasks.slice(0, 2).map((task) => (
                                       <div
                                         key={task.id}
                                         className={`text-xs rounded-md px-1.5 py-0.5 mb-1 truncate font-medium shadow-sm ${task.priority === 'high' ? 'bg-red-200 text-red-800' :
