@@ -1,0 +1,200 @@
+/* Theme CSS Variables and Dark Mode Styles */
+
+/* Base theme variables (will be overridden by ThemeContext) */
+:root {
+  /* Light theme as default */
+  --color-primary: #ffffff;
+  --color-secondary: #f8fafc;
+  --color-tertiary: #f1f5f9;
+  
+  --color-textPrimary: #1e293b;
+  --color-textSecondary: #475569;
+  --color-textTertiary: #64748b;
+  
+  --color-border: #e2e8f0;
+  --color-borderLight: #f1f5f9;
+  
+  --color-accent: #3b82f6;
+  --color-accentHover: #2563eb;
+  
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #06b6d4;
+  
+  --color-priorityLow: #10b981;
+  --color-priorityMedium: #f59e0b;
+  --color-priorityHigh: #ef4444;
+  
+  --color-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --color-shadowLg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Theme utility classes */
+.bg-theme-primary { background-color: var(--color-primary); }
+.bg-theme-secondary { background-color: var(--color-secondary); }
+.bg-theme-tertiary { background-color: var(--color-tertiary); }
+
+.text-theme-textPrimary { color: var(--color-textPrimary); }
+.text-theme-textSecondary { color: var(--color-textSecondary); }
+.text-theme-textTertiary { color: var(--color-textTertiary); }
+
+.border-theme-border { border-color: var(--color-border); }
+.border-theme-borderLight { border-color: var(--color-borderLight); }
+
+.text-theme-accent { color: var(--color-accent); }
+.bg-theme-accent { background-color: var(--color-accent); }
+.hover\:bg-theme-accentHover:hover { background-color: var(--color-accentHover); }
+
+.text-theme-success { color: var(--color-success); }
+.bg-theme-success { background-color: var(--color-success); }
+.text-theme-warning { color: var(--color-warning); }
+.bg-theme-warning { background-color: var(--color-warning); }
+.text-theme-error { color: var(--color-error); }
+.bg-theme-error { background-color: var(--color-error); }
+.text-theme-info { color: var(--color-info); }
+.bg-theme-info { background-color: var(--color-info); }
+
+.shadow-theme { box-shadow: var(--color-shadow); }
+.shadow-theme-lg { box-shadow: var(--color-shadowLg); }
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Dark theme specific overrides */
+.theme-dark {
+  color-scheme: dark;
+}
+
+.theme-dark input,
+.theme-dark textarea,
+.theme-dark select {
+  background-color: var(--color-secondary);
+  color: var(--color-textPrimary);
+  border-color: var(--color-border);
+}
+
+.theme-dark input::placeholder,
+.theme-dark textarea::placeholder {
+  color: var(--color-textTertiary);
+}
+
+.theme-dark input:focus,
+.theme-dark textarea:focus,
+.theme-dark select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+/* Light theme specific overrides */
+.theme-light {
+  color-scheme: light;
+}
+
+/* System theme - uses browser's preferred color scheme */
+@media (prefers-color-scheme: dark) {
+  .theme-system {
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .theme-system {
+    color-scheme: light;
+  }
+}
+
+/* Priority badge theme-aware colors */
+.priority-low {
+  background-color: color-mix(in srgb, var(--color-priorityLow), transparent 85%);
+  color: var(--color-priorityLow);
+  border-color: color-mix(in srgb, var(--color-priorityLow), transparent 70%);
+}
+
+.priority-medium {
+  background-color: color-mix(in srgb, var(--color-priorityMedium), transparent 85%);
+  color: var(--color-priorityMedium);
+  border-color: color-mix(in srgb, var(--color-priorityMedium), transparent 70%);
+}
+
+.priority-high {
+  background-color: color-mix(in srgb, var(--color-priorityHigh), transparent 85%);
+  color: var(--color-priorityHigh);
+  border-color: color-mix(in srgb, var(--color-priorityHigh), transparent 70%);
+}
+
+/* Status badge theme-aware colors */
+.status-pending {
+  background-color: color-mix(in srgb, var(--color-textTertiary), transparent 85%);
+  color: var(--color-textTertiary);
+}
+
+.status-in-progress {
+  background-color: color-mix(in srgb, var(--color-info), transparent 85%);
+  color: var(--color-info);
+}
+
+.status-completed {
+  background-color: color-mix(in srgb, var(--color-success), transparent 85%);
+  color: var(--color-success);
+}
+
+/* Animation for theme toggle */
+@keyframes themeToggle {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(180deg); }
+}
+
+.theme-toggle-animation {
+  animation: themeToggle 0.3s ease-in-out;
+}
+
+/* Ensure proper contrast for accessibility */
+.theme-dark {
+  --tw-text-opacity: 1;
+  --tw-bg-opacity: 1;
+}
+
+.theme-light {
+  --tw-text-opacity: 1;
+  --tw-bg-opacity: 1;
+}
+
+/* Scrollbar theming */
+.theme-dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.theme-dark ::-webkit-scrollbar-track {
+  background: var(--color-secondary);
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+  background: var(--color-tertiary);
+  border-radius: 4px;
+}
+
+.theme-dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border);
+}
+
+.theme-light ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.theme-light ::-webkit-scrollbar-track {
+  background: var(--color-secondary);
+}
+
+.theme-light ::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-textTertiary);
+}
