@@ -1,49 +1,48 @@
-name: Bug report
-description: Use this template to report a bug or issue.
-title: "[BUG]"
+name: Bug Report
+description: File a bug report if something isn't working as expected.
+title: "[BUG] "
 labels: bug
 body:
+  - type: textarea
+    id: describe_bug
+    attributes:
+      label: "Describe the bug"
+      description: "Clearly describe what went wrong."
+      placeholder: "When I clicked login, the app crashed."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to reproduce"
+      description: "List the steps to reproduce the bug."
+      placeholder: |
+        1. Open app
+        2. Click login
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected behavior"
+      description: "What did you expect to happen?"
+      placeholder: "The page should load normally."
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: "Screenshot (optional)"
+      description: "Add a screenshot if it helps explain the problem."
+      placeholder: "Drag and drop an image here."
+    validations:
+      required: false
+
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to file a bug report! Please fill out the following as completely as you can.
-
-  - type: input
-    id: steps-to-reproduce
-    attributes:
-      label: Steps to reproduce
-      description: List the steps to reproduce the issue
-      placeholder: "1. Go to '...'\n2. Click on '...'\n3. See error"
-      required: true
-
-  - type: textarea
-    id: expected-behavior
-    attributes:
-      label: Expected behavior
-      description: What you expected to happen
-      placeholder: "The application should..."
-      required: true
-
-  - type: textarea
-    id: actual-behavior
-    attributes:
-      label: Actual behavior
-      description: What actually happened
-      placeholder: "The application crashed..."
-      required: true
-
-  - type: input
-    id: environment
-    attributes:
-      label: Environment (browser, OS, device)
-      description: Describe the environment where this happens
-      placeholder: "e.g., Chrome 95, Windows 10, iPhone 12"
-      required: false
-
-  - type: textarea
-    id: additional-information
-    attributes:
-      label: Additional information
-      description: Any other details, logs, or screenshots
-      placeholder: "Include links to logs or screenshots"
-      required: false
+        Thank you for reporting this issue! We'll look into it as soon as possible.

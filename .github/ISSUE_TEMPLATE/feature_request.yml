@@ -1,0 +1,42 @@
+name: Feature Request
+description: Suggest a new feature or improvement for this project.
+title: "[Feature] "
+labels: 
+  - enhancement
+  - Gssoc
+body:
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: What is the feature?
+      description: Briefly describe the feature you want.
+      placeholder: "Add a dark mode option for the app."
+    validations:
+      required: false
+
+  - type: textarea
+    id: why_needed
+    attributes:
+      label: Why is this feature needed?
+      description: Explain why this feature would be useful.
+      placeholder: "Dark mode helps users use the app at night."
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshot or mockup (optional)
+      description: Add a screenshot if it helps explain your feature.
+      placeholder: "Drag and drop an image here."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional notes (optional)
+      description: Any extra info, links, or context.
+      placeholder: "Extra info or references."
+    validations:
+      required: false
