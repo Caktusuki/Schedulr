@@ -5,6 +5,7 @@ import TasksPage from "./pages/TasksPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
+import SchedulePage from "./pages/SchedulePage.jsx"; 
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/schedule" element={<SchedulePage />} /> 
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>

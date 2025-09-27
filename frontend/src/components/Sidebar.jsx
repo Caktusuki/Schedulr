@@ -19,6 +19,9 @@ export default function Sidebar() {
         <NavLink to="/calendar" className={linkClass}>
           Calendar
         </NavLink>
+        <NavLink to="/schedule" className={linkClass}>
+          Schedule
+        </NavLink> 
         <NavLink to="/settings" className={linkClass}>
           Settings
         </NavLink>
