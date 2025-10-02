@@ -1,4 +1,4 @@
-export default function TaskItem({ task, onEdit, onDelete, onToggleStatus }) {
+export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onToggleStatus }) {
   const priorityColors = {
     low: 'bg-green-100 text-green-800 border-green-200',
     medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -35,32 +35,64 @@ export default function TaskItem({ task, onEdit, onDelete, onToggleStatus }) {
 
   const daysUntil = getDaysUntilDeadline();
 
+  const getRecurrenceInfo = (task) => {
+    if (!task.isRecurring && !task.isInstance) return null;
+
+    if (task.isInstance) {
+      return {
+        icon: '🔄',
+        text: 'Recurring Task Instance',
+        color: 'bg-blue-100 text-blue-800 border-blue-200'
+      };
+    }
+
+    if (task.isRecurring && task.recurrence) {
+      const { type, interval } = task.recurrence;
+      let text = interval === 1 ? `Every ${type}` : `Every ${interval} ${type}${interval > 1 ? 's' : ''}`;
+      return {
+        icon: '🔄',
+        text,
+        color: 'bg-blue-100 text-blue-800 border-blue-200'
+      };
+    }
+
+    return null;
+  };
+
+  const recurrenceInfo = getRecurrenceInfo(task);
+
   return (
     <div className={`bg-white rounded-lg shadow-md p-4 mb-4 transition hover:shadow-lg border-l-4 ${
       isOverdue() ? 'border-l-red-500' : 
       task.status === 'completed' ? 'border-l-green-500' :
       'border-l-blue-500'
-    }`}>
+    } ${task.isInstance ? 'bg-gradient-to-r from-blue-50 to-white' : ''}`}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          {/* Task Header */}
-          <div className="flex items-center gap-2 mb-2">
+          {/* Header */}
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
             <h3 className={`text-lg font-semibold ${
-              task.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-800'
+              task.status === 'completed' ? 'line-through text-gray-500' : 'text-blue-700'
             }`}>
               {task.name}
             </h3>
-            
+
             {/* Priority Badge */}
             <span className={`px-2 py-1 text-xs font-medium rounded-full border ${priorityColors[task.priority]}`}>
               {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
             </span>
-            
+
             {/* Status Badge */}
             <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusColors[task.status]}`}>
               {task.status === 'in-progress' ? 'In Progress' : 
                task.status.charAt(0).toUpperCase() + task.status.slice(1)}
             </span>
+
+            {recurrenceInfo && (
+              <span className={`px-2 py-1 rounded-full text-xs font-medium border ${recurrenceInfo.color}`}>
+                {recurrenceInfo.icon} {recurrenceInfo.text}
+              </span>
+            )}
           </div>
 
           {/* Description */}
@@ -71,16 +103,13 @@ export default function TaskItem({ task, onEdit, onDelete, onToggleStatus }) {
           )}
 
           {/* Deadline Info */}
-          <div className="flex items-center gap-4 text-sm">
+          <div className="flex items-center gap-4 text-sm flex-wrap">
             <div className={`flex items-center gap-1 ${
               isOverdue() ? 'text-red-600' :
               daysUntil <= 3 ? 'text-orange-600' :
               'text-gray-500'
             }`}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span>Due: {formatDate(task.deadline)}</span>
+              📅 Due: {formatDate(task.deadline)}
               {isOverdue() && <span className="font-medium">(Overdue)</span>}
               {!isOverdue() && daysUntil >= 0 && (
                 <span className="text-gray-400">
@@ -90,50 +119,61 @@ export default function TaskItem({ task, onEdit, onDelete, onToggleStatus }) {
                 </span>
               )}
             </div>
+
+            {task.isRecurring && task.recurrence?.endDate && (
+              <div className="text-gray-500 text-xs">
+                🏁 Ends: {formatDate(task.recurrence.endDate)}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Actions */}
         <div className="flex items-center gap-2 ml-4">
-          {/* Toggle Status */}
-          <button
-            onClick={() => onToggleStatus(task)}
-            className={`p-2 rounded-lg transition-colors ${
-              task.status === 'completed' 
-                ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-            title={task.status === 'completed' ? 'Mark as pending' : 'Mark as completed'}
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {task.status === 'completed' ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              )}
-            </svg>
-          </button>
+          {task.isInstance && (
+            <span className="text-xs text-blue-600 font-medium px-2 py-1 bg-blue-50 rounded">
+              Instance
+            </span>
+          )}
 
-          {/* Edit Button */}
-          <button
-            onClick={() => onEdit(task)}
-            className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
-            title="Edit task"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-          </button>
+          {onShowDetails && (
+            <button 
+              onClick={() => onShowDetails(task)}
+              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs transition"
+            >
+              Details
+            </button>
+          )}
 
-          {/* Delete Button */}
-          <button
+          {onToggleStatus && (
+            <button
+              onClick={() => onToggleStatus(task)}
+              className={`p-2 rounded-lg transition-colors ${
+                task.status === 'completed' 
+                  ? 'bg-green-100 text-green-600 hover:bg-green-200'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+              title={task.status === 'completed' ? 'Mark as pending' : 'Mark as completed'}
+            >
+              ✔
+            </button>
+          )}
+
+          {onEdit && (
+            <button
+              onClick={() => onEdit(task)}
+              className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+              title="Edit task"
+            >
+              ✏️
+            </button>
+          )}
+
+          <button 
             onClick={() => onDelete(task)}
-            className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
-            title="Delete task"
+            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs transition"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
+            Delete
           </button>
         </div>
       </div>

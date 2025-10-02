@@ -1,6 +1,4 @@
-# --- PR Rules ---
-
-# UI-related files → needs-screenshot
+﻿# UI-related files → needs-screenshot
 needs-screenshot:
   - any: ['**/*.css', '**/*.scss', '**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.html']
 
@@ -16,11 +14,10 @@ Development:
 "Level 1":
   - any: ['**/level1/**', '**/Level1/**']
 
-# Level 2 = all enhancements  
+# Level 2 = all enhancements
 "Level 2":
   - any: ['features/**', 'src/feature/**', 'src/components/**']
 
-# Major work / new features
 major-work:
   - any: ['src/core/**', 'server/**', 'api/**']
 
@@ -28,7 +25,6 @@ major-work:
 "Level 3":
   - any: ['src/core/**', 'server/**', 'api/**', '**/level3/**', '**/Level3/**']
 
-# Documentation changes
 documentation:
   - any: ['**/*.md', 'docs/**', '**/docs/**']
 
