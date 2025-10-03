@@ -6,6 +6,8 @@ import DashboardPage from "./pages/DashboardPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import SchedulePage from "./pages/SchedulePage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
 import { TaskProvider } from "./contexts/TaskContext.jsx";
 import { SettingsProvider } from "./contexts/SettingsContext.jsx";
 import { DailyTaskProvider } from "./contexts/DailyTaskContext.jsx";
