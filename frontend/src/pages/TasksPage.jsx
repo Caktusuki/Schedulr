@@ -1,183 +1,177 @@
-export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onToggleStatus }) {
-  const priorityColors = {
-    low: 'bg-green-100 text-green-800 border-green-200',
-    medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    high: 'bg-red-100 text-red-800 border-red-200'
+import { useState } from 'react';
+import TaskItem from '../components/TaskItem.jsx';
+import TaskForm from '../components/TaskForm.jsx';
+import TaskFilter from '../components/TaskFilter.jsx';
+import { useTaskContext } from '../hooks/useTaskContext.js';
+
+export default function TasksPage() {
+  const { 
+    tasks, 
+    addTask, 
+    updateTask, 
+    deleteTask, 
+    toggleTaskStatus, 
+    getTaskStats 
+  } = useTaskContext();
+  
+  const [showTaskForm, setShowTaskForm] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+  const [filters, setFilters] = useState({
+    search: '',
+    priority: 'all',
+    status: 'all',
+    sortBy: 'deadline'
+  });
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(prev => ({ ...prev, ...newFilters }));
   };
 
-  const statusColors = {
-    pending: 'bg-gray-100 text-gray-800',
-    'in-progress': 'bg-blue-100 text-blue-800',
-    completed: 'bg-green-100 text-green-800'
+
+
+  const handleAddTask = () => {
+    setEditingTask(null);
+    setShowTaskForm(true);
   };
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
+  const handleEditTask = (task) => {
+    setEditingTask(task);
+    setShowTaskForm(true);
+  };
+
+  const handleSaveTask = (taskData) => {
+    if (editingTask) {
+      updateTask(editingTask.id, taskData);
+    } else {
+      addTask(taskData);
+    }
+    setShowTaskForm(false);
+    setEditingTask(null);
+  };
+
+  const handleDeleteTask = (taskToDelete) => {
+    if (window.confirm('Are you sure you want to delete this task?')) {
+      deleteTask(taskToDelete.id);
+    }
+  };
+
+  const handleToggleStatus = (taskToToggle) => {
+    toggleTaskStatus(taskToToggle.id);
+  };
+
+  const handleShowDetails = (task) => {
+    alert(`Task Details:\n\nName: ${task.name}\nDescription: ${task.description}\nDeadline: ${task.deadline}\nPriority: ${task.priority}\nStatus: ${task.status}`);
+  };
+
+  const filteredTasks = tasks
+    .filter(task => {
+      const matchesStatus = filters.status === 'all' || task.status === filters.status;
+      const matchesPriority = filters.priority === 'all' || task.priority === filters.priority;
+      const matchesSearch = task.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+                           task.description.toLowerCase().includes(filters.search.toLowerCase());
+      return matchesStatus && matchesPriority && matchesSearch;
+    })
+    .sort((a, b) => {
+      switch (filters.sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'priority': {
+          const priorityOrder = { high: 3, medium: 2, low: 1 };
+          return priorityOrder[b.priority] - priorityOrder[a.priority];
+        }
+        case 'created':
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        case 'deadline':
+        default:
+          return new Date(a.deadline) - new Date(b.deadline);
+      }
     });
-  };
 
-  const isOverdue = () => {
-    const today = new Date();
-    const deadline = new Date(task.deadline);
-    return deadline < today && task.status !== 'completed';
-  };
-
-  const getDaysUntilDeadline = () => {
-    const today = new Date();
-    const deadline = new Date(task.deadline);
-    const diffTime = deadline - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-  };
-
-  const daysUntil = getDaysUntilDeadline();
-
-  // Get recurrence info for display
-  const getRecurrenceInfo = (task) => {
-    if (!task.isRecurring && !task.isInstance) return null;
-
-    if (task.isInstance) {
-      return {
-        icon: '🔄',
-        text: 'Recurring Task Instance',
-        color: 'bg-blue-100 text-blue-800 border-blue-200'
-      };
-    }
-
-    if (task.isRecurring && task.recurrence) {
-      const { type, interval } = task.recurrence;
-      let text = interval === 1 ? `Every ${type}` : `Every ${interval} ${type}${interval > 1 ? 's' : ''}`;
-      return {
-        icon: '🔄',
-        text,
-        color: 'bg-blue-100 text-blue-800 border-blue-200'
-      };
-    }
-
-    return null;
-  };
-
-  const recurrenceInfo = getRecurrenceInfo(task);
+  const taskStats = getTaskStats();
 
   return (
-    <div className={`bg-white rounded-lg shadow-md p-4 mb-4 transition hover:shadow-lg border-l-4 ${
-      isOverdue() ? 'border-l-red-500' : 
-      task.status === 'completed' ? 'border-l-green-500' :
-      'border-l-blue-500'
-    } ${task.isInstance ? 'bg-gradient-to-r from-blue-50 to-white' : ''}`}>
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          {/* Header */}
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <h3 className={`text-lg font-semibold ${
-              task.status === 'completed' ? 'line-through text-gray-500' : 'text-blue-700'
-            }`}>
-              {task.name}
-            </h3>
+    <div>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Tasks</h1>
+        <p className="text-gray-600">Manage and track your tasks efficiently.</p>
+      </div>
 
-            {/* Priority Badge */}
-            <span className={`px-2 py-1 text-xs font-medium rounded-full border ${priorityColors[task.priority]}`}>
-              {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
-            </span>
-
-            {/* Status Badge */}
-            <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusColors[task.status]}`}>
-              {task.status === 'in-progress' ? 'In Progress' : 
-               task.status.charAt(0).toUpperCase() + task.status.slice(1)}
-            </span>
-
-            {recurrenceInfo && (
-              <span className={`px-2 py-1 rounded-full text-xs font-medium border ${recurrenceInfo.color}`}>
-                {recurrenceInfo.icon} {recurrenceInfo.text}
-              </span>
-            )}
-          </div>
-
-          {/* Description */}
-          {task.description && (
-            <p className="text-gray-600 text-sm mb-2 line-clamp-2">
-              {task.description}
-            </p>
-          )}
-
-          {/* Deadline Info */}
-          <div className="flex items-center gap-4 text-sm flex-wrap">
-            <div className={`flex items-center gap-1 ${
-              isOverdue() ? 'text-red-600' :
-              daysUntil <= 3 ? 'text-orange-600' :
-              'text-gray-500'
-            }`}>
-              📅 Due: {formatDate(task.deadline)}
-              {isOverdue() && <span className="font-medium">(Overdue)</span>}
-              {!isOverdue() && daysUntil >= 0 && (
-                <span className="text-gray-400">
-                  ({daysUntil === 0 ? 'Today' : 
-                    daysUntil === 1 ? 'Tomorrow' : 
-                    `${daysUntil} days left`})
-                </span>
-              )}
-            </div>
-
-            {task.isRecurring && task.recurrence?.endDate && (
-              <div className="text-gray-500 text-xs">
-                🏁 Ends: {formatDate(task.recurrence.endDate)}
-              </div>
-            )}
-          </div>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-medium text-gray-500">Total Tasks</h3>
+          <p className="text-2xl font-bold text-blue-600">{taskStats.total}</p>
         </div>
-
-        {/* Actions */}
-        <div className="flex items-center gap-2 ml-4">
-          {task.isInstance && (
-            <span className="text-xs text-blue-600 font-medium px-2 py-1 bg-blue-50 rounded">
-              Instance
-            </span>
-          )}
-
-          {onShowDetails && (
-            <button 
-              onClick={() => onShowDetails(task)}
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs transition"
-            >
-              Details
-            </button>
-          )}
-
-          {onToggleStatus && (
-            <button
-              onClick={() => onToggleStatus(task)}
-              className={`p-2 rounded-lg transition-colors ${
-                task.status === 'completed' 
-                  ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-              title={task.status === 'completed' ? 'Mark as pending' : 'Mark as completed'}
-            >
-              ✔
-            </button>
-          )}
-
-          {onEdit && (
-            <button
-              onClick={() => onEdit(task)}
-              className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
-              title="Edit task"
-            >
-              ✏️
-            </button>
-          )}
-
-          <button 
-            onClick={() => onDelete(task)}
-            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs transition"
-          >
-            Delete
-          </button>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-medium text-gray-500">Pending</h3>
+          <p className="text-2xl font-bold text-orange-600">{taskStats.pending}</p>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-medium text-gray-500">In Progress</h3>
+          <p className="text-2xl font-bold text-blue-600">{taskStats.inProgress}</p>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-medium text-gray-500">Completed</h3>
+          <p className="text-2xl font-bold text-green-600">{taskStats.completed}</p>
         </div>
       </div>
+
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <button
+          onClick={handleAddTask}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          Add New Task
+        </button>
+        
+        <TaskFilter 
+          filters={filters} 
+          onFilterChange={handleFilterChange}
+          taskCounts={taskStats}
+        />
+      </div>
+
+      {/* Tasks List */}
+      <div>
+        {filteredTasks.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-gray-500 text-lg mb-2">
+              {filters.search || filters.status !== 'all' || filters.priority !== 'all' ? 'No tasks match your criteria' : 'No tasks yet'}
+            </div>
+            <div className="text-gray-400 text-sm">
+              {filters.search || filters.status !== 'all' || filters.priority !== 'all'
+                ? 'Try adjusting your search or filter' 
+                : 'Click "Add New Task" to get started'}
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredTasks.map(task => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                onShowDetails={handleShowDetails}
+                onEdit={handleEditTask}
+                onDelete={handleDeleteTask}
+                onToggleStatus={handleToggleStatus}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Task Form Modal */}
+      {showTaskForm && (
+        <TaskForm
+          task={editingTask}
+          onSave={handleSaveTask}
+          onCancel={() => {
+            setShowTaskForm(false);
+            setEditingTask(null);
+          }}
+        />
+      )}
     </div>
   );
 }

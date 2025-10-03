@@ -18,13 +18,55 @@
 - 🎨 Clean and minimal UI
 - 📱 Progressive Web App (PWA) support
 - 🌐 Cross-platform compatibility
+- 🤖 Auto-predict task priorities using ML (High / Medium / Low)
 
+
+---
+## 🧠 ML Task Prioritization
+
+This feature uses a machine learning model to automatically predict the priority of tasks based on:
+
+- **DeadlineDays**: Number of days until the task is due
+- **Complexity**: Estimated difficulty or effort required
+- **Importance**: User-defined importance score
+- **OverdueCount**: Number of times the task has been delayed
+
+### Files
+
+- `ml/data.csv` → Synthetic dataset simulating tasks
+- `ml/ml_prioritization.py` → ML script for training and predicting task priorities
+- `ml/task_priority_model.pkl` → Trained model saved for future backend/API integration
+
+### How to Run
+
+1. Navigate to the `ml` directory:
+
+   ```bash
+   cd ml
+   ```
+
+2. Run the ML script:
+
+   ```bash
+python ml_prioritization.py
+   ```
+3. Follow the prompts to enter task details and get priority predictions.
+
+Model Details
+Model Type: Random Forest Classifier
+
+Notes
+
+The model is trained on a synthetic dataset and may require retraining with real data for production use.
+
+For backend integration, the model can be loaded using joblib.load('task_priority_model.pkl').
 ---
 
 ## 🛠 Tech Stack
 - **Frontend:** React 19, Tailwind CSS, React Router
 - **Build Tool:** Vite
 - **Backend:** Python (Flask / FastAPI) - *Coming Soon*
+- **ML / Data Processing:** Python, Pandas, Scikit-learn (Random Forest for task prioritization)
 - **Database:** PostgreSQL / SQLite - *Coming Soon*
 - **PDF Export:** ReportLab / WeasyPrint - *Coming Soon*
 - **Deployment:** Vercel + Heroku
@@ -91,6 +133,10 @@ Schedulr/
 │   │   └── main.jsx        # App entry point
 │   ├── package.json        # Dependencies and scripts
 │   └── vite.config.js      # Vite configuration
+├── ml/                      # ML task prioritization
+│   ├── data.csv
+│   ├── ml_prioritization.py
+│   └── task_priority_model.pkl
 ├── .github/                # GitHub workflows and templates
 ├── LICENSE.md              # MIT License
 └── README.md              # This file

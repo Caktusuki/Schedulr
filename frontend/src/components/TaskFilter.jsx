@@ -1,4 +1,21 @@
-export default function TaskFilter({ filters, onFilterChange, taskCounts }) {
+export default function TaskFilter({ filters = {}, onFilterChange, taskCounts = {} }) {
+  // Provide default values to prevent undefined errors
+  const safeFilters = {
+    search: '',
+    priority: 'all',
+    status: 'all',
+    sortBy: 'deadline',
+    ...filters
+  };
+
+  const safeCounts = {
+    total: 0,
+    pending: 0,
+    inProgress: 0,
+    completed: 0,
+    ...taskCounts
+  };
+
   const priorityOptions = [
     { value: 'all', label: 'All Priorities' },
     { value: 'high', label: 'High Priority' },
@@ -30,8 +47,8 @@ export default function TaskFilter({ filters, onFilterChange, taskCounts }) {
           </label>
           <input
             type="text"
-            value={filters.search}
-            onChange={(e) => onFilterChange({ search: e.target.value })}
+            value={safeFilters.search}
+            onChange={(e) => onFilterChange && onFilterChange({ search: e.target.value })}
             placeholder="Search by name or description..."
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -43,8 +60,8 @@ export default function TaskFilter({ filters, onFilterChange, taskCounts }) {
             Priority
           </label>
           <select
-            value={filters.priority}
-            onChange={(e) => onFilterChange({ priority: e.target.value })}
+            value={safeFilters.priority}
+            onChange={(e) => onFilterChange && onFilterChange({ priority: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {priorityOptions.map(option => (
@@ -61,8 +78,8 @@ export default function TaskFilter({ filters, onFilterChange, taskCounts }) {
             Status
           </label>
           <select
-            value={filters.status}
-            onChange={(e) => onFilterChange({ status: e.target.value })}
+            value={safeFilters.status}
+            onChange={(e) => onFilterChange && onFilterChange({ status: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {statusOptions.map(option => (
@@ -79,8 +96,8 @@ export default function TaskFilter({ filters, onFilterChange, taskCounts }) {
             Sort By
           </label>
           <select
-            value={filters.sortBy}
-            onChange={(e) => onFilterChange({ sortBy: e.target.value })}
+            value={safeFilters.sortBy}
+            onChange={(e) => onFilterChange && onFilterChange({ sortBy: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {sortOptions.map(option => (
@@ -95,16 +112,16 @@ export default function TaskFilter({ filters, onFilterChange, taskCounts }) {
       {/* Task Counts */}
       <div className="flex gap-4 mt-4 pt-4 border-t border-gray-200">
         <div className="text-sm text-gray-600">
-          <span className="font-medium">{taskCounts.total}</span> Total Tasks
+          <span className="font-medium">{safeCounts.total}</span> Total Tasks
         </div>
         <div className="text-sm text-gray-600">
-          <span className="font-medium text-yellow-600">{taskCounts.pending}</span> Pending
+          <span className="font-medium text-yellow-600">{safeCounts.pending}</span> Pending
         </div>
         <div className="text-sm text-gray-600">
-          <span className="font-medium text-blue-600">{taskCounts.inProgress}</span> In Progress
+          <span className="font-medium text-blue-600">{safeCounts.inProgress}</span> In Progress
         </div>
         <div className="text-sm text-gray-600">
-          <span className="font-medium text-green-600">{taskCounts.completed}</span> Completed
+          <span className="font-medium text-green-600">{safeCounts.completed}</span> Completed
         </div>
       </div>
     </div>

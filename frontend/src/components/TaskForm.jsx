@@ -6,7 +6,14 @@ export default function TaskForm({ task, onSave, onCancel }) {
     description: task?.description || '',
     deadline: task?.deadline || '',
     priority: task?.priority || 'medium',
-    status: task?.status || 'pending'
+    status: task?.status || 'pending',
+    isRecurring: task?.isRecurring || false,
+    recurrence: {
+      type: task?.recurrence?.type || 'daily',
+      interval: task?.recurrence?.interval || 1,
+      endDate: task?.recurrence?.endDate || '',
+      ...task?.recurrence
+    }
   });
 
   const [errors, setErrors] = useState({});
@@ -29,6 +36,22 @@ export default function TaskForm({ task, onSave, onCancel }) {
         newErrors.deadline = 'Deadline cannot be in the past';
       }
     }
+
+    // Validate recurring task fields
+    if (formData.isRecurring) {
+      if (formData.recurrence.interval < 1) {
+        newErrors.interval = 'Interval must be at least 1';
+      }
+      
+      if (formData.recurrence.endDate) {
+        const endDate = new Date(formData.recurrence.endDate);
+        const startDate = new Date(formData.deadline);
+        
+        if (endDate <= startDate) {
+          newErrors.endDate = 'End date must be after the start date';
+        }
+      }
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -49,17 +72,35 @@ export default function TaskForm({ task, onSave, onCancel }) {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const { name, value, type, checked } = e.target;
+    
+    if (name === 'isRecurring') {
+      setFormData(prev => ({
+        ...prev,
+        [name]: checked
+      }));
+    } else if (name.startsWith('recurrence.')) {
+      const recurrenceField = name.split('.')[1];
+      setFormData(prev => ({
+        ...prev,
+        recurrence: {
+          ...prev.recurrence,
+          [recurrenceField]: type === 'number' ? parseInt(value) || 1 : value
+        }
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
     
     // Clear error when user starts typing
-    if (errors[name]) {
+    if (errors[name] || errors[name.split('.')[1]]) {
       setErrors(prev => ({
         ...prev,
-        [name]: ''
+        [name]: '',
+        [name.split('.')[1]]: ''
       }));
     }
   };
@@ -139,6 +180,102 @@ export default function TaskForm({ task, onSave, onCancel }) {
                 <option value="high">High Priority</option>
               </select>
             </div>
+
+            {/* Recurring Task Toggle */}
+            <div>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  name="isRecurring"
+                  checked={formData.isRecurring}
+                  onChange={handleChange}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">
+                  Make this a recurring task
+                </span>
+              </label>
+            </div>
+
+            {/* Recurring Task Options */}
+            {formData.isRecurring && (
+              <div className="border-l-4 border-blue-200 pl-4 space-y-3">
+                <div className="text-sm font-medium text-blue-700 mb-2">
+                  🔄 Recurring Settings
+                </div>
+                
+                {/* Recurrence Type and Interval */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Repeat every
+                    </label>
+                    <input
+                      type="number"
+                      name="recurrence.interval"
+                      value={formData.recurrence.interval}
+                      onChange={handleChange}
+                      min="1"
+                      max="365"
+                      className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                        errors.interval ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    />
+                    {errors.interval && <p className="text-red-500 text-xs mt-1">{errors.interval}</p>}
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Period
+                    </label>
+                    <select
+                      name="recurrence.type"
+                      value={formData.recurrence.type}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="daily">Day(s)</option>
+                      <option value="weekly">Week(s)</option>
+                      <option value="monthly">Month(s)</option>
+                      <option value="yearly">Year(s)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* End Date (Optional) */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    End Date (Optional)
+                  </label>
+                  <input
+                    type="date"
+                    name="recurrence.endDate"
+                    value={formData.recurrence.endDate}
+                    onChange={handleChange}
+                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      errors.endDate ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                  />
+                  {errors.endDate && <p className="text-red-500 text-xs mt-1">{errors.endDate}</p>}
+                  <p className="text-xs text-gray-500 mt-1">
+                    Leave empty for indefinite recurring
+                  </p>
+                </div>
+
+                {/* Recurrence Preview */}
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <p className="text-sm text-blue-700">
+                    <strong>Preview:</strong> This task will repeat every{' '}
+                    {formData.recurrence.interval > 1 ? formData.recurrence.interval : ''}{' '}
+                    {formData.recurrence.type.replace('ly', '').replace('dai', 'day')}{formData.recurrence.interval > 1 ? 's' : ''}
+                    {formData.recurrence.endDate && (
+                      <> until {new Date(formData.recurrence.endDate).toLocaleDateString()}</>
+                    )}
+                    {!formData.recurrence.endDate && <> indefinitely</>}
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Status (only show when editing) */}
             {task && (

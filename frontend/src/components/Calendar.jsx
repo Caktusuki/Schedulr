@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Calendar({ tasks = [] }) {
+export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   
   const months = [
@@ -39,6 +39,19 @@ export default function Calendar({ tasks = [] }) {
     const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     return tasks.some(task => task.deadline === dateStr);
   };
+
+  const isSelectedDate = (day) => {
+    if (!selectedDate) return false;
+    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return dateStr === selectedDate;
+  };
+
+  const handleDayClick = (day) => {
+    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    if (onDateClick) {
+      onDateClick(dateStr);
+    }
+  };
   
   const renderCalendarDays = () => {
     const daysInMonth = getDaysInMonth(currentDate);
@@ -63,7 +76,9 @@ export default function Calendar({ tasks = [] }) {
               : 'hover:bg-blue-50'
             }
             ${hasTask(day) ? 'bg-green-100 hover:bg-green-200' : ''}
+            ${isSelectedDate(day) ? 'ring-2 ring-purple-300 bg-purple-100' : ''}
           `}
+          onClick={() => handleDayClick(day)}
         >
           <span className="text-sm">{day}</span>
           {hasTask(day) && (
