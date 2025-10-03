@@ -11,6 +11,9 @@ export default function Sidebar() {
     >
       <div className="text-2xl font-bold mb-6">Schedulr</div>
       <nav className="flex flex-col gap-2">
+         <NavLink to="/home" className={linkClass}>
+          Home
+        </NavLink>
         <NavLink to="/dashboard" className={linkClass}>
           Dashboard
         </NavLink>

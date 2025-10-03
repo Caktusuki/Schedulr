@@ -6,6 +6,7 @@ import DashboardPage from "./pages/DashboardPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import SchedulePage from "./pages/SchedulePage.jsx"; 
+import Home from "./components/Home.jsx";
 
 export default function App() {
   return (
@@ -13,7 +14,8 @@ export default function App() {
       <Sidebar />
       <main className="flex-1 p-10 ml-44 peer-hover:ml-64  transition-all h-screen duration-300">
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={<Home />} />        
+        <Route path="/home" element={<Home />} />     
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
