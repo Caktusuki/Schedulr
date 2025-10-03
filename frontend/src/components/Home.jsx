@@ -8,15 +8,15 @@ const Home = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center">
       
       {/* Hero Section */}
-      <section className="w-full bg-gradient-to-r from-teal-600 to-indigo-600 text-white py-20 px-6 text-center shadow-lg">
-        <h1 className="text-5xl font-extrabold mb-4">Welcome to Schedulr</h1>
-        <p className="text-lg max-w-2xl mx-auto mb-8 opacity-90">
+      <section className="w-full bg-blue-600 text-white text-center py-20 rounded-2xl shadow-md">
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">Welcome to Schedulr</h1>
+        <p className="text-lg mb-8">
           Organize your tasks, plan your day, and boost productivity with our modern, 
           easy-to-use scheduling tool.
         </p>
         <Link 
         to="/Calendar" 
-        className="bg-teal-600 hover:bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-md transition"
+        className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-50 transition"
       >
         Get Started
       </Link>
@@ -27,7 +27,7 @@ const Home = () => {
         
         {/* About Section */}
         <section className="bg-white p-10 rounded-2xl shadow-md hover:shadow-xl transition">
-          <h2 className="text-3xl font-bold mb-4 text-indigo-600 text-center">About Us</h2>
+          <h2 className="text-3xl md:text-3xl font-bold mb-8 text-blue-600 text-center">About Us</h2>
           <p className="text-gray-600 leading-relaxed">
             Schedulr is an open-source project under GSSoC that helps students 
             and professionals manage their schedules with ease.  
@@ -37,7 +37,7 @@ const Home = () => {
 
         {/* Why Choose Section */}
     <section className="bg-white p-10 rounded-2xl shadow-md hover:shadow-xl transition">
-    <h2 className="text-3xl font-bold mb-4 text-indigo-600 text-center">Why Choose Schedulr?</h2>
+    <h2 className="text-3xl md:text-3xl font-bold mb-8 text-blue-600 text-center">Why Choose Schedulr?</h2>
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
       <li className="flex items-center gap-2">
         <span className="text-teal-600 font-bold">✔</span> Clean and intuitive UI
@@ -56,7 +56,7 @@ const Home = () => {
 
         {/* Stats Panel (Our Impact) */}
         <section className="bg-white p-10 rounded-2xl shadow-md hover:shadow-xl transition mt-16">
-    <h2 className="text-3xl font-bold mb-4 text-indigo-600 text-center">
+    <h2 className="text-3xl md:text-3xl font-bold mb-8 text-blue-600 text-center">
       Our Impact
     </h2>
     <StatsPanel />
@@ -72,7 +72,7 @@ const Home = () => {
 
     {/* Contact Section */}
    <section className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition">
-  <h2 className="text-3xl font-bold mb-4 text-indigo-600 text-center">Contact Us</h2>
+  <h2 className="text-3xl md:text-3xl font-bold mb-8 text-blue-600 text-center">Contact Us</h2>
 
   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
     {/* Contact Form */}
