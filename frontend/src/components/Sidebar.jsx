@@ -23,7 +23,7 @@ export default function Sidebar() {
          <NavLink to="/home" className={linkClass}>
           Home
         </NavLink>
-
+      </nav>
       {/* User Info */}
       {user && (
         <div className="mb-6 p-3 bg-gray-800 rounded-lg">

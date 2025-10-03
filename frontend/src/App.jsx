@@ -55,14 +55,19 @@ function AppContent() {
       <Sidebar />
       <main className="flex-1 p-10 ml-44 peer-hover:ml-64 transition-all h-screen duration-300">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+          <Route path="/home" element={<PublicRoute><Home /></PublicRoute>} />
+           <Route path="/settings" element={<PublicRoute><SettingsPage /></PublicRoute>} />
+           
+          {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
           <Route path="/schedule" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
-          <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+         
         </Routes>
       </main>
     </div>
@@ -71,24 +76,6 @@ function AppContent() {
 
 export default function App() {
   return (
-    <SettingsProvider>
-      <TaskProvider>
-    <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar />
-      <main className="flex-1 p-10 ml-44 peer-hover:ml-64  transition-all h-screen duration-300">
-        <Routes>
-          <Route path="/" element={<Home />} />        
-        <Route path="/home" element={<Home />} />     
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/tasks" element={<TasksPage />} />
-          <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/schedule" element={<SchedulePage />} /> 
-          <Route path="/settings" element={<SettingsPage />} />
-        </Routes>
-      </main>
-    </div>
-    </TaskProvider>
-    </SettingsProvider>
     <UserProvider>
       <SettingsProvider>
         <TaskProvider>
