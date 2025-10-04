@@ -21,12 +21,15 @@ export default function SettingsPage() {
   const fileInputRef = useRef(null);
 
   const sections = [
+     { id: 'profile', name: 'Profile', icon: '👤' },
+     { id: 'stats', name: 'Productivity Stats', icon: '📊' },
     { id: 'appearance', name: 'Appearance', icon: '🎨' },
     { id: 'tasks', name: 'Task Management', icon: '📝' },
     { id: 'notifications', name: 'Notifications', icon: '🔔' },
     { id: 'calendar', name: 'Calendar', icon: '📅' },
     { id: 'data', name: 'Data & Privacy', icon: '🔒' },
-    { id: 'advanced', name: 'Advanced', icon: '⚙️' }
+    { id: 'advanced', name: 'Advanced', icon: '⚙️' },
+    { id: 'about', name: 'About', icon: 'ℹ️' }
   ];
 
   const handleFileImport = (event) => {
@@ -414,6 +417,94 @@ export default function SettingsPage() {
     </div>
   );
 
+    const renderStatsSettings = () => {
+  const completedTasks = tasks.filter(t => t.completed).length;
+  const streak = Math.floor(completedTasks / 5); // Example rule: every 5 tasks = 1 streak day
+
+  return (
+    <div className="space-y-6">
+      <h3 className="text-lg font-semibold text-gray-800">Your Productivity</h3>
+      <div className="p-4 bg-blue-50 rounded-lg shadow">
+        <p className="text-sm text-gray-600">Completed Tasks:</p>
+        <p className="text-2xl font-bold text-blue-700">{completedTasks}</p>
+      </div>
+
+      <div className="p-4 bg-green-50 rounded-lg shadow">
+        <p className="text-sm text-gray-600">Current Streak:</p>
+        <p className="text-2xl font-bold text-green-700">{streak} days</p>
+      </div>
+
+      <p className="text-xs text-gray-500">
+        (Example: Every 5 completed tasks count as 1 streak day. You can refine this logic.)
+      </p>
+    </div>
+  );
+};
+
+  const renderProfileSettings = () => (
+  <div className="space-y-6">
+    <h3 className="text-lg font-semibold text-gray-800">Profile</h3>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+      <input
+        type="text"
+        value={settings.profileName || ''}
+        onChange={(e) => updateSetting('profileName', e.target.value)}
+        placeholder="Enter your name"
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Time Zone</label>
+      <select
+        value={settings.timeZone || 'UTC'}
+        onChange={(e) => updateSetting('timeZone', e.target.value)}
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="UTC">UTC</option>
+        <option value="IST">IST (India)</option>
+        <option value="EST">EST (US)</option>
+        <option value="PST">PST (US)</option>
+      </select>
+    </div>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => updateSetting('profilePicture', e.target.files?.[0]?.name)}
+        className="w-full"
+      />
+      {settings.profilePicture && (
+        <p className="text-xs text-gray-500 mt-1">Uploaded: {settings.profilePicture}</p>
+      )}
+    </div>
+  </div>
+);
+
+
+const renderAboutSettings = () => (
+  <div className="space-y-6">
+    <h3 className="text-lg font-semibold text-gray-800">About Schedulr</h3>
+    <p className="text-gray-600">Schedulr helps you stay on top of tasks, calendar, and productivity.</p>
+
+    <div className="p-4 bg-gray-50 rounded-lg shadow">
+      <p className="text-sm text-gray-700">Version: <span className="font-bold">1.0.0</span></p>
+      <p className="text-sm text-gray-700">Build Date: <span className="font-bold">Oct 2025</span></p>
+      <p className="text-sm text-gray-700">Developer: <span className="font-bold">XYZ</span></p>
+    </div>
+
+    <p className="text-xs text-gray-500">
+      © {new Date().getFullYear()} Schedulr. All rights reserved.
+    </p>
+  </div>
+);
+
+
+
   const renderActiveSection = () => {
     switch (activeSection) {
       case 'appearance': return renderAppearanceSettings();
@@ -422,6 +513,9 @@ export default function SettingsPage() {
       case 'calendar': return renderCalendarSettings();
       case 'data': return renderDataSettings();
       case 'advanced': return renderAdvancedSettings();
+      case 'stats': return renderStatsSettings();
+      case 'profile': return renderProfileSettings();
+      case 'about': return renderAboutSettings();
       default: return renderAppearanceSettings();
     }
   };
@@ -499,9 +593,9 @@ export default function SettingsPage() {
 
        {/* Sign Out Confirmation Modal */}
 
-       {showSignOutConfirm && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-lg p-6 w-full max-w-md">
+      {showSignOutConfirm && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Sign Out</h3>
       <p className="text-gray-600 mb-6">
         Are you sure you want to sign out? You’ll be logged out and redirected to login.
@@ -521,11 +615,11 @@ export default function SettingsPage() {
           className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
         >
           Cancel
-        </button>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-)}
+  )}
 
       {/* Clear Data Confirmation Modal */}
       {showClearDataConfirm && (
