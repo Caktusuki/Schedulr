@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Hero from "../components/Hero.jsx";
+import MetricCard from "../components/MetricCard.jsx";
+import ProgressChart from "../components/ProgressChart.jsx";
 import { useTaskContext } from '../hooks/useTaskContext.js';
 
 export default function DashboardPage() {
@@ -13,28 +15,52 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <Hero />
+      <Hero 
+        userName="User"
+        todayTasks={todayTasks.length}
+        completedTasks={taskStats.completed}
+      />
       
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/tasks')}>
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Total Tasks</h3>
-          <p className="text-3xl font-bold text-blue-600">{taskStats.total}</p>
+        <div onClick={() => navigate('/tasks')}>
+          <MetricCard 
+            title="Total Tasks" 
+            count={taskStats.total} 
+            bgColor="bg-slate-50" 
+            textColor="text-blue-600"
+            icon={<img width="70" height="70" src="https://img.icons8.com/bubbles/70/task.png" alt="task"/>}
+          />
         </div>
         
-        <div className="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/tasks')}>
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Pending</h3>
-          <p className="text-3xl font-bold text-orange-600">{taskStats.pending}</p>
+        <div onClick={() => navigate('/tasks')}>
+          <MetricCard 
+            title="Pending" 
+            count={taskStats.pending} 
+            bgColor="bg-slate-50" 
+            textColor="text-orange-600"
+            icon={<img width="50" height="50" src="https://img.icons8.com/emoji/50/hourglass-done.png" alt="hourglass-done"/>}
+          />
         </div>
         
-        <div className="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/tasks')}>
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Completed</h3>
-          <p className="text-3xl font-bold text-green-600">{taskStats.completed}</p>
+        <div onClick={() => navigate('/tasks')}>
+          <MetricCard 
+            title="Completed" 
+            count={taskStats.completed} 
+            bgColor="bg-slate-50" 
+            textColor="text-green-600"
+            icon={<img width="48" height="48" src="https://img.icons8.com/fluency/48/approval.png" alt="approval"/>}
+          />
         </div>
         
-        <div className="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/tasks')}>
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Overdue</h3>
-          <p className="text-3xl font-bold text-red-600">{taskStats.overdue}</p>
+        <div onClick={() => navigate('/tasks')}>
+          <MetricCard 
+            title="Overdue" 
+            count={taskStats.overdue} 
+            bgColor="bg-slate-50" 
+            textColor="text-red-600"
+            icon={<img width="64" height="64" src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-deadline-agile-flaticons-flat-flat-icons-2.png" alt="external-deadline-agile-flaticons-flat-flat-icons-2"/>}
+          />
         </div>
       </div>
 
@@ -114,6 +140,20 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Progress Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <ProgressChart 
+            totalTasks={taskStats.total}
+            completedTasks={taskStats.completed}
+            todayTasks={todayTasks.length}
+          />
+        </div>
+        <div className="space-y-6">
+          {/* Additional metrics or widgets can go here */}
+        </div>
+      </div>
+
       {/* Overdue Tasks Alert */}
       {overdueTasks.length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-6">
@@ -137,12 +177,12 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <div className="bg-white rounded-lg shadow p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <button 
             onClick={() => navigate('/tasks')}
             className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-left"
           >
-            <div className="text-2xl mb-2">📝</div>
+            <div className="mb-2"><img width="48" height="48" src="https://img.icons8.com/external-bearicons-flat-bearicons/64/external-New-Task-reminder-and-to-do-bearicons-flat-bearicons.png" alt="external-New-Task-reminder-and-to-do-bearicons-flat-bearicons"/></div>
             <h4 className="font-medium text-gray-800">Add New Task</h4>
             <p className="text-sm text-gray-500">Create and organize your tasks</p>
           </button>
@@ -151,7 +191,7 @@ export default function DashboardPage() {
             onClick={() => navigate('/calendar')}
             className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-left"
           >
-            <div className="text-2xl mb-2">📅</div>
+            <div className="mb-2"><img width="48" height="48" src="https://img.icons8.com/color/48/calendar--v1.png" alt="calendar--v1"/></div>
             <h4 className="font-medium text-gray-800">View Calendar</h4>
             <p className="text-sm text-gray-500">See tasks in calendar view</p>
           </button>
@@ -160,9 +200,18 @@ export default function DashboardPage() {
             onClick={() => navigate('/schedule')}
             className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-left"
           >
-            <div className="text-2xl mb-2">⏰</div>
+            <div className="mb-2"><img width="48" height="48" src="https://img.icons8.com/color/48/overtime.png" alt="overtime"/></div>
             <h4 className="font-medium text-gray-800">Plan Schedule</h4>
             <p className="text-sm text-gray-500">Organize your day and week</p>
+          </button>
+          
+          <button 
+            onClick={() => navigate('/settings')}
+            className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-left"
+          >
+            <div className="mb-2"><img width="48" height="48" src="https://img.icons8.com/color/48/settings--v1.png" alt="settings--v1"/></div>
+            <h4 className="font-medium text-gray-800">Settings</h4>
+            <p className="text-sm text-gray-500">Configure your preferences</p>
           </button>
         </div>
       </div>

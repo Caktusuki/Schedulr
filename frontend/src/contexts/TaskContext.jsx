@@ -1,72 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TaskContext } from './taskContext.js';
 import { generateRecurringInstances } from '../utils/taskUtils.js';
+import { useUser } from './UserContext.jsx';
 
 export const TaskProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      name: 'Complete project proposal',
-      description: 'Draft and finalize the project proposal for the client meeting.',
-      deadline: '2025-10-15',
-      priority: 'high',
-      status: 'in-progress',
-      createdAt: '2025-10-01T10:00:00Z',
-      updatedAt: '2025-10-01T10:00:00Z'
-    },
-    {
-      id: 2,
-      name: 'Review design mockups',
-      description: 'Go through the latest design mockups and provide feedback.',
-      deadline: '2025-10-10',
-      priority: 'medium',
-      status: 'pending',
-      createdAt: '2025-10-01T11:00:00Z',
-      updatedAt: '2025-10-01T11:00:00Z'
-    },
-    {
-      id: 3,
-      name: 'Update documentation',
-      description: 'Update the API documentation with recent changes.',
-      deadline: '2025-10-08',
-      priority: 'low',
-      status: 'completed',
-      createdAt: '2025-09-28T14:00:00Z',
-      updatedAt: '2025-10-01T09:00:00Z'
-    },
-    {
-      id: 4,
-      name: 'Daily standup meeting',
-      description: 'Participate in the daily team standup meeting.',
-      deadline: '2025-10-02',
-      priority: 'medium',
-      status: 'pending',
-      isRecurring: true,
-      recurrence: {
-        type: 'daily',
-        interval: 1,
-        endDate: '2025-10-31'
-      },
-      createdAt: '2025-10-01T12:00:00Z',
-      updatedAt: '2025-10-01T12:00:00Z'
-    },
-    {
-      id: 5,
-      name: 'Weekly team retrospective',
-      description: 'Reflect on the week and plan improvements for the next sprint.',
-      deadline: '2025-10-07',
-      priority: 'high',
-      status: 'pending',
-      isRecurring: true,
-      recurrence: {
-        type: 'weekly',
-        interval: 1,
-        endDate: ''
-      },
-      createdAt: '2025-10-01T13:00:00Z',
-      updatedAt: '2025-10-01T13:00:00Z'
+  const [tasks, setTasks] = useState([]);
+  const { user } = useUser();
+
+  // Load tasks from localStorage when user changes
+  useEffect(() => {
+    if (user) {
+      const userTasksKey = `tasks_${user.id}`;
+      const storedTasks = localStorage.getItem(userTasksKey);
+      if (storedTasks) {
+        try {
+          setTasks(JSON.parse(storedTasks));
+        } catch (error) {
+          console.error('Error parsing stored tasks:', error);
+          setTasks([]);
+        }
+      } else {
+        // If no tasks for this user, set empty array
+        setTasks([]);
+      }
+    } else {
+      // Clear tasks when no user is logged in
+      setTasks([]);
     }
-  ]);
+  }, [user]);
+
+  // Save tasks to localStorage whenever tasks change
+  useEffect(() => {
+    if (user && tasks.length >= 0) {
+      const userTasksKey = `tasks_${user.id}`;
+      localStorage.setItem(userTasksKey, JSON.stringify(tasks));
+    }
+  }, [tasks, user]);
 
   // Task management functions
   const addTask = (taskData) => {
