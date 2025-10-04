@@ -8,6 +8,16 @@ export default function SettingsPage() {
   const [activeSection, setActiveSection] = useState('appearance');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showClearDataConfirm, setShowClearDataConfirm] = useState(false);
+  const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+ 
+  const handleSignOut = () => {
+  localStorage.removeItem('authToken'); // or clear your own login state
+  alert('Signed out successfully.');
+  window.location.href = '/login'; // or whatever your login route is
+};
+
+
+
   const fileInputRef = useRef(null);
 
   const sections = [
@@ -389,6 +399,18 @@ export default function SettingsPage() {
         </button>
         <p className="text-xs text-gray-500 mt-2">This will restore all settings to their default values</p>
       </div>
+
+      <div className="border-t pt-6">
+        <h4 className="text-sm font-medium text-gray-700 mb-4">Sign Out</h4>
+        <button
+          onClick={() => setShowSignOutConfirm(true)}
+          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+        >
+          Sign Out
+        </button>
+        <p className="text-xs text-gray-500 mt-2">You will be signed out from your device.</p>
+      </div>
+
     </div>
   );
 
@@ -474,6 +496,36 @@ export default function SettingsPage() {
           </div>
         </div>
       )}
+
+       {/* Sign Out Confirmation Modal */}
+
+       {showSignOutConfirm && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg p-6 w-full max-w-md">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Sign Out</h3>
+      <p className="text-gray-600 mb-6">
+        Are you sure you want to sign out? You’ll be logged out and redirected to login.
+      </p>
+      <div className="flex gap-3">
+        <button
+          onClick={() => {
+                  handleSignOut();
+                  setShowSignOutConfirm(false);
+                }}
+          className="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors"
+        >
+          Sign Out
+        </button>
+        <button
+          onClick={() => setShowSignOutConfirm(false)}
+          className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Clear Data Confirmation Modal */}
       {showClearDataConfirm && (
