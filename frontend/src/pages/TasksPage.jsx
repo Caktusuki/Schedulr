@@ -66,9 +66,9 @@ export default function TasksPage() {
   const filteredTasks = tasks
     .filter(task => {
       const matchesStatus = filters.status === 'all' || task.status === filters.status;
-      const matchesPriority = filters.priority === 'all' || task.priority === filters.priority;
-      const matchesSearch = task.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-                           task.description.toLowerCase().includes(filters.search.toLowerCase());
+      const matchesPriority = filters.priority === 'all' || (task.priority && task.priority === filters.priority);
+      const matchesSearch = (task.name?.toLowerCase() || '').includes(filters.search.toLowerCase()) ||
+                           (task.description?.toLowerCase() || '').includes(filters.search.toLowerCase());
       return matchesStatus && matchesPriority && matchesSearch;
     })
     .sort((a, b) => {
@@ -76,7 +76,7 @@ export default function TasksPage() {
         case 'name':
           return a.name.localeCompare(b.name);
         case 'priority': {
-          const priorityOrder = { high: 3, medium: 2, low: 1 };
+          const priorityOrder = { High: 3, Medium: 2, Low: 1 };
           return priorityOrder[b.priority] - priorityOrder[a.priority];
         }
         case 'created':
