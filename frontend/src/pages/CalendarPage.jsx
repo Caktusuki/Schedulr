@@ -28,8 +28,8 @@ export default function CalendarPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Calendar</h1>
-        <p className="text-gray-600">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">Calendar</h1>
+        <p className="text-sm sm:text-md text-gray-600">
           View your tasks and deadlines in an interactive calendar format.
         </p>
       </div>
@@ -45,12 +45,12 @@ export default function CalendarPage() {
           {/* Selected Date Tasks */}
           {selectedDate && (
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              <h3 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-4">
                 Tasks for {new Date(selectedDate).toLocaleDateString()}
               </h3>
               <div className="space-y-3">
                 {selectedDateTasks.length === 0 ? (
-                  <p className="text-gray-500 text-sm">No tasks for this date</p>
+                  <p className="text-gray-500 text-xs sm:text-sm">No tasks for this date</p>
                 ) : (
                   selectedDateTasks.map((task) => (
                     <div
@@ -58,16 +58,16 @@ export default function CalendarPage() {
                       className={`p-3 rounded-lg border transition-colors cursor-pointer ${priorityColors[task.priority]}`}
                       onClick={() => toggleTaskStatus(task.id)}
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap items-center justify-between">
                         <div className="flex-1">
-                          <p className={`font-medium ${task.status === 'completed' ? 'line-through' : ''}`}>
+                          <p className={`font-medium ${task.status === 'completed' ? 'line-through' : ''} text-sm`}>
                             {task.name}
                           </p>
                           <p className="text-xs opacity-75 mt-1">
                             {task.priority} priority • {task.status}
                           </p>
                         </div>
-                        <div className={`w-4 h-4 rounded-full border-2 ${
+                        <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 ${
                           task.status === 'completed' ? 'bg-current' : 'bg-transparent'
                         }`}></div>
                       </div>
@@ -80,12 +80,12 @@ export default function CalendarPage() {
           
           {/* Upcoming Tasks Sidebar */}
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            <h3 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-4">
               Upcoming Tasks
             </h3>
             <div className="space-y-3">
               {upcomingTasks.length === 0 ? (
-                <p className="text-gray-500 text-sm">No upcoming tasks</p>
+                <p className="text-gray-500 text-xs sm:text-sm">No upcoming tasks</p>
               ) : (
                 upcomingTasks.map((task) => (
                   <div
@@ -95,11 +95,11 @@ export default function CalendarPage() {
                   >
                     <div>
                       <p className="font-medium text-gray-800">{task.name}</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs sm:text-sm text-gray-500">
                         Due: {new Date(task.deadline).toLocaleDateString()}
                       </p>
                     </div>
-                    <div className={`w-3 h-3 rounded-full ${
+                    <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
                       task.priority === 'high' ? 'bg-red-500' :
                       task.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
                     }`}></div>
@@ -110,7 +110,7 @@ export default function CalendarPage() {
             
             <button 
               onClick={handleAddTask}
-              className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg text-xs sm:text-sm hover:bg-blue-600 transition-colors"
             >
               Add New Task
             </button>

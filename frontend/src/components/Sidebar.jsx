@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useUser } from "../contexts/UserContext.jsx";
 
 const linkClass = ({ isActive }) =>
-  `block w-full text-left px-4 py-2 transition-all duration-300 rounded-md hover:bg-gray-800 ${
+  `flex gap-2 justify-center sm:justify-start w-full text-left px-4 py-1 sm:py-2 transition-all duration-300 rounded-md hover:bg-gray-800 ${
     isActive ? "bg-gray-800" : ""
   }`;
 
@@ -16,9 +16,10 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="peer fixed top-0 left-0 bg-gray-900 text-white min-h-screen p-6 transition-all duration-300 w-44 hover:w-64"
+    <aside className="peer fixed top-0 left-0 bg-gray-900 text-white t min-h-screen p-2 sm:p-4 md:p-6 transition-all duration-300 w-14 sm:w-16 md:w-44 lg:hover:w-64 hover:w-64"
     >
-      <div className="text-2xl font-bold mb-6">Schedulr</div>
+      <div className="text-2xl font-bold mb-6 hidden md:inline">Schedulr</div>
+      
 
       {/* User Info */}
       {user && (
@@ -28,21 +29,31 @@ export default function Sidebar() {
         </div>
       )}
 
-      <nav className="flex flex-col gap-2 flex-1">
+      <nav className="flex flex-col gap-2 flex-1 items-center mt-4">
         <NavLink to="/dashboard" className={linkClass}>
-          Dashboard
+          <span className="text-md sm:text-sm">📊</span>
+          <span className="text-sm hidden md:inline lg:inline ">Dashboard</span>
+        
         </NavLink>
         <NavLink to="/tasks" className={linkClass}>
-          Tasks
+           <span className="text-md sm:text-sm">✅</span>
+          <span className="text-sm hidden md:inline lg:inline">Tasks</span>
+          
         </NavLink>
         <NavLink to="/calendar" className={linkClass}>
-          Calendar
+         <span className="text-md sm:text-sm">📅</span>
+          <span className="text-sm hidden md:inline lg:inline">Calender</span>
+          
         </NavLink>
         <NavLink to="/schedule" className={linkClass}>
-          Schedule
+          <span className="text-md sm:text-sm">⏰</span>
+          <span className="text-sm hidden md:inline lg:inline ">Schedule</span>
+          
         </NavLink>
         <NavLink to="/settings" className={linkClass}>
-          Settings
+          <span className="text-md sm:text-sm">⚙️</span>
+          <span className="text-sm hidden md:inline lg:inline">Settings</span>
+        
         </NavLink>
       </nav>
 

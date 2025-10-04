@@ -52,7 +52,7 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-gray-100 flex">
       <Sidebar />
-      <main className="flex-1 p-10 ml-44 peer-hover:ml-64 transition-all h-screen duration-300">
+      <main className="flex-1 ml-16 peer-hover:ml-44 md:ml-44 md:peer-hover:ml-64 p-3 sm:p-4 lg:p-10 transition-all h-screen duration-300 overflow-x-hidden">
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
