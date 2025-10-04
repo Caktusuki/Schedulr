@@ -19,7 +19,11 @@ export default function Sidebar() {
     <aside className="peer fixed top-0 left-0 bg-gray-900 text-white min-h-screen p-6 transition-all duration-300 w-44 hover:w-64"
     >
       <div className="text-2xl font-bold mb-6">Schedulr</div>
-
+      <nav className="flex flex-col gap-2">
+         <NavLink to="/home" className={linkClass}>
+          Home
+        </NavLink>
+      </nav>
       {/* User Info */}
       {user && (
         <div className="mb-6 p-3 bg-gray-800 rounded-lg">
