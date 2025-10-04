@@ -173,7 +173,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
                 name="priority"
                 value={formData.priority}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-md md:text-lg "
               >
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
@@ -232,7 +232,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
                       name="recurrence.type"
                       value={formData.recurrence.type}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-md md:text-lg "
                     >
                       <option value="daily">Day(s)</option>
                       <option value="weekly">Week(s)</option>

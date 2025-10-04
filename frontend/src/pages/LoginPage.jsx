@@ -68,7 +68,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
           <p className="text-gray-600">Sign in to your account</p>
         </div>
 
@@ -129,9 +129,9 @@ export default function LoginPage() {
 
         {/* Register Link */}
         <div className="text-center mt-6">
-          <p className="text-gray-600">
+          <p className="text-sm text-gray-600">
             Don't have an account?{' '}
-            <Link to="/register" className="text-blue-500 hover:text-blue-600 font-medium">
+            <Link to="/register" className="text-blue-500 hover:text-blue-600 text-sm font-medium">
               Sign up
             </Link>
           </p>
