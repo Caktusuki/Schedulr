@@ -72,7 +72,7 @@ export default function SettingsPage() {
         <select
           value={settings.theme}
           onChange={(e) => updateSetting('theme', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="light">Light Mode</option>
           <option value="dark">Dark Mode</option>
@@ -90,7 +90,7 @@ export default function SettingsPage() {
         <select
           value={settings.defaultPriority}
           onChange={(e) => updateSetting('defaultPriority', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="low">Low Priority</option>
           <option value="medium">Medium Priority</option>
@@ -104,7 +104,7 @@ export default function SettingsPage() {
         <select
           value={settings.taskSortBy}
           onChange={(e) => updateSetting('taskSortBy', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="deadline">Deadline</option>
           <option value="priority">Priority</option>
@@ -114,7 +114,7 @@ export default function SettingsPage() {
         <p className="text-xs text-gray-500 mt-1">Default sorting method for task lists</p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Auto-complete recurring tasks</p>
           <p className="text-xs text-gray-500">Automatically mark recurring task instances as completed</p>
@@ -124,13 +124,13 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.autoCompleteRecurring}
             onChange={(e) => updateSetting('autoCompleteRecurring', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Show completed tasks</p>
           <p className="text-xs text-gray-500">Display completed tasks in task lists</p>
@@ -140,7 +140,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.showCompletedTasks}
             onChange={(e) => updateSetting('showCompletedTasks', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -150,7 +150,7 @@ export default function SettingsPage() {
 
   const renderNotificationSettings = () => (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Enable notifications</p>
           <p className="text-xs text-gray-500">Receive notifications for task reminders</p>
@@ -160,7 +160,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.enableNotifications}
             onChange={(e) => updateSetting('enableNotifications', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -173,7 +173,7 @@ export default function SettingsPage() {
             <select
               value={settings.reminderTime}
               onChange={(e) => updateSetting('reminderTime', parseInt(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
             >
               <option value={15}>15 minutes before</option>
               <option value={30}>30 minutes before</option>
@@ -184,7 +184,7 @@ export default function SettingsPage() {
             <p className="text-xs text-gray-500 mt-1">How early to remind you about tasks</p>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-700">Daily digest</p>
               <p className="text-xs text-gray-500">Receive a daily summary of your tasks</p>
@@ -194,7 +194,7 @@ export default function SettingsPage() {
                 type="checkbox"
                 checked={settings.dailyDigest}
                 onChange={(e) => updateSetting('dailyDigest', e.target.checked)}
-                className="sr-only peer"
+                className="sr-only peer text-sm"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
@@ -207,7 +207,7 @@ export default function SettingsPage() {
                 type="time"
                 value={settings.dailyDigestTime}
                 onChange={(e) => updateSetting('dailyDigestTime', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
               <p className="text-xs text-gray-500 mt-1">When to send your daily task digest</p>
             </div>
@@ -224,7 +224,7 @@ export default function SettingsPage() {
         <select
           value={settings.weekStartsOn}
           onChange={(e) => updateSetting('weekStartsOn', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="Sunday">Sunday</option>
           <option value="Monday">Monday</option>
@@ -237,7 +237,7 @@ export default function SettingsPage() {
         <select
           value={settings.defaultView}
           onChange={(e) => updateSetting('defaultView', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="month">Month View</option>
           <option value="week">Week View</option>
@@ -246,7 +246,7 @@ export default function SettingsPage() {
         <p className="text-xs text-gray-500 mt-1">Default view when opening calendar</p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Show weekends</p>
           <p className="text-xs text-gray-500">Display Saturday and Sunday in calendar</p>
@@ -256,7 +256,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.showWeekends}
             onChange={(e) => updateSetting('showWeekends', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -266,7 +266,7 @@ export default function SettingsPage() {
 
   const renderDataSettings = () => (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Auto-save</p>
           <p className="text-xs text-gray-500">Automatically save changes to local storage</p>
@@ -276,7 +276,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.autoSave}
             onChange={(e) => updateSetting('autoSave', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -287,7 +287,7 @@ export default function SettingsPage() {
         <select
           value={settings.dataRetention}
           onChange={(e) => updateSetting('dataRetention', parseInt(e.target.value))}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value={30}>30 days</option>
           <option value={90}>90 days</option>
@@ -315,7 +315,7 @@ export default function SettingsPage() {
               ref={fileInputRef}
               onChange={handleFileImport}
               accept=".json"
-              className="hidden"
+              className="hidden text-sm"
             />
             <button
               onClick={() => fileInputRef.current?.click()}
@@ -350,7 +350,7 @@ export default function SettingsPage() {
         <select
           value={settings.language}
           onChange={(e) => updateSetting('language', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base lg:text-md"
         >
           <option value="en">English</option>
           <option value="es">Español</option>
@@ -360,7 +360,7 @@ export default function SettingsPage() {
         <p className="text-xs text-gray-500 mt-1">Interface language (coming soon)</p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Enable analytics</p>
           <p className="text-xs text-gray-500">Help improve Schedulr with anonymous usage data</p>
@@ -370,13 +370,13 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.enableAnalytics}
             onChange={(e) => updateSetting('enableAnalytics', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Enable beta features</p>
           <p className="text-xs text-gray-500">Access experimental features before they're released</p>
@@ -386,7 +386,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.enableBetaFeatures}
             onChange={(e) => updateSetting('enableBetaFeatures', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -521,29 +521,29 @@ const renderAboutSettings = () => (
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="mx-auto w-full">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Settings</h1>
-        <p className="text-gray-600">Customize your Schedulr experience</p>
+        <h1 className="text-xl sm:text-2xl md:text-3xl  font-bold text-gray-800 mb-2">Settings</h1>
+        <p className="text-sm sm:text-md text-gray-600">Customize your Schedulr experience</p>
       </div>
 
-      <div className="flex gap-8">
+      <div className="w-full flex flex-wrap justify-center gap-8">
         {/* Sidebar */}
-        <div className="w-64 flex-shrink-0">
-          <div className="bg-white rounded-lg shadow p-4">
+        <div className="flex-shrink-0">
+          <div className=" bg-white rounded-lg shadow p-4">
             <nav className="space-y-2">
               {sections.map((section) => (
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 ${
+                  className={`w-full text-wrap text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 ${
                     activeSection === section.id
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
-                  <span className="text-lg">{section.icon}</span>
-                  <span className="font-medium">{section.name}</span>
+                  <span className="text-md sm:text-lg">{section.icon}</span>
+                  <span className="text-sm sm:text-md md:text-lg font-medium">{section.name}</span>
                 </button>
               ))}
             </nav>
@@ -553,7 +553,7 @@ const renderAboutSettings = () => (
         {/* Main Content */}
         <div className="flex-1">
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-6">
+            <h2 className="text-md sm:text-lg md:text-xl font-semibold text-gray-800 mb-6">
               {sections.find(s => s.id === activeSection)?.name}
             </h2>
             {renderActiveSection()}
@@ -565,8 +565,8 @@ const renderAboutSettings = () => (
       {showResetConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Reset All Settings</h3>
-            <p className="text-gray-600 mb-6">
+            <h3 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-4">Reset All Settings</h3>
+            <p className="text-xs sm:text-sm text-gray-600 mb-6">
               This action will reset all settings to their default values. This cannot be undone.
             </p>
             <div className="flex gap-3">
@@ -625,8 +625,8 @@ const renderAboutSettings = () => (
       {showClearDataConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Clear All Data</h3>
-            <p className="text-gray-600 mb-6">
+            <h3 className="ext-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-4">Clear All Data</h3>
+            <p className="text-xs sm:text-sm text-gray-600 mb-6">
               This action will permanently delete all your tasks and data. This cannot be undone.
             </p>
             <div className="flex gap-3">

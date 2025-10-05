@@ -5,13 +5,13 @@ export default function ProgressChart({ totalTasks, completedTasks, todayTasks }
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-      <h3 className="text-lg font-semibold text-gray-800 mb-6">Progress Overview</h3>
+      <h3 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-6">Progress Overview</h3>
       
       {/* Overall Progress */}
       <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-600">Overall Completion</span>
-          <span className="text-sm font-bold text-blue-600">{completionRate}%</span>
+        <div className="flex flex-wrap justify-between items-center mb-2">
+          <span className="text-xs sm:text-sm font-medium text-gray-600">Overall Completion</span>
+          <span className="text-xs sm:text-sm font-bold text-blue-600">{completionRate}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div 
@@ -23,9 +23,9 @@ export default function ProgressChart({ totalTasks, completedTasks, todayTasks }
 
       {/* Daily Progress */}
       <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-600">Today's Progress</span>
-          <span className="text-sm font-bold text-green-600">{dailyProgress}%</span>
+        <div className="flex flex-wrap justify-between items-center mb-2">
+          <span className="text-xs sm:text-sm font-medium text-gray-600">Today's Progress</span>
+          <span className="text-xs sm:text-sm font-bold text-green-600">{dailyProgress}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div 
@@ -38,11 +38,11 @@ export default function ProgressChart({ totalTasks, completedTasks, todayTasks }
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-4">
         <div className="text-center p-3 bg-blue-50 rounded-lg">
-          <div className="text-2xl font-bold text-blue-600">{completedTasks}</div>
+          <div className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600">{completedTasks}</div>
           <div className="text-xs text-gray-600">Completed</div>
         </div>
         <div className="text-center p-3 bg-orange-50 rounded-lg">
-          <div className="text-2xl font-bold text-orange-600">{pendingTasks}</div>
+          <div className="text-lg sm:text-xl md:text-2xl font-bold text-orange-600">{pendingTasks}</div>
           <div className="text-xs text-gray-600">Pending</div>
         </div>
       </div>

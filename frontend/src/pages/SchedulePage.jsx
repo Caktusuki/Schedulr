@@ -8,24 +8,24 @@ import DailyTaskStats from '../components/DailyTaskStats.jsx';
 
 function Tabs({ view, setView }) {
   return (
-    <div className="flex mb-6">
+    <div className="flex mb-6 w-full">
       <button
         onClick={() => setView("daily")}
-        className={`px-4 py-2 rounded-l-lg border transition-colors duration-200 
+        className={`text-xs sm:text-sm px-1 sm:px-2 md:px-4 py-2 rounded-l-lg border transition-colors duration-200 
           ${view === "daily" ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
       >
         Daily View
       </button>
       <button
         onClick={() => setView("weekly")}
-        className={`px-4 py-2 border transition-colors duration-200 
+        className={`text-xs sm:text-sm px-1 sm:px-2 md:px-4 py-2 border transition-colors duration-200 sm:rounded-none
           ${view === "weekly" ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
       >
         Weekly View
       </button>
       <button
         onClick={() => setView("tasks")}
-        className={`px-4 py-2 rounded-r-lg border transition-colors duration-200 
+        className={`text-xs sm:text-sm px-1 sm:px-2 md:px-4 py-2 rounded-r-lg border transition-colors duration-200 
           ${view === "tasks" ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
       >
         Task Timeline
@@ -98,19 +98,19 @@ export default function SchedulePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-6"> Schedule</h1>
+    <div className=" mx-auto w-full">
+      <h1 className="text-xl sm:text-2xl font-semibold mb-6"> Schedule</h1>
       <Tabs view={view} setView={setView} />
 
       {view === "tasks" ? (
         <div className="space-y-6">
           {/* Task Timeline View */}
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-gray-800">Task Timeline</h2>
+            <div className="flex flex-wrap items-center justify-between mb-6 gap-3">
+              <h2 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800">Task Timeline</h2>
               <button
                 onClick={() => navigate('/tasks')}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-xs sm:text-sm transition-colors"
               >
                 Manage Tasks
               </button>
@@ -118,9 +118,9 @@ export default function SchedulePage() {
             
             {/* Today's Tasks */}
             <div className="mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-3">Today</h3>
+              <h3 className="text-sm sm:text-md md:text-lg font-medium text-gray-700 mb-3">Today</h3>
               {getTasksForDate(new Date().toISOString().split('T')[0]).length === 0 ? (
-                <p className="text-gray-500">No tasks scheduled for today</p>
+                <p className="text-xs sm:text-sm text-gray-500">No tasks scheduled for today</p>
               ) : (
                 <div className="space-y-2">
                   {getTasksForDate(new Date().toISOString().split('T')[0]).map((task) => (
@@ -139,10 +139,10 @@ export default function SchedulePage() {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
-                          <p className={`font-medium ${task.status === 'completed' ? 'line-through text-gray-500' : ''}`}>
+                          <p className={`font-medium ${task.status === 'completed' ? 'line-through text-gray-500' : ''} text-xs sm:text-sm`}>
                             {task.name}
                           </p>
-                          <p className="text-sm text-gray-600 mt-1">{task.description}</p>
+                          <p className="text-xs sm:text-sm text-gray-600 mt-1">{task.description}</p>
                         </div>
                         <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                           task.status === 'completed' ? 'bg-green-500 border-green-500' : 'border-gray-300'
@@ -162,13 +162,13 @@ export default function SchedulePage() {
 
             {/* This Week's Tasks */}
             <div>
-              <h3 className="text-lg font-medium text-gray-700 mb-3">This Week</h3>
+              <h3 className="text-sm sm:text-md md:text-lg font-medium text-gray-700 mb-3">This Week</h3>
               {(() => {
                 const weekStart = getCurrentWeekStart();
                 const weekTasks = getTasksForWeek(weekStart);
                 
                 if (weekTasks.length === 0) {
-                  return <p className="text-gray-500">No tasks scheduled for this week</p>;
+                  return <p className="text-xs sm:text-sm text-gray-500">No tasks scheduled for this week</p>;
                 }
 
                 // Group tasks by day
@@ -186,9 +186,9 @@ export default function SchedulePage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {days.map((day) => (
                       <div key={day} className="bg-gray-50 rounded-lg p-4">
-                        <h4 className="font-medium text-gray-700 mb-3">{day}</h4>
+                        <h4 className="text-sm sm:text-md font-medium text-gray-700 mb-3">{day}</h4>
                         {tasksByDay[day].length === 0 ? (
-                          <p className="text-gray-400 text-sm">No tasks</p>
+                          <p className="text-gray-400 text-xs sm:text-sm">No tasks</p>
                         ) : (
                           <div className="space-y-2">
                             {tasksByDay[day].map((task) => (
@@ -270,16 +270,16 @@ export default function SchedulePage() {
       ) : (
         <div>
           {/* Week Navigation and Add Task Button */}
-          <div className="flex gap-2 mb-6 items-center">
-            <div className="flex-1">
-              <h2 className="text-lg font-semibold text-gray-800">
+          <div className="flex flex-wrap gap-3 mb-6 items-center">
+            <div className="flex-1 gap-2">
+              <h2 className="text-md sm:text-lg font-semibold text-gray-800">
                 Week of {getCurrentWeekStart().toLocaleDateString()}
               </h2>
-              <p className="text-sm text-gray-600">View and manage tasks for this week</p>
+              <p className="text-xs sm:text-sm text-gray-600">View and manage tasks for this week</p>
             </div>
             <button
               onClick={() => navigate('/tasks')}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-xs sm:text-sm transition-colors"
             >
               Add New Task
             </button>
@@ -302,12 +302,12 @@ export default function SchedulePage() {
                   <div key={day} className={`bg-white shadow-sm rounded-lg p-4 border ${
                     isToday ? 'border-blue-300 ring-2 ring-blue-100' : 'border-gray-200'
                   }`}>
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                       <div>
-                        <h3 className={`font-semibold ${isToday ? 'text-blue-700' : 'text-gray-800'}`}>
+                        <h3 className={`text-sm sm:text-md md:text-lg font-semibold ${isToday ? 'text-blue-700' : 'text-gray-800'}`}>
                           {day} {isToday && '(Today)'}
                         </h3>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs sm:text-sm text-gray-500">
                           {dayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </p>
                       </div>
@@ -317,7 +317,7 @@ export default function SchedulePage() {
                     </div>
                     
                     {dayTasks.length === 0 ? (
-                      <p className="text-gray-400 italic">No tasks scheduled</p>
+                      <p className="text-xs sm:text-sm text-gray-400 italic">No tasks scheduled</p>
                     ) : (
                       <div className="space-y-2">
                         {dayTasks.map((task) => (
@@ -334,9 +334,9 @@ export default function SchedulePage() {
                             }`}
                             onClick={() => toggleTaskStatus(task.id)}
                           >
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-wrap items-center justify-between">
                               <div className="flex-1">
-                                <p className={`font-medium text-sm ${
+                                <p className={`text-xs sm:text-sm font-medium ${
                                   task.status === 'completed' ? 'line-through text-gray-500' : ''
                                 }`}>
                                   {task.name}
@@ -355,11 +355,11 @@ export default function SchedulePage() {
                                   )}
                                 </div>
                               </div>
-                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                              <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center ${
                                 task.status === 'completed' ? 'bg-green-500 border-green-500' : 'border-gray-300'
                               }`}>
                                 {task.status === 'completed' && (
-                                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                  <svg className="w-2 h-2 sm:w-3 sm:h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                   </svg>
                                 )}
@@ -380,7 +380,7 @@ export default function SchedulePage() {
       <div className="flex justify-center mt-8">
         <button
           onClick={generateReport}
-          className="px-6 py-2 rounded-md bg-blue-500 text-white"
+          className="px-6 py-2 sm:py-1 rounded-md bg-blue-500 text-white text-xs sm:text-sm md:text-lg"
         >
           Generate Schedule Report
         </button>
