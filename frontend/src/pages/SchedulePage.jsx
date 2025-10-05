@@ -1,6 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTaskContext } from '../hooks/useTaskContext.js';
+import { useDailyTaskContext } from '../hooks/useDailyTaskContext.js';
+import DailyTaskItem from '../components/DailyTaskItem.jsx';
+import DailyTaskForm from '../components/DailyTaskForm.jsx';
+import DailyTaskStats from '../components/DailyTaskStats.jsx';
 
 function Tabs({ view, setView }) {
   return (
@@ -32,13 +36,19 @@ function Tabs({ view, setView }) {
 
 export default function SchedulePage() {
   const { getTasksForDate, getTasksForWeek, toggleTaskStatus } = useTaskContext();
+  const { dailyTasks } = useDailyTaskContext();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [view, setView] = useState("tasks");
+  const [showDailyTaskForm, setShowDailyTaskForm] = useState(false);
 
-  // Daily state
-  const [dailyTasks, setDailyTasks] = useState([]);
-  const [taskTime, setTaskTime] = useState("");
-  const [taskName, setTaskName] = useState("");
+  // Check URL params to set initial view
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam && ['daily', 'weekly', 'tasks'].includes(tabParam)) {
+      setView(tabParam);
+    }
+  }, [searchParams]);
 
   // Weekly state - now using real tasks from context
   
@@ -52,17 +62,19 @@ export default function SchedulePage() {
     return monday;
   };
 
-  const addDailyTask = () => {
-    if (!taskTime || !taskName) return;
-    setDailyTasks([...dailyTasks, { time: taskTime, task: taskName }]);
-    setTaskTime("");
-    setTaskName("");
+  const handleAddDailyTask = () => {
+    setShowDailyTaskForm(true);
   };
 
   const generateReport = () => {
-    let report = "📋 Daily Tasks:\n";
-    if (dailyTasks.length === 0) report += "No custom daily tasks.\n";
-    else report += dailyTasks.map(t => `${t.time} - ${t.task}`).join("\n") + "\n";
+    let report = "📋 Daily Recurring Tasks:\n";
+    if (dailyTasks.length === 0) {
+      report += "No daily recurring tasks.\n";
+    } else {
+      dailyTasks.forEach(task => {
+        report += `${task.time} - ${task.name} ${task.isCompleted ? '✅' : '⭕'}\n`;
+      });
+    }
 
     report += "\n📅 This Week's Scheduled Tasks:\n";
     const weekStart = getCurrentWeekStart();
@@ -202,40 +214,58 @@ export default function SchedulePage() {
           </div>
         </div>
       ) : view === "daily" ? (
-        <div>
-          <div className="flex gap-2 mb-4">
-            <input
-              type="time"
-              value={taskTime}
-              onChange={(e) => setTaskTime(e.target.value)}
-              className="border rounded px-3 py-2 text-center w-32 font-medium bg-gray-50"
-            />
-            <input
-              type="text"
-              placeholder="Task Name"
-              value={taskName}
-              onChange={(e) => setTaskName(e.target.value)}
-              className="border rounded px-2 py-2 flex-1"
-            />
+        <div className="space-y-6">
+          {/* Daily Task Stats */}
+          <DailyTaskStats />
+          
+          {/* Add Daily Task Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-800">Daily Recurring Tasks</h2>
+              <p className="text-sm text-gray-600">Manage your daily habits and routines</p>
+            </div>
             <button
-              onClick={addDailyTask}
-              className="bg-blue-600 text-white px-4 py-2 rounded"
+              onClick={handleAddDailyTask}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
             >
-              Add
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              <span>Add Daily Task</span>
             </button>
           </div>
 
-          <div className="space-y-4">
-            {dailyTasks.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center justify-between bg-white shadow-sm rounded-lg p-4 border"
-              >
-                <span className="font-medium text-gray-700">{item.time}</span>
-                <span className="text-gray-900">{item.task}</span>
+          {/* Daily Tasks List */}
+          <div className="space-y-3">
+            {dailyTasks.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="text-gray-400 text-4xl mb-4">📝</div>
+                <h3 className="text-lg font-medium text-gray-500 mb-2">No Daily Tasks Yet</h3>
+                <p className="text-gray-400 mb-4">Create recurring daily tasks to build consistent habits</p>
+                <button
+                  onClick={handleAddDailyTask}
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  Add your first daily task →
+                </button>
               </div>
-            ))}
+            ) : (
+              dailyTasks.map((task, index) => (
+                <div key={task.id} className="group">
+                  <DailyTaskItem 
+                    task={task} 
+                    canMoveUp={index > 0}
+                    canMoveDown={index < dailyTasks.length - 1}
+                  />
+                </div>
+              ))
+            )}
           </div>
+
+          {/* Daily Task Form Modal */}
+          {showDailyTaskForm && (
+            <DailyTaskForm onClose={() => setShowDailyTaskForm(false)} />
+          )}
         </div>
       ) : (
         <div>
