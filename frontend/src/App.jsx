@@ -5,6 +5,7 @@ import TasksPage from "./pages/TasksPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
+import Home from "./components/Home.jsx";
 import SchedulePage from "./pages/SchedulePage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
@@ -52,16 +53,21 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-gray-100 flex">
       <Sidebar />
-      <main className="flex-1 p-10 ml-44 peer-hover:ml-64 transition-all h-screen duration-300">
+      <main className="flex-1 ml-16 sm:ml-44 md:peer-hover:ml-64 p-3 sm:p-4 lg:p-10 transition-all h-screen duration-300 overflow-x-hidden">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+          <Route path="/home" element={<PublicRoute><Home /></PublicRoute>} />
+           <Route path="/settings" element={<PublicRoute><SettingsPage /></PublicRoute>} />
+           
+          {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
           <Route path="/schedule" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
-          <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+         
         </Routes>
       </main>
     </div>

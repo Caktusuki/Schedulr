@@ -66,9 +66,9 @@ export default function TasksPage() {
   const filteredTasks = tasks
     .filter(task => {
       const matchesStatus = filters.status === 'all' || task.status === filters.status;
-      const matchesPriority = filters.priority === 'all' || task.priority === filters.priority;
-      const matchesSearch = task.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-                           task.description.toLowerCase().includes(filters.search.toLowerCase());
+      const matchesPriority = filters.priority === 'all' || (task.priority && task.priority === filters.priority);
+      const matchesSearch = (task.name?.toLowerCase() || '').includes(filters.search.toLowerCase()) ||
+                           (task.description?.toLowerCase() || '').includes(filters.search.toLowerCase());
       return matchesStatus && matchesPriority && matchesSearch;
     })
     .sort((a, b) => {
@@ -76,7 +76,7 @@ export default function TasksPage() {
         case 'name':
           return a.name.localeCompare(b.name);
         case 'priority': {
-          const priorityOrder = { high: 3, medium: 2, low: 1 };
+          const priorityOrder = { High: 3, Medium: 2, Low: 1 };
           return priorityOrder[b.priority] - priorityOrder[a.priority];
         }
         case 'created':
@@ -92,32 +92,32 @@ export default function TasksPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Tasks</h1>
-        <p className="text-gray-600">Manage and track your tasks efficiently.</p>
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">Tasks</h1>
+        <p className="text-sm sm:text-md text-gray-600">Manage and track your tasks efficiently.</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
         <div className="bg-white rounded-lg shadow p-4">
           <h3 className="text-sm font-medium text-gray-500">Total Tasks</h3>
-          <p className="text-2xl font-bold text-blue-600">{taskStats.total}</p>
+          <p className="text-xl sm:text-2xl font-bold text-blue-600">{taskStats.total}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <h3 className="text-sm font-medium text-gray-500">Pending</h3>
-          <p className="text-2xl font-bold text-orange-600">{taskStats.pending}</p>
+          <p className="text-xl sm:text-2xl font-bold text-orange-600">{taskStats.pending}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <h3 className="text-sm font-medium text-gray-500">In Progress</h3>
-          <p className="text-2xl font-bold text-blue-600">{taskStats.inProgress}</p>
+          <p className="text-xl sm:text-2xl font-bold text-blue-600">{taskStats.inProgress}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <h3 className="text-sm font-medium text-gray-500">Completed</h3>
-          <p className="text-2xl font-bold text-green-600">{taskStats.completed}</p>
+          <p className="text-xl sm:text-2xl font-bold text-green-600">{taskStats.completed}</p>
         </div>
       </div>
 
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="flex flex-col gap-4 mb-6">
         <button
           onClick={handleAddTask}
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
@@ -136,7 +136,7 @@ export default function TasksPage() {
       <div>
         {filteredTasks.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-gray-500 text-lg mb-2">
+            <div className="text-gray-500 text-sm sm:text-md md:text-lg mb-2">
               {filters.search || filters.status !== 'all' || filters.priority !== 'all' ? 'No tasks match your criteria' : 'No tasks yet'}
             </div>
             <div className="text-gray-400 text-sm">

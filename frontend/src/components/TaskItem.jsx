@@ -1,8 +1,8 @@
 export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onToggleStatus }) {
   const priorityColors = {
-    low: 'bg-green-100 text-green-800 border-green-200',
-    medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    high: 'bg-red-100 text-red-800 border-red-200'
+    Low: 'bg-green-100 text-green-800 border-green-200',
+    Medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    High: 'bg-red-100 text-red-800 border-red-200'
   };
 
   const statusColors = {
@@ -67,11 +67,11 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
       task.status === 'completed' ? 'border-l-green-500' :
       'border-l-blue-500'
     } ${task.isInstance ? 'bg-gradient-to-r from-blue-50 to-white' : ''}`}>
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row gap-6 items-start justify-between">
         <div className="flex-1">
           {/* Header */}
           <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <h3 className={`text-lg font-semibold ${
+            <h3 className={`text-sm sm:text-md md:text-lg font-semibold ${
               task.status === 'completed' ? 'line-through text-gray-500' : 'text-blue-700'
             }`}>
               {task.name}
@@ -97,7 +97,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
 
           {/* Description */}
           {task.description && (
-            <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+            <p className="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">
               {task.description}
             </p>
           )}
@@ -129,7 +129,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 ml-4">
+        <div className="flex flex-wrap items-center gap-2 ml-4">
           {task.isInstance && (
             <span className="text-xs text-blue-600 font-medium px-2 py-1 bg-blue-50 rounded">
               Instance

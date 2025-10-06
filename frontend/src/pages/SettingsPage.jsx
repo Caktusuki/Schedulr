@@ -8,15 +8,28 @@ export default function SettingsPage() {
   const [activeSection, setActiveSection] = useState('appearance');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showClearDataConfirm, setShowClearDataConfirm] = useState(false);
+  const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+ 
+  const handleSignOut = () => {
+  localStorage.removeItem('authToken'); // or clear your own login state
+  alert('Signed out successfully.');
+  window.location.href = '/login'; // or whatever your login route is
+};
+
+
+
   const fileInputRef = useRef(null);
 
   const sections = [
+     { id: 'profile', name: 'Profile', icon: '👤' },
+     { id: 'stats', name: 'Productivity Stats', icon: '📊' },
     { id: 'appearance', name: 'Appearance', icon: '🎨' },
     { id: 'tasks', name: 'Task Management', icon: '📝' },
     { id: 'notifications', name: 'Notifications', icon: '🔔' },
     { id: 'calendar', name: 'Calendar', icon: '📅' },
     { id: 'data', name: 'Data & Privacy', icon: '🔒' },
-    { id: 'advanced', name: 'Advanced', icon: '⚙️' }
+    { id: 'advanced', name: 'Advanced', icon: '⚙️' },
+    { id: 'about', name: 'About', icon: 'ℹ️' }
   ];
 
   const handleFileImport = (event) => {
@@ -59,7 +72,7 @@ export default function SettingsPage() {
         <select
           value={settings.theme}
           onChange={(e) => updateSetting('theme', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="light">Light Mode</option>
           <option value="dark">Dark Mode</option>
@@ -77,7 +90,7 @@ export default function SettingsPage() {
         <select
           value={settings.defaultPriority}
           onChange={(e) => updateSetting('defaultPriority', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="low">Low Priority</option>
           <option value="medium">Medium Priority</option>
@@ -91,7 +104,7 @@ export default function SettingsPage() {
         <select
           value={settings.taskSortBy}
           onChange={(e) => updateSetting('taskSortBy', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="deadline">Deadline</option>
           <option value="priority">Priority</option>
@@ -101,7 +114,7 @@ export default function SettingsPage() {
         <p className="text-xs text-gray-500 mt-1">Default sorting method for task lists</p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Auto-complete recurring tasks</p>
           <p className="text-xs text-gray-500">Automatically mark recurring task instances as completed</p>
@@ -111,13 +124,13 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.autoCompleteRecurring}
             onChange={(e) => updateSetting('autoCompleteRecurring', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Show completed tasks</p>
           <p className="text-xs text-gray-500">Display completed tasks in task lists</p>
@@ -127,7 +140,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.showCompletedTasks}
             onChange={(e) => updateSetting('showCompletedTasks', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -137,7 +150,7 @@ export default function SettingsPage() {
 
   const renderNotificationSettings = () => (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Enable notifications</p>
           <p className="text-xs text-gray-500">Receive notifications for task reminders</p>
@@ -147,7 +160,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.enableNotifications}
             onChange={(e) => updateSetting('enableNotifications', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -160,7 +173,7 @@ export default function SettingsPage() {
             <select
               value={settings.reminderTime}
               onChange={(e) => updateSetting('reminderTime', parseInt(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
             >
               <option value={15}>15 minutes before</option>
               <option value={30}>30 minutes before</option>
@@ -171,7 +184,7 @@ export default function SettingsPage() {
             <p className="text-xs text-gray-500 mt-1">How early to remind you about tasks</p>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-700">Daily digest</p>
               <p className="text-xs text-gray-500">Receive a daily summary of your tasks</p>
@@ -181,7 +194,7 @@ export default function SettingsPage() {
                 type="checkbox"
                 checked={settings.dailyDigest}
                 onChange={(e) => updateSetting('dailyDigest', e.target.checked)}
-                className="sr-only peer"
+                className="sr-only peer text-sm"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
@@ -194,7 +207,7 @@ export default function SettingsPage() {
                 type="time"
                 value={settings.dailyDigestTime}
                 onChange={(e) => updateSetting('dailyDigestTime', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
               <p className="text-xs text-gray-500 mt-1">When to send your daily task digest</p>
             </div>
@@ -211,7 +224,7 @@ export default function SettingsPage() {
         <select
           value={settings.weekStartsOn}
           onChange={(e) => updateSetting('weekStartsOn', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="Sunday">Sunday</option>
           <option value="Monday">Monday</option>
@@ -224,7 +237,7 @@ export default function SettingsPage() {
         <select
           value={settings.defaultView}
           onChange={(e) => updateSetting('defaultView', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value="month">Month View</option>
           <option value="week">Week View</option>
@@ -233,7 +246,7 @@ export default function SettingsPage() {
         <p className="text-xs text-gray-500 mt-1">Default view when opening calendar</p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Show weekends</p>
           <p className="text-xs text-gray-500">Display Saturday and Sunday in calendar</p>
@@ -243,7 +256,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.showWeekends}
             onChange={(e) => updateSetting('showWeekends', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -253,7 +266,7 @@ export default function SettingsPage() {
 
   const renderDataSettings = () => (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Auto-save</p>
           <p className="text-xs text-gray-500">Automatically save changes to local storage</p>
@@ -263,7 +276,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.autoSave}
             onChange={(e) => updateSetting('autoSave', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -274,7 +287,7 @@ export default function SettingsPage() {
         <select
           value={settings.dataRetention}
           onChange={(e) => updateSetting('dataRetention', parseInt(e.target.value))}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
         >
           <option value={30}>30 days</option>
           <option value={90}>90 days</option>
@@ -302,7 +315,7 @@ export default function SettingsPage() {
               ref={fileInputRef}
               onChange={handleFileImport}
               accept=".json"
-              className="hidden"
+              className="hidden text-sm"
             />
             <button
               onClick={() => fileInputRef.current?.click()}
@@ -337,7 +350,7 @@ export default function SettingsPage() {
         <select
           value={settings.language}
           onChange={(e) => updateSetting('language', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base lg:text-md"
         >
           <option value="en">English</option>
           <option value="es">Español</option>
@@ -347,7 +360,7 @@ export default function SettingsPage() {
         <p className="text-xs text-gray-500 mt-1">Interface language (coming soon)</p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Enable analytics</p>
           <p className="text-xs text-gray-500">Help improve Schedulr with anonymous usage data</p>
@@ -357,13 +370,13 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.enableAnalytics}
             onChange={(e) => updateSetting('enableAnalytics', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-700">Enable beta features</p>
           <p className="text-xs text-gray-500">Access experimental features before they're released</p>
@@ -373,7 +386,7 @@ export default function SettingsPage() {
             type="checkbox"
             checked={settings.enableBetaFeatures}
             onChange={(e) => updateSetting('enableBetaFeatures', e.target.checked)}
-            className="sr-only peer"
+            className="sr-only peer text-sm"
           />
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
@@ -389,8 +402,108 @@ export default function SettingsPage() {
         </button>
         <p className="text-xs text-gray-500 mt-2">This will restore all settings to their default values</p>
       </div>
+
+      <div className="border-t pt-6">
+        <h4 className="text-sm font-medium text-gray-700 mb-4">Sign Out</h4>
+        <button
+          onClick={() => setShowSignOutConfirm(true)}
+          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+        >
+          Sign Out
+        </button>
+        <p className="text-xs text-gray-500 mt-2">You will be signed out from your device.</p>
+      </div>
+
     </div>
   );
+
+    const renderStatsSettings = () => {
+  const completedTasks = tasks.filter(t => t.completed).length;
+  const streak = Math.floor(completedTasks / 5); // Example rule: every 5 tasks = 1 streak day
+
+  return (
+    <div className="space-y-6">
+      <h3 className="text-lg font-semibold text-gray-800">Your Productivity</h3>
+      <div className="p-4 bg-blue-50 rounded-lg shadow">
+        <p className="text-sm text-gray-600">Completed Tasks:</p>
+        <p className="text-2xl font-bold text-blue-700">{completedTasks}</p>
+      </div>
+
+      <div className="p-4 bg-green-50 rounded-lg shadow">
+        <p className="text-sm text-gray-600">Current Streak:</p>
+        <p className="text-2xl font-bold text-green-700">{streak} days</p>
+      </div>
+
+      <p className="text-xs text-gray-500">
+        (Example: Every 5 completed tasks count as 1 streak day. You can refine this logic.)
+      </p>
+    </div>
+  );
+};
+
+  const renderProfileSettings = () => (
+  <div className="space-y-6">
+    <h3 className="text-lg font-semibold text-gray-800">Profile</h3>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+      <input
+        type="text"
+        value={settings.profileName || ''}
+        onChange={(e) => updateSetting('profileName', e.target.value)}
+        placeholder="Enter your name"
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Time Zone</label>
+      <select
+        value={settings.timeZone || 'UTC'}
+        onChange={(e) => updateSetting('timeZone', e.target.value)}
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="UTC">UTC</option>
+        <option value="IST">IST (India)</option>
+        <option value="EST">EST (US)</option>
+        <option value="PST">PST (US)</option>
+      </select>
+    </div>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => updateSetting('profilePicture', e.target.files?.[0]?.name)}
+        className="w-full"
+      />
+      {settings.profilePicture && (
+        <p className="text-xs text-gray-500 mt-1">Uploaded: {settings.profilePicture}</p>
+      )}
+    </div>
+  </div>
+);
+
+
+const renderAboutSettings = () => (
+  <div className="space-y-6">
+    <h3 className="text-lg font-semibold text-gray-800">About Schedulr</h3>
+    <p className="text-gray-600">Schedulr helps you stay on top of tasks, calendar, and productivity.</p>
+
+    <div className="p-4 bg-gray-50 rounded-lg shadow">
+      <p className="text-sm text-gray-700">Version: <span className="font-bold">1.0.0</span></p>
+      <p className="text-sm text-gray-700">Build Date: <span className="font-bold">Oct 2025</span></p>
+      <p className="text-sm text-gray-700">Developer: <span className="font-bold">XYZ</span></p>
+    </div>
+
+    <p className="text-xs text-gray-500">
+      © {new Date().getFullYear()} Schedulr. All rights reserved.
+    </p>
+  </div>
+);
+
+
 
   const renderActiveSection = () => {
     switch (activeSection) {
@@ -400,34 +513,37 @@ export default function SettingsPage() {
       case 'calendar': return renderCalendarSettings();
       case 'data': return renderDataSettings();
       case 'advanced': return renderAdvancedSettings();
+      case 'stats': return renderStatsSettings();
+      case 'profile': return renderProfileSettings();
+      case 'about': return renderAboutSettings();
       default: return renderAppearanceSettings();
     }
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="mx-auto w-full">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Settings</h1>
-        <p className="text-gray-600">Customize your Schedulr experience</p>
+        <h1 className="text-xl sm:text-2xl md:text-3xl  font-bold text-gray-800 mb-2">Settings</h1>
+        <p className="text-sm sm:text-md text-gray-600">Customize your Schedulr experience</p>
       </div>
 
-      <div className="flex gap-8">
+      <div className="w-full flex flex-wrap justify-center gap-8">
         {/* Sidebar */}
-        <div className="w-64 flex-shrink-0">
-          <div className="bg-white rounded-lg shadow p-4">
+        <div className="flex-shrink-0">
+          <div className=" bg-white rounded-lg shadow p-4">
             <nav className="space-y-2">
               {sections.map((section) => (
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 ${
+                  className={`w-full text-wrap text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 ${
                     activeSection === section.id
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
-                  <span className="text-lg">{section.icon}</span>
-                  <span className="font-medium">{section.name}</span>
+                  <span className="text-md sm:text-lg">{section.icon}</span>
+                  <span className="text-sm sm:text-md md:text-lg font-medium">{section.name}</span>
                 </button>
               ))}
             </nav>
@@ -437,7 +553,7 @@ export default function SettingsPage() {
         {/* Main Content */}
         <div className="flex-1">
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-6">
+            <h2 className="text-md sm:text-lg md:text-xl font-semibold text-gray-800 mb-6">
               {sections.find(s => s.id === activeSection)?.name}
             </h2>
             {renderActiveSection()}
@@ -449,8 +565,8 @@ export default function SettingsPage() {
       {showResetConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Reset All Settings</h3>
-            <p className="text-gray-600 mb-6">
+            <h3 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-4">Reset All Settings</h3>
+            <p className="text-xs sm:text-sm text-gray-600 mb-6">
               This action will reset all settings to their default values. This cannot be undone.
             </p>
             <div className="flex gap-3">
@@ -475,12 +591,42 @@ export default function SettingsPage() {
         </div>
       )}
 
+       {/* Sign Out Confirmation Modal */}
+
+      {showSignOutConfirm && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Sign Out</h3>
+      <p className="text-gray-600 mb-6">
+        Are you sure you want to sign out? You’ll be logged out and redirected to login.
+      </p>
+      <div className="flex gap-3">
+        <button
+          onClick={() => {
+                  handleSignOut();
+                  setShowSignOutConfirm(false);
+                }}
+          className="flex-1 px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors"
+        >
+          Sign Out
+        </button>
+        <button
+          onClick={() => setShowSignOutConfirm(false)}
+          className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+        >
+          Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
+
       {/* Clear Data Confirmation Modal */}
       {showClearDataConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Clear All Data</h3>
-            <p className="text-gray-600 mb-6">
+            <h3 className="ext-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-4">Clear All Data</h3>
+            <p className="text-xs sm:text-sm text-gray-600 mb-6">
               This action will permanently delete all your tasks and data. This cannot be undone.
             </p>
             <div className="flex gap-3">

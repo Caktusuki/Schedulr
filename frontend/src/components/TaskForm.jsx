@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 export default function TaskForm({ task, onSave, onCancel }) {
   const [formData, setFormData] = useState({
-    name: task?.name || '',
+    title: task?.title || '',
     description: task?.description || '',
     deadline: task?.deadline || '',
-    priority: task?.priority || 'medium',
+    priority: task?.priority || 'Medium',
     status: task?.status || 'pending',
     isRecurring: task?.isRecurring || false,
     recurrence: {
@@ -21,8 +21,8 @@ export default function TaskForm({ task, onSave, onCancel }) {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.name.trim()) {
-      newErrors.name = 'Task name is required';
+    if (!formData.title.trim()) {
+      newErrors.title = 'Task name is required';
     }
     
     if (!formData.deadline) {
@@ -121,15 +121,15 @@ export default function TaskForm({ task, onSave, onCancel }) {
               </label>
               <input
                 type="text"
-                name="name"
-                value={formData.name}
+                name="title"
+                value={formData.title}
                 onChange={handleChange}
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.name ? 'border-red-500' : 'border-gray-300'
+                  errors.title ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter task name"
               />
-              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+              {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
             </div>
 
             {/* Description */}
@@ -173,11 +173,11 @@ export default function TaskForm({ task, onSave, onCancel }) {
                 name="priority"
                 value={formData.priority}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-md md:text-lg "
               >
-                <option value="low">Low Priority</option>
-                <option value="medium">Medium Priority</option>
-                <option value="high">High Priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
               </select>
             </div>
 
@@ -232,7 +232,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
                       name="recurrence.type"
                       value={formData.recurrence.type}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-md md:text-lg "
                     >
                       <option value="daily">Day(s)</option>
                       <option value="weekly">Week(s)</option>

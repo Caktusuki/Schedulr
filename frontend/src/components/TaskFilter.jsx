@@ -1,4 +1,6 @@
-export default function TaskFilter({ filters = {}, onFilterChange, taskCounts = {} }) {
+import React from 'react';
+
+export default function TaskFilter({ filters = {}, onFilterChange, taskCounts = {}, filterPriority, handleFilterChange }) {
   // Provide default values to prevent undefined errors
   const safeFilters = {
     search: '',
@@ -38,8 +40,8 @@ export default function TaskFilter({ filters = {}, onFilterChange, taskCounts = 
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div className="bg-white rounded-lg shadow-md p-4 mb-6 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {/* Search */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -98,7 +100,7 @@ export default function TaskFilter({ filters = {}, onFilterChange, taskCounts = 
           <select
             value={safeFilters.sortBy}
             onChange={(e) => onFilterChange && onFilterChange({ sortBy: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm "
           >
             {sortOptions.map(option => (
               <option key={option.value} value={option.value}>
@@ -110,9 +112,9 @@ export default function TaskFilter({ filters = {}, onFilterChange, taskCounts = 
       </div>
 
       {/* Task Counts */}
-      <div className="flex gap-4 mt-4 pt-4 border-t border-gray-200">
+      <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-200">
         <div className="text-sm text-gray-600">
-          <span className="font-medium">{safeCounts.total}</span> Total Tasks
+          <span className="text-xs sm:text-sm font-medium">{safeCounts.total}</span> Total Tasks
         </div>
         <div className="text-sm text-gray-600">
           <span className="font-medium text-yellow-600">{safeCounts.pending}</span> Pending

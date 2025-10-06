@@ -19,7 +19,7 @@ export default function TaskOverview({ tasks = [] }) {
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-      <h3 className="text-lg font-semibold text-gray-800 mb-6">Task Overview</h3>
+      <h3 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-6">Task Overview</h3>
       
       {/* Today's Tasks */}
       <div className="mb-4">
