@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import { TaskProvider } from "./contexts/TaskContext.jsx";
 import { SettingsProvider } from "./contexts/SettingsContext.jsx";
 import { UserProvider, useUser } from "./contexts/UserContext.jsx";
+import { DailyTaskProvider } from "./contexts/DailyTaskContext.jsx";
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -79,7 +80,9 @@ export default function App() {
     <UserProvider>
       <SettingsProvider>
         <TaskProvider>
-          <AppContent />
+          <DailyTaskProvider>
+            <AppContent />
+          </DailyTaskProvider>
         </TaskProvider>
       </SettingsProvider>
     </UserProvider>
