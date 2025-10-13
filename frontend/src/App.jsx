@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import { TaskProvider } from "./contexts/TaskContext.jsx";
 import { SettingsProvider } from "./contexts/SettingsContext.jsx";
 import { UserProvider, useUser } from "./contexts/UserContext.jsx";
+import { DailyTaskProvider } from "./contexts/DailyTaskContext.jsx";
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -60,14 +61,14 @@ function AppContent() {
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
           <Route path="/home" element={<PublicRoute><Home /></PublicRoute>} />
-           <Route path="/settings" element={<PublicRoute><SettingsPage /></PublicRoute>} />
-           
+          <Route path="/settings" element={<PublicRoute><SettingsPage /></PublicRoute>} />
+
           {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
           <Route path="/schedule" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
-         
+
         </Routes>
       </main>
     </div>
@@ -79,7 +80,9 @@ export default function App() {
     <UserProvider>
       <SettingsProvider>
         <TaskProvider>
-          <AppContent />
+          <DailyTaskProvider>
+            <AppContent />
+          </DailyTaskProvider>
         </TaskProvider>
       </SettingsProvider>
     </UserProvider>
