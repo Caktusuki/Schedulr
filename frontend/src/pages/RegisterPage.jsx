@@ -76,6 +76,15 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-8">
+
+        {/* 🔹 Added "Back to Login" link at the top */}
+        <Link
+          to="/login"
+          className="inline-flex items-center text-blue-500 hover:text-blue-600 mb-4"
+        >
+          ← Back to Login
+        </Link>
+
         <div className="text-center mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Create Account</h1>
           <p className="text-gray-600">Sign up to get started</p>
