@@ -13,6 +13,12 @@ import { TaskProvider } from "./contexts/TaskContext.jsx";
 import { SettingsProvider } from "./contexts/SettingsContext.jsx";
 import { UserProvider, useUser } from "./contexts/UserContext.jsx";
 import { DailyTaskProvider } from "./contexts/DailyTaskContext.jsx";
+import MobileHeader from "./components/MobileHeader.jsx";
+import { useContext, useState } from "react";
+import { ToggleSidebarContext, ToggleValueProvider } from "./contexts/ToggleSidebarContext";
+
+
+
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -51,10 +57,16 @@ const PublicRoute = ({ children }) => {
 };
 
 function AppContent() {
+   const {toggleSidebar}=useContext(ToggleSidebarContext)
+
+   const [showSidebar, setShowSidebar]=useState(false)
+
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar />
-      <main className="flex-1 ml-16 sm:ml-44 md:peer-hover:ml-64 p-3 sm:p-4 lg:p-10 transition-all h-screen duration-300 overflow-x-hidden">
+    <>
+    <MobileHeader showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
+    <div className="min-h-screen bg-gray-100 flex-1">
+      <Sidebar showSidebar={showSidebar} />
+      <main className={`${toggleSidebar? "md:ml-48": "md:ml-16"} flex-1 p-3 sm:p-4 lg:p-10 transition-all h-screen duration-300 overflow-x-hidden`}>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
@@ -72,6 +84,7 @@ function AppContent() {
         </Routes>
       </main>
     </div>
+    </>
   );
 }
 
@@ -81,7 +94,9 @@ export default function App() {
       <SettingsProvider>
         <TaskProvider>
           <DailyTaskProvider>
-            <AppContent />
+            <ToggleValueProvider>
+              <AppContent />
+            </ToggleValueProvider>
           </DailyTaskProvider>
         </TaskProvider>
       </SettingsProvider>
