@@ -61,14 +61,14 @@ function AppContent() {
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
           <Route path="/home" element={<PublicRoute><Home /></PublicRoute>} />
-           <Route path="/settings" element={<PublicRoute><SettingsPage /></PublicRoute>} />
-           
+          <Route path="/settings" element={<PublicRoute><SettingsPage /></PublicRoute>} />
+
           {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
           <Route path="/schedule" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
-         
+
         </Routes>
       </main>
     </div>
