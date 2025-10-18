@@ -17,6 +17,26 @@ export const SettingsProvider = ({ children }) => {
     }
   }, []);
 
+  // Apply theme to document root
+  useEffect(() => {
+    const root = document.documentElement;
+    const theme = settings.theme;
+
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else if (theme === 'light') {
+      root.classList.remove('dark');
+    } else if (theme === 'system') {
+      // Check system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+  }, [settings.theme]);
+
   // Save settings to localStorage whenever settings change
   useEffect(() => {
     saveSettingsToStorage(settings);

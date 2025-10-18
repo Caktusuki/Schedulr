@@ -28,7 +28,7 @@ export default function Sidebar({showSidebar}) {
   return (
     <aside className={`${showSidebar? "translate-x-0": "-translate-x-full md:translate-x-0"} md:block peer 
      ${toggleSidebar ? "w-48 md:px-3": "md:w-fit md:px-2"} md:py-4
-    fixed top-0 left-0 bg-gray-900 text-white t min-h-screen px-1.5 py-3 sm:px-3 
+    fixed top-0 left-0 bg-gray-900 dark:bg-gray-950 text-white t min-h-screen px-1.5 py-3 sm:px-3 
      transform w-44 transition-all duration-500 ease-in-out`}
     >
       <Logo toggleSidebar={toggleSidebar}/>

@@ -64,7 +64,7 @@ function AppContent() {
   return (
     <>
     <MobileHeader showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
-    <div className="min-h-screen bg-gray-100 flex-1">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex-1 transition-colors duration-200">
       <Sidebar showSidebar={showSidebar} />
       <main className={`${toggleSidebar? "md:ml-48": "md:ml-16"} flex-1 p-3 sm:p-4 lg:p-10 transition-all h-screen duration-300 overflow-x-hidden`}>
         <Routes>

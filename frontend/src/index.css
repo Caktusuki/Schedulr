@@ -5,6 +5,11 @@
   color-scheme: light;
 }
 
+/* Dark mode color scheme */
+.dark {
+  color-scheme: dark;
+}
+
 html,
 body,
 #root {
