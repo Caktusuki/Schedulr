@@ -7,33 +7,44 @@ import {
 } from '../utils/settingsUtils.js';
 
 export const SettingsProvider = ({ children }) => {
-  const [settings, setSettings] = useState(defaultSettings);
-
-  // Load settings from localStorage on mount
-  useEffect(() => {
+  const [settings, setSettings] = useState(() => {
+    // Initialize with saved settings immediately
     const savedSettings = loadSettingsFromStorage();
-    if (Object.keys(savedSettings).length > 0) {
-      setSettings(prev => ({ ...prev, ...savedSettings }));
-    }
-  }, []);
+    return Object.keys(savedSettings).length > 0 
+      ? { ...defaultSettings, ...savedSettings }
+      : defaultSettings;
+  });
 
-  // Apply theme to document root
+  // Apply theme to document root immediately and whenever it changes
   useEffect(() => {
     const root = document.documentElement;
     const theme = settings.theme;
 
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else if (theme === 'light') {
+    const applyTheme = () => {
+      // Remove dark class first
       root.classList.remove('dark');
-    } else if (theme === 'system') {
-      // Check system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (prefersDark) {
+
+      if (theme === 'dark') {
         root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
+      } else if (theme === 'light') {
+        // Already removed above
+      } else if (theme === 'system') {
+        // Check system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+          root.classList.add('dark');
+        }
       }
+    };
+
+    applyTheme();
+
+    // Listen for system theme changes when using 'system' mode
+    if (theme === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => applyTheme();
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
   }, [settings.theme]);
 
