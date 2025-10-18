@@ -64,7 +64,7 @@ function AppContent() {
   return (
     <>
     <MobileHeader showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
-    <div className="min-h-screen bg-gray-100 flex-1">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex-1 transition-colors duration-200">
       <Sidebar showSidebar={showSidebar} />
       <main className={`${toggleSidebar? "md:ml-48": "md:ml-16"} flex-1 p-3 sm:p-4 lg:p-10 transition-all h-screen duration-300 overflow-x-hidden`}>
         <Routes>
@@ -72,14 +72,14 @@ function AppContent() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
-          <Route path="/home" element={<PublicRoute><Home /></PublicRoute>} />
-          <Route path="/settings" element={<PublicRoute><SettingsPage /></PublicRoute>} />
 
           {/* Protected Routes */}
+          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
           <Route path="/schedule" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
 
         </Routes>
       </main>

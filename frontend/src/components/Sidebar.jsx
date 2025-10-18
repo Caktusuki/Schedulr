@@ -15,8 +15,8 @@ export default function Sidebar({showSidebar}) {
 
   const linkClass = ({ isActive }) =>
   `flex gap-2 items-center justify-start  w-full text-left 
-  ${toggleSidebar ? "px-3 md:justify-start w-full": "px-1 md:justify-center w-fit"} py-1 sm:py-2 transition-all duration-300 rounded-md hover:bg-gray-800 ${
-    isActive ? "bg-gray-800" : ""
+  ${toggleSidebar ? "px-3 md:justify-start w-full": "px-1 md:justify-center w-fit"} py-1 sm:py-2 transition-all duration-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-800 ${
+    isActive ? "bg-gray-300 dark:bg-gray-800" : ""
   }`;
 
   const handleLogout = () => {
@@ -28,7 +28,7 @@ export default function Sidebar({showSidebar}) {
   return (
     <aside className={`${showSidebar? "translate-x-0": "-translate-x-full md:translate-x-0"} md:block peer 
      ${toggleSidebar ? "w-48 md:px-3": "md:w-fit md:px-2"} md:py-4
-    fixed top-0 left-0 bg-gray-900 text-white t min-h-screen px-1.5 py-3 sm:px-3 
+    fixed top-0 left-0 bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-white min-h-screen px-1.5 py-3 sm:px-3 
      transform w-44 transition-all duration-500 ease-in-out`}
     >
       <Logo toggleSidebar={toggleSidebar}/>
@@ -36,7 +36,7 @@ export default function Sidebar({showSidebar}) {
 
       {/* User Info */}
       {user && (
-        <div className={`${toggleSidebar ? "block": "hidden"} my-6 p-3 bg-gray-800 rounded-lg`}>
+        <div className={`${toggleSidebar ? "block": "hidden"} my-6 p-3 bg-gray-200 dark:bg-gray-800 rounded-lg`}>
           <p className="text-sm text-gray-300">Logged in as:</p>
           <p className="text-sm font-medium truncate">{user.email}</p>
         </div>
@@ -77,31 +77,31 @@ export default function Sidebar({showSidebar}) {
 
       {/* Logout Button */}
       {user && (
-        <div className="mt-auto pt-4 border-t border-gray-700">
+        <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-700">
           <button
             onClick={handleLogout}
-            className={`${toggleSidebar? "md:w-full md:px-4": "md:w-fit md:px-2"} w-full px-4 text-left py-2 text-red-400 hover:bg-gray-800 rounded-md transition-colors`}
+            className={`${toggleSidebar? "md:w-full md:px-4": "md:w-fit md:px-2"} w-full px-4 text-left py-2 text-red-500 dark:text-red-400 hover:bg-gray-300 dark:hover:bg-gray-800 rounded-md transition-colors`}
           >
             Logout
           </button>
         </div>
       )}
-      <div className={`${toggleSidebar? "flex": "hidden"} absolute bottom-0 left-0 flex w-full py-4 justify-center gap-3 border-t-[1px] border-white text-gray-400`}>
+      <div className={`${toggleSidebar? "flex": "hidden"} absolute bottom-0 left-0 flex w-full py-4 justify-center gap-3 border-t-[1px] border-gray-300 dark:border-white text-gray-500 dark:text-gray-400`}>
         <a href="https://www.instagram.com/" target="_blank">
-          <SiInstagram className="hover:text-white"/>
+          <SiInstagram className="hover:text-gray-800 dark:hover:text-white"/>
         </a>
         <a href="https://www.facebook.com/" target="_blank">
-          <SiFacebook className="hover:text-white"/>
+          <SiFacebook className="hover:text-gray-800 dark:hover:text-white"/>
         </a>
         <a href="https://x.com/" target="_blank">
-          <SiX className="hover:text-white"/>
+          <SiX className="hover:text-gray-800 dark:hover:text-white"/>
         </a>
         <a href="https://www.linkedin.com/" target="_blank">
-          <SiLinkedin className="hover:text-white"/>
+          <SiLinkedin className="hover:text-gray-800 dark:hover:text-white"/>
         </a>
       </div>
 
-      <button className="hidden md:inline  bg-gray-900 p-2 rounded-full absolute top-[50%] left-full transform -translate-x-8 -translate-y-[50%]" onClick={()=>setToggleSidebar(!toggleSidebar)}>
+      <button className="hidden md:inline bg-gray-200 dark:bg-gray-900 p-2 rounded-full absolute top-[50%] left-full transform -translate-x-8 -translate-y-[50%]" onClick={()=>setToggleSidebar(!toggleSidebar)}>
         {toggleSidebar ? 
          <IoIosArrowDropleft size={"32px"} className="cursor-pointer"/>
          :

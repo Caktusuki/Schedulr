@@ -68,17 +68,17 @@ export default function SettingsPage() {
   const renderAppearanceSettings = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Theme</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Theme</label>
         <select
           value={settings.theme}
           onChange={(e) => updateSetting('theme', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base lg:text-md"
         >
-          <option value="light">Light Mode</option>
-          <option value="dark">Dark Mode</option>
-          <option value="system">System Default</option>
+          <option value="light">🌞 Light Mode</option>
+          <option value="dark">🌙 Dark Mode</option>
+          <option value="system">💻 System Default</option>
         </select>
-        <p className="text-xs text-gray-500 mt-1">Choose your preferred color theme</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Choose your preferred color theme</p>
       </div>
     </div>
   );
@@ -86,38 +86,38 @@ export default function SettingsPage() {
   const renderTaskSettings = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Default Priority</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Default Priority</label>
         <select
           value={settings.defaultPriority}
           onChange={(e) => updateSetting('defaultPriority', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base lg:text-md"
         >
           <option value="low">Low Priority</option>
           <option value="medium">Medium Priority</option>
           <option value="high">High Priority</option>
         </select>
-        <p className="text-xs text-gray-500 mt-1">Default priority for new tasks</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Default priority for new tasks</p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Default Sort By</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Default Sort By</label>
         <select
           value={settings.taskSortBy}
           onChange={(e) => updateSetting('taskSortBy', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  text-sm sm:text-base lg:text-md"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base lg:text-md"
         >
           <option value="deadline">Deadline</option>
           <option value="priority">Priority</option>
           <option value="name">Name</option>
           <option value="created">Created Date</option>
         </select>
-        <p className="text-xs text-gray-500 mt-1">Default sorting method for task lists</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Default sorting method for task lists</p>
       </div>
 
       <div className="flex flex-wrap items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-700">Auto-complete recurring tasks</p>
-          <p className="text-xs text-gray-500">Automatically mark recurring task instances as completed</p>
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Auto-complete recurring tasks</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Automatically mark recurring task instances as completed</p>
         </div>
         <label className="relative inline-flex items-center cursor-pointer">
           <input
@@ -126,14 +126,14 @@ export default function SettingsPage() {
             onChange={(e) => updateSetting('autoCompleteRecurring', e.target.checked)}
             className="sr-only peer text-sm"
           />
-          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+          <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
       </div>
 
       <div className="flex flex-wrap items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-700">Show completed tasks</p>
-          <p className="text-xs text-gray-500">Display completed tasks in task lists</p>
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Show completed tasks</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Display completed tasks in task lists</p>
         </div>
         <label className="relative inline-flex items-center cursor-pointer">
           <input
@@ -142,7 +142,7 @@ export default function SettingsPage() {
             onChange={(e) => updateSetting('showCompletedTasks', e.target.checked)}
             className="sr-only peer text-sm"
           />
-          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+          <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
       </div>
     </div>
@@ -523,14 +523,14 @@ const renderAboutSettings = () => (
   return (
     <div className="mx-auto w-full">
       <div className="mb-8">
-        <h1 className="text-xl sm:text-2xl md:text-3xl  font-bold text-gray-800 mb-2">Settings</h1>
-        <p className="text-sm sm:text-md text-gray-600">Customize your Schedulr experience</p>
+        <h1 className="text-xl sm:text-2xl md:text-3xl  font-bold text-gray-800 dark:text-gray-100 mb-2">Settings</h1>
+        <p className="text-sm sm:text-md text-gray-600 dark:text-gray-400">Customize your Schedulr experience</p>
       </div>
 
       <div className="w-full flex flex-wrap justify-center gap-8">
         {/* Sidebar */}
         <div className="flex-shrink-0">
-          <div className=" bg-white rounded-lg shadow p-4">
+          <div className=" bg-white dark:bg-gray-800 rounded-lg shadow p-4">
             <nav className="space-y-2">
               {sections.map((section) => (
                 <button
@@ -538,8 +538,8 @@ const renderAboutSettings = () => (
                   onClick={() => setActiveSection(section.id)}
                   className={`w-full text-wrap text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 ${
                     activeSection === section.id
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                 >
                   <span className="text-md sm:text-lg">{section.icon}</span>
@@ -552,8 +552,8 @@ const renderAboutSettings = () => (
 
         {/* Main Content */}
         <div className="flex-1">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-md sm:text-lg md:text-xl font-semibold text-gray-800 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h2 className="text-md sm:text-lg md:text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
               {sections.find(s => s.id === activeSection)?.name}
             </h2>
             {renderActiveSection()}
@@ -564,9 +564,9 @@ const renderAboutSettings = () => (
       {/* Reset Confirmation Modal */}
       {showResetConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-4">Reset All Settings</h3>
-            <p className="text-xs sm:text-sm text-gray-600 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+            <h3 className="text-sm sm:text-md md:text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Reset All Settings</h3>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-6">
               This action will reset all settings to their default values. This cannot be undone.
             </p>
             <div className="flex gap-3">
@@ -582,7 +582,7 @@ const renderAboutSettings = () => (
               </button>
               <button
                 onClick={() => setShowResetConfirm(false)}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+                className="flex-1 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
               >
                 Cancel
               </button>
@@ -595,10 +595,10 @@ const renderAboutSettings = () => (
 
       {showSignOutConfirm && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Sign Out</h3>
-      <p className="text-gray-600 mb-6">
-        Are you sure you want to sign out? You’ll be logged out and redirected to login.
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Sign Out</h3>
+      <p className="text-gray-600 dark:text-gray-400 mb-6">
+        Are you sure you want to sign out? You'll be logged out and redirected to login.
       </p>
       <div className="flex gap-3">
         <button
@@ -612,7 +612,7 @@ const renderAboutSettings = () => (
         </button>
         <button
           onClick={() => setShowSignOutConfirm(false)}
-          className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+          className="flex-1 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
         >
           Cancel
           </button>
@@ -624,9 +624,9 @@ const renderAboutSettings = () => (
       {/* Clear Data Confirmation Modal */}
       {showClearDataConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="ext-sm sm:text-md md:text-lg font-semibold text-gray-800 mb-4">Clear All Data</h3>
-            <p className="text-xs sm:text-sm text-gray-600 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+            <h3 className="ext-sm sm:text-md md:text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Clear All Data</h3>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-6">
               This action will permanently delete all your tasks and data. This cannot be undone.
             </p>
             <div className="flex gap-3">
@@ -638,7 +638,7 @@ const renderAboutSettings = () => (
               </button>
               <button
                 onClick={() => setShowClearDataConfirm(false)}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+                className="flex-1 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
               >
                 Cancel
               </button>
