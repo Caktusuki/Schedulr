@@ -26,26 +26,29 @@ function Tabs({ view, setView, taskCounts }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-1 mb-8">
       <div className="flex">
-        {tabs.map(({ id, label, icon: Icon, count }) => (
-          <button
-            key={id}
-            onClick={() => setView(id)}
-            className={`flex-1 flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-all duration-200 ${view === id
+        {tabs.map(({ id, label, icon, count }) => {
+          const IconComponent = icon;
+          return (
+            <button
+              key={id}
+              onClick={() => setView(id)}
+              className={`flex-1 flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-all duration-200 ${view === id
                 ? "bg-blue-600 text-white shadow-lg transform scale-105"
                 : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
-              }`}
-          >
-            <Icon size={18} className="mr-2" />
-            <span className="hidden sm:inline">{label}</span>
-            <span className="sm:hidden">{label.split(' ')[0]}</span>
-            {count > 0 && (
-              <span className={`ml-2 text-xs px-2 py-1 rounded-full ${view === id ? "bg-white/20" : "bg-blue-100 text-blue-600"
-                }`}>
-                {count}
-              </span>
-            )}
-          </button>
-        ))}
+                }`}
+            >
+              <IconComponent size={18} className="mr-2" />
+              <span className="hidden sm:inline">{label}</span>
+              <span className="sm:hidden">{label.split(' ')[0]}</span>
+              {count > 0 && (
+                <span className={`ml-2 text-xs px-2 py-1 rounded-full ${view === id ? "bg-white/20" : "bg-blue-100 text-blue-600"
+                  }`}>
+                  {count}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -86,18 +89,21 @@ function StatsCards({ stats }) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      {cards.map(({ title, value, icon: Icon, color, change }) => (
-        <div key={title} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center justify-between mb-4">
-            <div className={`p-2 rounded-lg bg-${color}-100`}>
-              <Icon size={20} className={`text-${color}-600`} />
+      {cards.map(({ title, value, icon, color, change }) => {
+        const IconComponent = icon;
+        return (
+          <div key={title} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className={`p-2 rounded-lg bg-${color}-100`}>
+                <IconComponent size={20} className={`text-${color}-600`} />
+              </div>
+              <span className="text-2xl font-bold text-gray-900">{value}</span>
             </div>
-            <span className="text-2xl font-bold text-gray-900">{value}</span>
+            <h3 className="text-sm font-medium text-gray-700 mb-1">{title}</h3>
+            <p className="text-xs text-gray-500">{change}</p>
           </div>
-          <h3 className="text-sm font-medium text-gray-700 mb-1">{title}</h3>
-          <p className="text-xs text-gray-500">{change}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -119,8 +125,8 @@ function TaskCard({ task, onClick, isToday = false }) {
   return (
     <div
       className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:scale-102 hover:shadow-md ${task.status === 'completed'
-          ? 'bg-green-50 border-green-200 opacity-75'
-          : priorityStyles[task.priority] || priorityStyles.low
+        ? 'bg-green-50 border-green-200 opacity-75'
+        : priorityStyles[task.priority] || priorityStyles.low
         } ${isToday ? 'ring-2 ring-blue-200' : ''}`}
       onClick={onClick}
     >
@@ -424,9 +430,9 @@ ${reportData.weeklyTasks.map(day =>
                             <div
                               key={task.id}
                               className={`text-xs p-2 rounded cursor-pointer transition-colors ${task.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                  task.priority === 'high' ? 'bg-red-100 text-red-800' :
-                                    task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                                      'bg-blue-100 text-blue-800'
+                                task.priority === 'high' ? 'bg-red-100 text-red-800' :
+                                  task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                                    'bg-blue-100 text-blue-800'
                                 }`}
                               onClick={() => toggleTaskStatus(task.id)}
                             >

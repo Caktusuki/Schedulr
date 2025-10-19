@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TaskFilter({ filters = {}, onFilterChange, taskCounts = {}, filterPriority, handleFilterChange }) {
+export default function TaskFilter({ filters = {}, onFilterChange, taskCounts = {} }) {
   // Provide default values to prevent undefined errors
   const safeFilters = {
     search: '',
