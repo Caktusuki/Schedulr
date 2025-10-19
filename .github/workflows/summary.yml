@@ -1,36 +1,34 @@
-name: Run Frontend Tests
+name: Summarize new issues
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-defaults:
-  run:
-    working-directory: ./frontend
+  issues:
+    types: [opened]
 
 jobs:
-  build:
+  summary:
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: ci
+    permissions:
+      issues: write
+      models: read
+      contents: read
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run AI inference
+        id: inference
+        uses: actions/ai-inference@v1
         with:
-          node-version: 18
-          cache: 'npm'
-          cache-dependency-path: './frontend/package-lock.json'
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build  # Verify the project builds successfully
-      # Uncomment to enable Playwright tests
-      # - run: npx playwright install --with-deps chromium
-      # - run: npx playwright test
-      # - uses: actions/upload-artifact@v4
-      #   if: always()
-      #   with:
-      #     name: playwright-report
-      #     path: playwright-report/
-      #     retention-days: 30
+          prompt: |
+            Summarize the following GitHub issue in one paragraph:
+            Title: ${{ github.event.issue.title }}
+            Body: ${{ github.event.issue.body }}
+
+      - name: Comment with AI summary
+        run: |
+          gh issue comment $ISSUE_NUMBER --body '${{ steps.inference.outputs.response }}'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          RESPONSE: ${{ steps.inference.outputs.response }}
