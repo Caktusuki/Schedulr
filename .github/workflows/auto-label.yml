@@ -27,13 +27,15 @@ jobs:
   issue-labeler:
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     steps:
       - uses: actions/labeler@v5
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/labeler.yml
           sync-labels: true
-          enable-versioned-regex: true
 
       - name: "Add GSSoC'25 label to Issue"
         uses: actions-ecosystem/action-add-labels@v1.1.0

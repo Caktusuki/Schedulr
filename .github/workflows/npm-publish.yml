@@ -21,6 +21,8 @@ jobs:
           cache-dependency-path: './frontend/package-lock.json'
       - run: npm ci
       - run: npm run build
+      # Note: Before publishing, ensure "private": true is removed from package.json
+      # and that all package metadata (name, description, repository, etc.) is correct
       - name: Publish package to NPM
         run: npm publish
         env:
