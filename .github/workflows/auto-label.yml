@@ -19,10 +19,15 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: "Add GSSoC'25 label to PR"
-        uses: actions-ecosystem/action-add-labels@v1.1.0
+        uses: actions/github-script@v7
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          labels: "GSSoC'25"
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ["GSSoC'25"]
+            })
 
   issue-labeler:
     if: github.event_name == 'issues'
@@ -38,7 +43,12 @@ jobs:
           sync-labels: true
 
       - name: "Add GSSoC'25 label to Issue"
-        uses: actions-ecosystem/action-add-labels@v1.1.0
+        uses: actions/github-script@v7
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          labels: "GSSoC'25"
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ["GSSoC'25"]
+            })
