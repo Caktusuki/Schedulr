@@ -1,11 +1,20 @@
 name: Deploy Frontend to Vercel
 
+# This workflow is disabled by default and can only be triggered manually
+# To enable automatic deployments:
+# 1. Add the following secrets to your repository:
+#    - VERCEL_TOKEN: Your Vercel authentication token
+#    - ORG_ID: Your Vercel organization ID
+#    - PROJECT_ID: Your Vercel project ID
+# 2. Uncomment the 'push' trigger below and remove 'workflow_dispatch'
+
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'frontend/**'
+  workflow_dispatch:  # Manual trigger only
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'frontend/**'
 
 defaults:
   run:

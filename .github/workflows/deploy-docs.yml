@@ -1,16 +1,22 @@
-name: Deploy Frontend to Firebase Hosting
+name: Build and Deploy Frontend to Firebase Hosting
+
+# This workflow builds the frontend on every push to main
+# Firebase deployment is commented out by default - see instructions below to enable it
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**'
 
 defaults:
   run:
     working-directory: ./frontend
 
-env:
-  FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
+# Uncomment this section when you're ready to deploy to Firebase
+# env:
+#   FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
 
 jobs:
   build:
