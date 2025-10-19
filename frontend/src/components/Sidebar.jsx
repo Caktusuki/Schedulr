@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useUser } from "../contexts/UserContext.jsx";
 import Logo from "./Logo.jsx";
 import { SiFacebook, SiInstagram, SiLinkedin, SiX } from "react-icons/si";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { IoIosArrowDropleft } from "react-icons/io";
 import { IoIosArrowDropright } from "react-icons/io";
 import { ToggleSidebarContext } from "../contexts/ToggleSidebarContext.jsx";
