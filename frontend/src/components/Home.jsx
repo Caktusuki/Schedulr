@@ -129,10 +129,10 @@ const Home = () => {
     <div>
       <h3 className="font-semibold text-lg mb-4 text-indigo-700">Quick Links</h3>
       <ul className="space-y-2">
-        <li><a href="/home" className="hover:text-teal-600">Home</a></li>
-        <li><a href="/dashboard" className="hover:text-teal-600">Dashboard</a></li>
-        <li><a href="/tasks" className="hover:text-teal-600">Tasks</a></li>
-        <li><a href="/calendar" className="hover:text-teal-600">Calendar</a></li>
+        <li><Link to="/home" className="hover:text-teal-600">Home</Link></li>
+        <li><Link to="/dashboard" className="hover:text-teal-600">Dashboard</Link></li>
+        <li><Link to="/tasks" className="hover:text-teal-600">Tasks</Link></li>
+        <li><Link to="/calendar" className="hover:text-teal-600">Calendar</Link></li>
       </ul>
     </div>
 
