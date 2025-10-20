@@ -1,150 +1,177 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 
 export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  
+  const [activeTask, setActiveTask] = useState(null);
+  const [cellHeight, setCellHeight] = useState("h-28");
+
+  // Responsive cell height
+  useEffect(() => {
+    const handleResize = () => {
+      const height = window.innerHeight;
+      if (height < 700) setCellHeight("h-20");
+      else if (height < 850) setCellHeight("h-24");
+      else setCellHeight("h-28");
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
   ];
-  
-  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  
-  const getDaysInMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  const daysOfWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+  const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  const getFirstDayOfMonth = (date) => new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+  const formatDateStr = (date) => {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   };
-  
-  const getFirstDayOfMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+  const navigateMonth = (dir) => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + dir, 1));
   };
-  
-  const navigateMonth = (direction) => {
-    setCurrentDate(new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + direction,
-      1
-    ));
+
+  // Group tasks by date
+  const tasksByDate = {};
+  tasks.forEach(task => {
+    const key = formatDateStr(task.deadline);
+    if (!tasksByDate[key]) tasksByDate[key] = [];
+    tasksByDate[key].push(task);
+  });
+
+  const handleDayClick = (day) => {
+    const dateStr = formatDateStr(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
+    onDateClick && onDateClick(dateStr);
   };
-  
+
   const isToday = (day) => {
     const today = new Date();
-    return (
-      day === today.getDate() &&
+    return day === today.getDate() &&
       currentDate.getMonth() === today.getMonth() &&
-      currentDate.getFullYear() === today.getFullYear()
-    );
-  };
-  
-  const hasTask = (day) => {
-    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    return tasks.some(task => task.deadline === dateStr);
+      currentDate.getFullYear() === today.getFullYear();
   };
 
   const isSelectedDate = (day) => {
     if (!selectedDate) return false;
-    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dateStr = formatDateStr(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
     return dateStr === selectedDate;
   };
 
-  const handleDayClick = (day) => {
-    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    if (onDateClick) {
-      onDateClick(dateStr);
-    }
-  };
-  
+  const handleTaskHover = (task) => setActiveTask(task);
+  const handleTaskLeave = () => setActiveTask(null);
+
   const renderCalendarDays = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
     const days = [];
-    
-    // Empty cells for days before month starts
+
+    // Empty cells for offset
     for (let i = 0; i < firstDay; i++) {
-      days.push(
-        <div key={`empty-${i}`} className="h-12 border border-gray-200"></div>
-      );
+      days.push(<div key={`empty-${i}`} className={`${cellHeight} border border-gray-100 bg-gray-50`} />);
     }
-    
-    // Days of the month
+
     for (let day = 1; day <= daysInMonth; day++) {
+      const dateStr = formatDateStr(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
+      const dayTasks = tasksByDate[dateStr] || [];
+
       days.push(
         <div
           key={day}
-          className={`h-6 md:h-8 sm:h-10 border border-gray-200 flex items-center justify-center cursor-pointer transition-colors relative text-xs sm:text-sm overflow-x-hidden
-            ${isToday(day) 
-              ? 'bg-blue-500 text-white font-bold ring-2 ring-blue-300' 
-              : 'hover:bg-blue-50'
-            }
-            ${hasTask(day) ? 'bg-green-100 hover:bg-green-200' : ''}
-            ${isSelectedDate(day) ? 'ring-2 ring-purple-300 bg-purple-100' : ''}
-          `}
           onClick={() => handleDayClick(day)}
+          className={`relative border border-gray-200 rounded-md p-1 flex flex-col cursor-pointer transition-all hover:bg-blue-50 ${cellHeight}
+            ${isToday(day) ? "ring-2 ring-blue-400 bg-blue-50" : ""}
+            ${isSelectedDate(day) ? "ring-2 ring-purple-300 bg-purple-50" : ""}`}
         >
-          <span className="text-xs sm:text-sm">{day}</span>
-          {hasTask(day) && (
-            <div className="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full"></div>
-          )}
+          {/* Day header */}
+          <div className="flex justify-between items-center mb-1 px-1">
+            <span className="font-semibold text-gray-700 text-sm">{day}</span>
+            {isToday(day) && <div className="w-2 h-2 rounded-full bg-blue-500" />}
+          </div>
+
+          {/* Task list */}
+          <div className="flex flex-col gap-1 overflow-y-auto scrollbar-hide px-1">
+            {dayTasks.map(task => {
+              const priority = task.priority?.toLowerCase();
+              const priorityClasses =
+                priority === "high"
+                  ? "bg-red-100 text-red-800 border-red-200"
+                  : priority === "medium"
+                  ? "bg-yellow-100 text-yellow-800 border-yellow-200"
+                  : "bg-green-100 text-green-800 border-green-200";
+
+              return (
+                <div key={task.id} className="relative">
+                  <div
+                    onMouseEnter={() => handleTaskHover(task)}
+                    onMouseLeave={handleTaskLeave}
+                    className={`text-[12px] font-medium px-2 py-1 rounded-md transition-all shadow-sm border w-full text-left overflow-hidden text-ellipsis whitespace-nowrap
+                      ${priorityClasses} hover:scale-[1.02] cursor-pointer`}
+                  >
+                    <span className="block truncate">{task.name}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       );
     }
-    
+
     return days;
   };
-  
+
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-full overflow-x-auto scrollbar-hide">
-      {/* Calendar Header */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <button
-          onClick={() => navigateMonth(-1)}
-          className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          aria-label="Previous month"
-        >
-          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        
-        <h2 className="text-md sm:text-lg md:text-xl font-semibold text-gray-800">
+    <div className="bg-white rounded-2xl shadow-lg p-6 w-full overflow-hidden relative">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <button onClick={() => navigateMonth(-1)} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">{"<"}</button>
+        <h2 className="text-xl font-semibold text-gray-800">
           {months[currentDate.getMonth()]} {currentDate.getFullYear()}
         </h2>
-        
-        <button
-          onClick={() => navigateMonth(1)}
-          className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          aria-label="Next month"
-        >
-          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+        <button onClick={() => navigateMonth(1)} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">{">"}</button>
       </div>
-      
-      {/* Days of Week Header */}
-      <div className="grid grid-cols-7 gap-0 mb-2">
-        {daysOfWeek.map((day) => (
-          <div key={day} className="h-6 sm:h-8 md:h-10 flex items-center justify-center bg-gray-50 border border-gray-200">
-            <span className="text-xs sm:text-sm font-medium text-gray-600">{day}</span>
+
+      {/* Days of week */}
+      <div className="grid grid-cols-7 text-center font-medium text-gray-500 text-sm mb-2">
+        {daysOfWeek.map(d => <div key={d} className="py-1">{d}</div>)}
+      </div>
+
+      {/* Calendar grid */}
+      <div className="grid grid-cols-7 gap-1">{renderCalendarDays()}</div>
+
+      {/* Hover popup */}
+      {activeTask && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 w-[360px] max-w-[90%] text-sm text-center transition-all duration-200 animate-fadeIn">
+            <div className="mb-3">
+              <p className="text-base font-semibold text-gray-700">Task Name:</p>
+              <p className="text-lg font-bold text-gray-900">
+                {activeTask.title || activeTask.name || "Unnamed Task"}
+              </p>
+            </div>
+
+            {activeTask.description && (
+              <div className="mb-4">
+                <p className="text-base font-semibold text-gray-700">Description:</p>
+                <p className="text-gray-600 italic">{activeTask.description}</p>
+              </div>
+            )}
+
+            <div className="text-gray-700 space-y-1">
+              <p><strong>Priority:</strong> {activeTask.priority}</p>
+              {activeTask.complexity && <p><strong>Complexity:</strong> {activeTask.complexity}</p>}
+              <p><strong>Status:</strong> {activeTask.status}</p>
+              <p><strong>Deadline:</strong> {new Date(activeTask.deadline).toLocaleString()}</p>
+            </div>
           </div>
-        ))}
-      </div>
-      
-      {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-0">
-        {renderCalendarDays()}
-      </div>
-      
-      {/* Legend */}
-      <div className="flex flex-wrap items-center justify-center gap-6 mt-4 text-xs sm:text-sm text-gray-600">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full"></div>
-          <span>Today</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
-          <span>Has Tasks</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
+
