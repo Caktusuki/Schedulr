@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Global resets and app theming */
 :root {
   color-scheme: light;
+}
+
+/* Dark mode color scheme */
+.dark {
+  color-scheme: dark;
 }
 
 html,
