@@ -4,12 +4,16 @@
 
 /* Global resets and app theming */
 :root {
-  color-scheme: light;
+  --color-bg: #f9fafb;
+  --color-card: #ffffff;
+  --color-text: #1a202c;
 }
 
 /* Dark mode color scheme */
 .dark {
-  color-scheme: dark;
+  --color-bg: #0a101f;
+  --color-card: #161e2e;
+  --color-text: #e5e7eb;
 }
 
 html,
@@ -23,7 +27,10 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
+
 
 /* Example utility tweaks (optional) */
 .container {

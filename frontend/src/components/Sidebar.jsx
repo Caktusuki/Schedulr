@@ -7,8 +7,6 @@ import { IoIosArrowDropleft } from "react-icons/io";
 import { IoIosArrowDropright } from "react-icons/io";
 import { ToggleSidebarContext } from "../contexts/ToggleSidebarContext.jsx";
 
-
-
 export default function Sidebar({showSidebar}) {
   const { user, logout } = useUser();
   const {toggleSidebar, setToggleSidebar}=useContext(ToggleSidebarContext)
@@ -37,7 +35,7 @@ export default function Sidebar({showSidebar}) {
       {/* User Info */}
       {user && (
         <div className={`${toggleSidebar ? "block": "hidden"} my-6 p-3 bg-gray-200 dark:bg-gray-800 rounded-lg`}>
-          <p className="text-sm text-gray-300">Logged in as:</p>
+          <p className="text-sm text-gray-300 dark:text-gray-400">Logged in as:</p>
           <p className="text-sm font-medium truncate">{user.email}</p>
         </div>
       )}

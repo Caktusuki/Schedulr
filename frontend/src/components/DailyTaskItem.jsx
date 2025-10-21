@@ -19,11 +19,11 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
 
   const getCategoryColor = (category) => {
     const colors = {
-      'Health': 'bg-green-100 text-green-800 border-green-200',
-      'Learning': 'bg-blue-100 text-blue-800 border-blue-200', 
-      'Personal': 'bg-purple-100 text-purple-800 border-purple-200',
-      'Work': 'bg-orange-100 text-orange-800 border-orange-200',
-      'Other': 'bg-gray-100 text-gray-800 border-gray-200'
+      'Health': 'bg-green-100 text-green-800 border-green-200 dark:bg-green-800 dark:text-green-100 dark:border-green-700',
+      'Learning': 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-800 dark:text-blue-100 dark:border-blue-700', 
+      'Personal': 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-800 dark:text-purple-100 dark:border-purple-700',
+      'Work': 'bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-800 dark:text-orange-100 dark:border-orange-700',
+      'Other': 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600'
     };
     return colors[category] || colors['Other'];
   };
@@ -32,8 +32,8 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
     <div 
       className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-md ${
         task.isCompleted 
-          ? 'bg-green-50 border-green-200 shadow-sm' 
-          : 'bg-white border-gray-200 hover:border-gray-300'
+          ? 'bg-green-50 border-green-200 shadow-sm dark:bg-green-900 dark:border-green-700' 
+          : 'bg-white border-gray-200 hover:border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:hover:border-gray-500'
       }`}
       onClick={handleToggle}
     >
@@ -43,7 +43,7 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
           <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
             task.isCompleted 
               ? 'bg-green-500 border-green-500' 
-              : 'border-gray-300 hover:border-green-400'
+              : 'border-gray-300 hover:border-green-400 dark:border-gray-500 dark:hover:border-green-400'
           }`}>
             {task.isCompleted && (
               <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -56,14 +56,14 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1">
               <h4 className={`font-medium ${
-                task.isCompleted ? 'line-through text-gray-500' : 'text-gray-900'
+                task.isCompleted ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-gray-100'
               }`}>
                 {task.name}
               </h4>
               <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium text-gray-600">{task.time}</span>
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{task.time}</span>
                 {task.streak > 0 && (
-                  <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
+                  <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full dark:bg-orange-800 dark:text-orange-100">
                     🔥 {task.streak} day{task.streak !== 1 ? 's' : ''}
                   </span>
                 )}
@@ -72,7 +72,7 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
             
             {task.description && (
               <p className={`text-sm mb-2 ${
-                task.isCompleted ? 'text-gray-400' : 'text-gray-600'
+                task.isCompleted ? 'text-gray-400 dark:text-gray-500' : 'text-gray-600 dark:text-gray-300'
               }`}>
                 {task.description}
               </p>
@@ -83,7 +83,7 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
                 <span className={`text-xs px-2 py-1 rounded border ${getCategoryColor(task.category)}`}>
                   {task.category}
                 </span>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
                   {task.totalCompletions} time{task.totalCompletions !== 1 ? 's' : ''} completed
                 </span>
               </div>
@@ -96,7 +96,7 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
                       e.stopPropagation();
                       moveTaskUp(task.id);
                     }}
-                    className="text-gray-400 hover:text-gray-600 transition-colors text-sm"
+                    className="text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-200 transition-colors text-sm"
                     title="Move up"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,7 +112,7 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
                       e.stopPropagation();
                       moveTaskDown(task.id);
                     }}
-                    className="text-gray-400 hover:text-gray-600 transition-colors text-sm"
+                    className="text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-200 transition-colors text-sm"
                     title="Move down"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,7 +127,7 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
                     e.stopPropagation();
                     setShowTimer(true);
                   }}
-                  className="text-blue-500 hover:text-blue-700 transition-colors text-sm"
+                  className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-200 transition-colors text-sm"
                   title="Start timer"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,7 +138,7 @@ export default function DailyTaskItem({ task, canMoveUp, canMoveDown }) {
                 {/* Delete Button */}
                 <button
                   onClick={handleDelete}
-                  className="text-red-500 hover:text-red-700 transition-colors text-sm"
+                  className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-600 transition-colors text-sm"
                   title="Delete task"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
