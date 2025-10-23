@@ -19,17 +19,17 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
   }, []);
 
   const months = [
-    "January","February","March","April","May","June",
-    "July","August","September","October","November","December"
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
   ];
-  const daysOfWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   const getFirstDayOfMonth = (date) => new Date(date.getFullYear(), date.getMonth(), 1).getDay();
 
   const formatDateStr = (date) => {
     const d = new Date(date);
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   };
 
   const navigateMonth = (dir) => {
@@ -72,7 +72,7 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
 
     // Empty cells for offset
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className={`${cellHeight} border border-gray-100 bg-gray-50`} />);
+      days.push(<div key={`empty-${i}`} className={`${cellHeight} border border-gray-100 bg-gray-50 dark:bg-gray-800 dark:border-gray-700`} />);
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -83,7 +83,7 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
         <div
           key={day}
           onClick={() => handleDayClick(day)}
-          className={`relative border border-gray-200 rounded-md p-1 flex flex-col cursor-pointer transition-all hover:bg-blue-50 ${cellHeight}
+          className={`relative border border-gray-200 rounded-md p-1 flex flex-col cursor-pointer transition-all hover:bg-blue-50 dark:hover:bg-blue-900 ${cellHeight}
             ${isToday(day) ? "ring-2 ring-blue-400 bg-blue-50" : ""}
             ${isSelectedDate(day) ? "ring-2 ring-purple-300 bg-purple-50" : ""}`}
         >
@@ -101,8 +101,8 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
                 priority === "high"
                   ? "bg-red-100 text-red-800 border-red-200"
                   : priority === "medium"
-                  ? "bg-yellow-100 text-yellow-800 border-yellow-200"
-                  : "bg-green-100 text-green-800 border-green-200";
+                    ? "bg-yellow-100 text-yellow-800 border-yellow-200"
+                    : "bg-green-100 text-green-800 border-green-200";
 
               return (
                 <div key={task.id} className="relative">
@@ -126,7 +126,7 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 w-full overflow-hidden relative">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 w-full overflow-hidden relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <button onClick={() => navigateMonth(-1)} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">{"<"}</button>
@@ -147,7 +147,7 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
       {/* Hover popup */}
       {activeTask && (
         <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-          <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 w-[360px] max-w-[90%] text-sm text-center transition-all duration-200 animate-fadeIn">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 w-[360px] max-w-[90%] text-sm text-center transition-all duration-200 animate-fadeIn">
             <div className="mb-3">
               <p className="text-base font-semibold text-gray-700">Task Name:</p>
               <p className="text-lg font-bold text-gray-900">

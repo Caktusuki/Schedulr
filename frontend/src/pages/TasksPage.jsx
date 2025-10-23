@@ -5,15 +5,15 @@ import TaskFilter from '../components/TaskFilter.jsx';
 import { useTaskContext } from '../hooks/useTaskContext.js';
 
 export default function TasksPage() {
-  const { 
-    tasks, 
-    addTask, 
-    updateTask, 
-    deleteTask, 
-    toggleTaskStatus, 
-    getTaskStats 
+  const {
+    tasks,
+    addTask,
+    updateTask,
+    deleteTask,
+    toggleTaskStatus,
+    getTaskStats
   } = useTaskContext();
-  
+
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [filters, setFilters] = useState({
@@ -68,7 +68,7 @@ export default function TasksPage() {
       const matchesStatus = filters.status === 'all' || task.status === filters.status;
       const matchesPriority = filters.priority === 'all' || (task.priority && task.priority === filters.priority);
       const matchesSearch = (task.name?.toLowerCase() || '').includes(filters.search.toLowerCase()) ||
-                           (task.description?.toLowerCase() || '').includes(filters.search.toLowerCase());
+        (task.description?.toLowerCase() || '').includes(filters.search.toLowerCase());
       return matchesStatus && matchesPriority && matchesSearch;
     })
     .sort((a, b) => {
@@ -92,25 +92,25 @@ export default function TasksPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">Tasks</h1>
-        <p className="text-sm sm:text-md text-gray-600">Manage and track your tasks efficiently.</p>
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Tasks</h1>
+        <p className="text-sm sm:text-md text-gray-600 dark:text-gray-300">Manage and track your tasks efficiently.</p>
       </div>
 
       {/* Stats Cards */}
       <div className="w-full grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-lg shadow p-4">
           <h3 className="text-sm font-medium text-gray-500">Total Tasks</h3>
           <p className="text-xl sm:text-2xl font-bold text-blue-600">{taskStats.total}</p>
         </div>
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-lg shadow p-4">
           <h3 className="text-sm font-medium text-gray-500">Pending</h3>
           <p className="text-xl sm:text-2xl font-bold text-orange-600">{taskStats.pending}</p>
         </div>
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-lg shadow p-4">
           <h3 className="text-sm font-medium text-gray-500">In Progress</h3>
           <p className="text-xl sm:text-2xl font-bold text-blue-600">{taskStats.inProgress}</p>
         </div>
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-lg shadow p-4">
           <h3 className="text-sm font-medium text-gray-500">Completed</h3>
           <p className="text-xl sm:text-2xl font-bold text-green-600">{taskStats.completed}</p>
         </div>
@@ -124,9 +124,9 @@ export default function TasksPage() {
         >
           Add New Task
         </button>
-        
-        <TaskFilter 
-          filters={filters} 
+
+        <TaskFilter
+          filters={filters}
           onFilterChange={handleFilterChange}
           taskCounts={taskStats}
         />
@@ -141,7 +141,7 @@ export default function TasksPage() {
             </div>
             <div className="text-gray-400 text-sm">
               {filters.search || filters.status !== 'all' || filters.priority !== 'all'
-                ? 'Try adjusting your search or filter' 
+                ? 'Try adjusting your search or filter'
                 : 'Click "Add New Task" to get started'}
             </div>
           </div>

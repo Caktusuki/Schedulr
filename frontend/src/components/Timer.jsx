@@ -22,7 +22,7 @@ export default function Timer({ taskName, onClose, isVisible }) {
 
   const handleTimerComplete = useCallback(() => {
     setIsRunning(false);
-    
+
     // Play notification sound
     if (audioRef.current) {
       audioRef.current.play().catch(e => console.log('Audio play failed:', e));
@@ -89,9 +89,9 @@ export default function Timer({ taskName, onClose, isVisible }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900">Pomodoro Timer</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Pomodoro Timer</h3>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -105,7 +105,7 @@ export default function Timer({ taskName, onClose, isVisible }) {
         {/* Task Name */}
         <div className="text-center mb-4">
           <p className="text-sm text-gray-600">Working on:</p>
-          <p className="font-medium text-gray-900">{taskName}</p>
+          <p className="font-medium text-gray-900 dark:text-gray-100">{taskName}</p>
         </div>
 
         {/* Mode Tabs */}
@@ -114,11 +114,10 @@ export default function Timer({ taskName, onClose, isVisible }) {
             <button
               key={key}
               onClick={() => switchMode(key)}
-              className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                mode === key
+              className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${mode === key
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
-              }`}
+                }`}
             >
               {modeInfo.label}
             </button>
@@ -152,7 +151,7 @@ export default function Timer({ taskName, onClose, isVisible }) {
                 strokeLinecap="round"
               />
             </svg>
-            
+
             {/* Time Display */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="text-4xl font-bold text-gray-900">
@@ -169,11 +168,10 @@ export default function Timer({ taskName, onClose, isVisible }) {
         <div className="flex justify-center space-x-4 mb-6">
           <button
             onClick={toggleTimer}
-            className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-              isRunning
+            className={`px-6 py-3 rounded-lg font-medium transition-colors ${isRunning
                 ? 'bg-red-600 text-white hover:bg-red-700'
                 : 'bg-green-600 text-white hover:bg-green-700'
-            }`}
+              }`}
           >
             {isRunning ? 'Pause' : 'Start'}
           </button>

@@ -23,10 +23,10 @@ export default function Testimonials() {
     },
   ];
 
-   return (
-    <section className="bg-white py-16 mt-16 rounded-2xl shadow-md">
+  return (
+    <section className="bg-white dark:bg-gray-900 py-16 mt-16 rounded-2xl shadow-md">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 className="text-3xl font-bold text-indigo-600 mb-12">What Our Users Say</h2>
+        <h2 className="text-3xl font-bold text-indigo-600 dark:text-indigo-300 mb-12">What Our Users Say</h2>
 
         <Swiper
           modules={[Autoplay, Pagination]}
@@ -39,9 +39,9 @@ export default function Testimonials() {
         >
           {testimonials.map((t, index) => (
             <SwiperSlide key={index}>
-              <div className="max-w-xl mx-auto p-6 bg-indigo-50 rounded-xl shadow hover:shadow-lg transition min-h-[10rem] flex flex-col justify-center">
-                <p className="text-gray-700 italic mb-4">"{t.text}"</p>
-                <h4 className="font-semibold text-teal-600">- {t.name}</h4>
+              <div className="max-w-xl mx-auto p-6 bg-indigo-50 dark:bg-gray-800 dark:border dark:border-gray-700 rounded-xl shadow hover:shadow-lg dark:hover:shadow-lg transition min-h-[10rem] flex flex-col justify-center">
+                <p className="text-gray-700 dark:text-gray-200 italic mb-4">"{t.text}"</p>
+                <h4 className="font-semibold text-teal-600 dark:text-teal-300">- {t.name}</h4>
               </div>
             </SwiperSlide>
           ))}

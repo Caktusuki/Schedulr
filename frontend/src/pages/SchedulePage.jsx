@@ -14,6 +14,7 @@ import {
   Users,
   Target
 } from 'lucide-react';
+import { X } from 'lucide-react';
 
 // Enhanced Tabs Component with modern design
 function Tabs({ view, setView, taskCounts }) {
@@ -24,7 +25,7 @@ function Tabs({ view, setView, taskCounts }) {
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-1 mb-8">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-1 mb-8">
       <div className="flex">
         {tabs.map(({ id, label, icon, count }) => {
           const IconComponent = icon;
@@ -92,15 +93,15 @@ function StatsCards({ stats }) {
       {cards.map(({ title, value, icon, color, change }) => {
         const IconComponent = icon;
         return (
-          <div key={title} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
+          <div key={title} className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center justify-between mb-4">
               <div className={`p-2 rounded-lg bg-${color}-100`}>
                 <IconComponent size={20} className={`text-${color}-600`} />
               </div>
-              <span className="text-2xl font-bold text-gray-900">{value}</span>
+              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">{value}</span>
             </div>
-            <h3 className="text-sm font-medium text-gray-700 mb-1">{title}</h3>
-            <p className="text-xs text-gray-500">{change}</p>
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-100 mb-1">{title}</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-300">{change}</p>
           </div>
         );
       })}
@@ -125,8 +126,8 @@ function TaskCard({ task, onClick, isToday = false }) {
   return (
     <div
       className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:scale-102 hover:shadow-md ${task.status === 'completed'
-        ? 'bg-green-50 border-green-200 opacity-75'
-        : priorityStyles[task.priority] || priorityStyles.low
+        ? 'bg-green-50 dark:bg-green-900 border-green-200 dark:border-green-700 opacity-75'
+        : (priorityStyles[task.priority] || priorityStyles.low).replace(/bg-(\w+)-50/, 'bg-$1-50 dark:bg-$1-900')
         } ${isToday ? 'ring-2 ring-blue-200' : ''}`}
       onClick={onClick}
     >
@@ -266,15 +267,15 @@ ${reportData.weeklyTasks.map(day =>
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
 
         {/* Header */}
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Schedule Dashboard</h1>
-              <p className="text-gray-600">Plan, track, and optimize your productivity</p>
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-indigo-600 mb-2 schedule-title">Schedule Dashboard</h1>
+              <p className="text-gray-600 dark:text-gray-300">Plan, track, and optimize your productivity</p>
             </div>
             <div className="flex items-center space-x-3 mt-4 sm:mt-0">
               <button
@@ -305,14 +306,14 @@ ${reportData.weeklyTasks.map(day =>
         {view === "tasks" ? (
           <div className="space-y-8">
             {/* Today's Tasks Section */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
+            <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
                     <Clock className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h2 className="text-xl lg:text-2xl font-bold text-gray-900">Today's Focus</h2>
+                    <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-gray-100">Today's Focus</h2>
                     <p className="text-gray-600 text-sm">
                       {new Date().toLocaleDateString('en-US', {
                         weekday: 'long',
@@ -350,10 +351,10 @@ ${reportData.weeklyTasks.map(day =>
                 if (filteredTasks.length === 0) {
                   return (
                     <div className="text-center py-12">
-                      <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Target className="w-10 h-10 text-gray-400" />
+                      <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Target className="w-10 h-10 text-gray-400 dark:text-gray-200" />
                       </div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                         {filter === 'all' ? 'No tasks for today' : `No ${filter} tasks`}
                       </h3>
                       <p className="text-gray-500 mb-4">
@@ -388,13 +389,13 @@ ${reportData.weeklyTasks.map(day =>
             </div>
 
             {/* Weekly Overview */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
+            <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
               <div className="flex items-center mb-6">
                 <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
                   <Calendar className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
-                  <h2 className="text-xl lg:text-2xl font-bold text-gray-900">Weekly Overview</h2>
+                  <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-gray-100">Weekly Overview</h2>
                   <p className="text-gray-600 text-sm">
                     Week of {getCurrentWeekStart().toLocaleDateString()}
                   </p>
@@ -414,7 +415,7 @@ ${reportData.weeklyTasks.map(day =>
                     const isToday = dateStr === new Date().toISOString().split('T')[0];
 
                     return (
-                      <div key={day} className={`p-4 rounded-xl border-2 transition-colors ${isToday ? 'border-blue-300 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
+                      <div key={day} className={`p-4 rounded-xl border-2 transition-colors ${isToday ? 'border-blue-300 bg-blue-50 dark:bg-blue-700' : 'border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
                         }`}>
                         <div className="text-center mb-3">
                           <h4 className={`font-semibold ${isToday ? 'text-blue-700' : 'text-gray-700'}`}>
@@ -429,10 +430,10 @@ ${reportData.weeklyTasks.map(day =>
                           {dayTasks.slice(0, 2).map((task) => (
                             <div
                               key={task.id}
-                              className={`text-xs p-2 rounded cursor-pointer transition-colors ${task.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                task.priority === 'high' ? 'bg-red-100 text-red-800' :
-                                  task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-blue-100 text-blue-800'
+                              className={`text-xs p-2 rounded cursor-pointer transition-colors ${task.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                                task.priority === 'high' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
+                                  task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
+                                    'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
                                 }`}
                               onClick={() => toggleTaskStatus(task.id)}
                             >
@@ -452,7 +453,7 @@ ${reportData.weeklyTasks.map(day =>
                         </div>
 
                         <div className="mt-2 text-center">
-                          <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
+                          <span className="text-xs text-gray-500 dark:text-gray-300 bg-white dark:bg-gray-800 px-2 py-1 rounded-full dark:border-gray-600">
                             {dayTasks.length} task{dayTasks.length !== 1 ? 's' : ''}
                           </span>
                         </div>
@@ -464,16 +465,16 @@ ${reportData.weeklyTasks.map(day =>
             </div>
           </div>
         ) : view === "daily" ? (
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
+          <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
             <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mr-4">
                 <Clock className="w-6 h-6 text-green-600" />
               </div>
-              <h2 className="text-xl lg:text-2xl font-bold text-gray-900">Daily Planner</h2>
+              <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-gray-100">Daily Planner</h2>
             </div>
 
             {/* Add Task Form */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8 p-4 bg-gray-50 rounded-xl">
+            <div className="flex flex-col sm:flex-row gap-4 mb-8 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl">
               <input
                 type="time"
                 value={taskTime}
@@ -501,7 +502,7 @@ ${reportData.weeklyTasks.map(day =>
             {dailyTasks.length === 0 ? (
               <div className="text-center py-12">
                 <Clock className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No daily tasks yet</h3>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">No daily tasks yet</h3>
                 <p className="text-gray-500">Add your first task to start planning your day</p>
               </div>
             ) : (
@@ -511,14 +512,13 @@ ${reportData.weeklyTasks.map(day =>
                   .map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between bg-white shadow-sm rounded-xl p-4 border border-gray-200 hover:shadow-md transition-shadow"
-                    >
+                      className="flex items-center justify-between bg-white dark:bg-gray-800 shadow-sm rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                           <Clock className="w-6 h-6 text-blue-600" />
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-900">{item.task}</p>
+                          <p className="font-semibold text-gray-900 dark:text-gray-100">{item.task}</p>
                           <p className="text-sm text-gray-500">{item.time}</p>
                         </div>
                       </div>
@@ -534,14 +534,14 @@ ${reportData.weeklyTasks.map(day =>
             )}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
+          <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
                   <Calendar className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
-                  <h2 className="text-xl lg:text-2xl font-bold text-gray-900">Weekly Schedule</h2>
+                  <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-gray-100">Weekly Schedule</h2>
                   <p className="text-gray-600 text-sm">
                     Week of {getCurrentWeekStart().toLocaleDateString()}
                   </p>
@@ -565,14 +565,13 @@ ${reportData.weeklyTasks.map(day =>
                   const isToday = dateStr === new Date().toISOString().split('T')[0];
 
                   return (
-                    <div key={day} className={`rounded-xl border-2 p-6 transition-all duration-200 ${isToday ? 'border-blue-300 bg-blue-50 shadow-lg' : 'border-gray-200 bg-white hover:shadow-md'
-                      }`}>
+                    <div key={day} className={`rounded-xl border-2 p-6 transition-all duration-200 ${isToday ? 'border-blue-300 bg-blue-50 shadow-lg dark:bg-blue-700 dark:border-blue-600' : 'border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-600 hover:shadow-md dark:hover:shadow-lg'}`}>
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className={`text-lg font-bold ${isToday ? 'text-blue-700' : 'text-gray-900'}`}>
+                          <h3 className={`text-lg font-bold ${isToday ? 'text-blue-700 dark:text-blue-200' : 'text-gray-900 dark:text-gray-100'}`}>
                             {day} {isToday && '(Today)'}
                           </h3>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
                             {dayDate.toLocaleDateString('en-US', {
                               month: 'short',
                               day: 'numeric',
@@ -581,11 +580,11 @@ ${reportData.weeklyTasks.map(day =>
                           </p>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-gray-500 bg-white px-3 py-1 rounded-full border">
+                          <span className="text-sm text-gray-500 dark:text-gray-300 bg-white dark:bg-gray-800 px-3 py-1 rounded-full border dark:border-gray-700">
                             {dayTasks.length} task{dayTasks.length !== 1 ? 's' : ''}
                           </span>
                           {dayTasks.filter(t => t.status === 'completed').length > 0 && (
-                            <span className="text-sm text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                            <span className="text-sm text-green-600 dark:text-green-200 bg-green-100 dark:bg-green-900 px-3 py-1 rounded-full">
                               {dayTasks.filter(t => t.status === 'completed').length} done
                             </span>
                           )}
@@ -593,12 +592,12 @@ ${reportData.weeklyTasks.map(day =>
                       </div>
 
                       {dayTasks.length === 0 ? (
-                        <div className="text-center py-8 border-2 border-dashed border-gray-200 rounded-xl">
-                          <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                          <p className="text-gray-500">No tasks scheduled</p>
+                        <div className="text-center py-8 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl">
+                          <Calendar className="w-12 h-12 text-gray-300 dark:text-gray-200 mx-auto mb-3" />
+                          <p className="text-gray-500 dark:text-gray-300">No tasks scheduled</p>
                           <button
                             onClick={() => navigate('/tasks')}
-                            className="mt-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                            className="mt-2 text-blue-600 dark:text-blue-300 hover:text-blue-700 text-sm font-medium"
                           >
                             Add a task
                           </button>

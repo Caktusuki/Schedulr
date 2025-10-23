@@ -88,7 +88,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
   return (
     <div className="fixed inset-0 bg-gray-900/30 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-all duration-300">
       <div className="relative bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-lg overflow-y-auto max-h-[90vh] transition-all duration-300">
-        
+
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
@@ -115,9 +115,8 @@ export default function TaskForm({ task, onSave, onCancel }) {
               value={formData.title}
               onChange={handleChange}
               placeholder="Enter task name"
-              className={`w-full px-4 py-2 rounded-lg border ${
-                errors.title ? 'border-red-500' : 'border-gray-300'
-              } focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
+              className={`w-full px-4 py-2 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-300'
+                } focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
             />
             {errors.title && (
               <p className="text-red-500 text-xs mt-1">{errors.title}</p>
@@ -149,9 +148,8 @@ export default function TaskForm({ task, onSave, onCancel }) {
               name="deadline"
               value={formData.deadline}
               onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
-                errors.deadline ? 'border-red-500' : 'border-gray-300'
-              } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none`}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${errors.deadline ? 'border-red-500' : 'border-gray-300'
+                } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none`}
             />
             {errors.deadline && (
               <p className="text-red-500 text-xs mt-1">{errors.deadline}</p>
@@ -208,9 +206,8 @@ export default function TaskForm({ task, onSave, onCancel }) {
                     onChange={handleChange}
                     min="1"
                     max="365"
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
-                      errors.interval ? 'border-red-500' : 'border-gray-300'
-                    } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${errors.interval ? 'border-red-500' : 'border-gray-300'
+                      } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
                   />
                   {errors.interval && (
                     <p className="text-red-500 text-xs mt-1">
@@ -246,9 +243,8 @@ export default function TaskForm({ task, onSave, onCancel }) {
                   name="recurrence.endDate"
                   value={formData.recurrence.endDate}
                   onChange={handleChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
-                    errors.endDate ? 'border-red-500' : 'border-gray-300'
-                  } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${errors.endDate ? 'border-red-500' : 'border-gray-300'
+                    } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
                 />
                 {errors.endDate && (
                   <p className="text-red-500 text-xs mt-1">{errors.endDate}</p>

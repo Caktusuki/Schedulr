@@ -31,11 +31,157 @@ body {
   padding-inline: 1rem;
   max-width: 1200px;
 }
+
 /*Hide scrollbar but keep content scrollable */
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /*Chrome and safari*/
+  display: none;
+  /*Chrome and safari*/
 }
+
 .scrollbar-hide {
-  -ms-overflow-style: none; /*IE and Edge*/
-  scrollbar-width: none;    /*Firefox*/
+  -ms-overflow-style: none;
+  /*IE and Edge*/
+  scrollbar-width: none;
+  /*Firefox*/
+}
+
+/* Global dark-mode overrides to provide consistent colors when `.dark` is present.
+   These are conservative fallbacks for common Tailwind utility classes used across the app.
+   They help avoid many individual file edits and keep headers/cards readable in dark mode.
+*/
+.dark .bg-white {
+  background-color: #0f1724 !important;
+}
+
+/* slate-900-like */
+.dark .bg-gray-50 {
+  background-color: #0b1220 !important;
+}
+
+.dark .bg-slate-50 {
+  background-color: #0b1220 !important;
+}
+
+.dark .text-gray-900 {
+  color: #e6eef8 !important;
+}
+
+.dark .text-gray-800 {
+  color: #e6eef8 !important;
+}
+
+.dark .text-gray-700 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-gray-600 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-gray-500 {
+  color: #7b8794 !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #1f2937 !important;
+}
+
+.dark .border-gray-300 {
+  border-color: #243140 !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #0f1724 !important;
+}
+
+.dark .bg-blue-50 {
+  background-color: #0f2236 !important;
+}
+
+.dark .bg-green-50 {
+  background-color: #06221a !important;
+}
+
+.dark .bg-yellow-100 {
+  background-color: #2f2410 !important;
+}
+
+.dark .bg-red-100 {
+  background-color: #2b0f11 !important;
+}
+
+.dark .bg-blue-100 {
+  background-color: #0b2133 !important;
+}
+
+/* rounded card tweaks intentionally left out to avoid empty rules */
+
+/* Inputs and form fields */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #081226 !important;
+  color: #dbeafe !important;
+  border-color: #223144 !important;
+}
+
+/* Specific utility fallbacks used in SettingsPage and elsewhere */
+.dark .bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Additional fallbacks for headers/cards and quick action tiles */
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4 {
+  color: #e6eef8 !important;
+}
+
+/* Stronger Schedule page title color to ensure contrast above gradient header */
+.dark .schedule-title {
+  color: #60a5fa !important;
+  /* indigo-400 / blue-400 for clarity */
+  opacity: 1 !important;
+}
+
+.dark .card-panel,
+.dark .panel {
+  background-color: #0b1220 !important;
+  color: #e6eef8 !important;
+}
+
+/* Quick action boxes used on Dashboard - slightly lighter than page bg */
+.dark .quick-action {
+  background-color: #0f1a28 !important;
+  border-color: #1f2a36 !important;
+}
+
+/* Ensure many small utility classes used as badges get readable dark variants */
+.dark .bg-blue-50,
+.dark .bg-blue-100 {
+  background-color: #0b2233 !important;
+}
+
+.dark .bg-green-50 {
+  background-color: #03221b !important;
+}
+
+.dark .bg-yellow-100 {
+  background-color: #2f2410 !important;
+}
+
+.dark .bg-red-100 {
+  background-color: #2b0f11 !important;
+}
+
+/* Make shadows darker in dark mode so panels still feel elevated */
+.dark .shadow,
+.dark .shadow-md,
+.dark .shadow-lg {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6) !important;
 }
