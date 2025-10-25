@@ -21,11 +21,11 @@ export default function CalendarPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-50 overflow-x-hidden">
+    <div className="min-h-screen flex flex-col items-center bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
       {/* Header */}
       <div className="w-full max-w-6xl px-6 mt-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Calendar</h1>
-        <p className="text-gray-600">View your tasks and deadlines in an interactive calendar format.</p>
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Calendar</h1>
+        <p className="text-gray-600 dark:text-gray-300">View your tasks and deadlines in an interactive calendar format.</p>
       </div>
 
       {/* Calendar */}
@@ -37,14 +37,14 @@ export default function CalendarPage() {
       <div className="w-full max-w-6xl px-6 mt-10 pb-12 space-y-8 overflow-y-auto">
         {/* Selected Date Tasks */}
         {selectedDate && (
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-lg shadow-lg p-6">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
               Tasks for {new Date(selectedDate).toLocaleDateString()}
             </h3>
 
             <div className="max-h-64 overflow-y-auto space-y-3">
               {selectedDateTasks.length === 0 ? (
-                <p className="text-gray-500">No tasks for this date</p>
+                <p className="text-gray-500 dark:text-gray-300">No tasks for this date</p>
               ) : (
                 selectedDateTasks.map((task) => (
                   <div
@@ -55,9 +55,8 @@ export default function CalendarPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p
-                          className={`font-medium ${
-                            task.status === "completed" ? "line-through" : ""
-                          }`}
+                          className={`font-medium ${task.status === "completed" ? "line-through" : ""
+                            }`}
                         >
                           {task.name}
                         </p>
@@ -66,9 +65,8 @@ export default function CalendarPage() {
                         </p>
                       </div>
                       <div
-                        className={`w-3 h-3 rounded-full border-2 ${
-                          task.status === "completed" ? "bg-current" : "bg-transparent"
-                        }`}
+                        className={`w-3 h-3 rounded-full border-2 ${task.status === "completed" ? "bg-current" : "bg-transparent"
+                          }`}
                       ></div>
                     </div>
                   </div>
@@ -79,8 +77,8 @@ export default function CalendarPage() {
         )}
 
         {/* Upcoming Tasks */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Upcoming Tasks</h3>
+        <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-lg shadow-lg p-6">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Upcoming Tasks</h3>
 
           <div className="max-h-56 overflow-y-auto space-y-3">
             {upcomingTasks.length === 0 ? (
@@ -89,23 +87,22 @@ export default function CalendarPage() {
               upcomingTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
                   onClick={() => handleDateClick(task.deadline)}
                 >
                   <div>
                     <p className="font-medium text-gray-800">{task.name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-300">
                       Due: {new Date(task.deadline).toLocaleDateString()}
                     </p>
                   </div>
                   <div
-                    className={`w-2 h-2 rounded-full ${
-                      task.priority === "high"
+                    className={`w-2 h-2 rounded-full ${task.priority === "high"
                         ? "bg-red-500"
                         : task.priority === "medium"
-                        ? "bg-yellow-500"
-                        : "bg-green-500"
-                    }`}
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
+                      }`}
                   ></div>
                 </div>
               ))
