@@ -116,7 +116,7 @@ function StatsCards({ stats }) {
 }
 
 // Enhanced Task Card Component
-function TaskCard({ task, onClick, isToday = false }) {
+function TaskCard({ task, isToday = false }) {
   const priorityStyles = {
     high: "bg-red-50 border-red-200 hover:bg-red-100",
     medium: "bg-yellow-50 border-yellow-200 hover:bg-yellow-100",
