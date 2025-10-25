@@ -86,7 +86,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900/30 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-all duration-300">
+    <div className="fixed inset-0 bg-gray-900/30 dark:bg-gray-800/30 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-all duration-300">
       <div className="relative bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-lg overflow-y-auto max-h-[90vh] transition-all duration-300">
         
         {/* Header */}
@@ -96,7 +96,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
           </h2>
           <button
             onClick={onCancel}
-            className="text-gray-500 hover:text-red-500 transition-colors"
+            className="text-gray-500 dark:text-gray-300 hover:text-red-500 transition-colors"
           >
             <AiOutlineClose size={22} />
           </button>
@@ -116,7 +116,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
               onChange={handleChange}
               placeholder="Enter task name"
               className={`w-full px-4 py-2 rounded-lg border ${
-                errors.title ? 'border-red-500' : 'border-gray-300'
+                errors.title ? 'border-red-500 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
               } focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
             />
             {errors.title && (
@@ -150,7 +150,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
               value={formData.deadline}
               onChange={handleChange}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
-                errors.deadline ? 'border-red-500' : 'border-gray-300'
+                errors.deadline ? 'border-red-500 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
               } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none`}
             />
             {errors.deadline && (
@@ -209,7 +209,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
                     min="1"
                     max="365"
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
-                      errors.interval ? 'border-red-500' : 'border-gray-300'
+                      errors.interval ? 'border-red-500 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
                     } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
                   />
                   {errors.interval && (
@@ -247,7 +247,7 @@ export default function TaskForm({ task, onSave, onCancel }) {
                   value={formData.recurrence.endDate}
                   onChange={handleChange}
                   className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
-                    errors.endDate ? 'border-red-500' : 'border-gray-300'
+                    errors.endDate ? 'border-red-500 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
                   } bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100`}
                 />
                 {errors.endDate && (
@@ -280,14 +280,14 @@ export default function TaskForm({ task, onSave, onCancel }) {
           <div className="flex gap-3 pt-4">
             <button
               type="submit"
-              className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg"
+              className="flex-1 bg-blue-600 dark:bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 transition-all shadow-md hover:shadow-lg"
             >
               {task ? 'Update Task' : 'Create Task'}
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 bg-gray-400 text-white py-2 px-4 rounded-lg hover:bg-gray-500 transition-all shadow-md hover:shadow-lg"
+              className="flex-1 bg-gray-400 dark:bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-700 transition-all shadow-md hover:shadow-lg"
             >
               Cancel
             </button>

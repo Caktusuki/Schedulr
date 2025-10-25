@@ -24,7 +24,8 @@ function Tabs({ view, setView, taskCounts }) {
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-1 mb-8">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-1 mb-8">
+
       <div className="flex">
         {tabs.map(({ id, label, icon, count }) => {
           const IconComponent = icon;
@@ -34,7 +35,8 @@ function Tabs({ view, setView, taskCounts }) {
               onClick={() => setView(id)}
               className={`flex-1 flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-all duration-200 ${view === id
                 ? "bg-blue-600 text-white shadow-lg transform scale-105"
-                : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/40"
+
                 }`}
             >
               <IconComponent size={18} className="mr-2" />
@@ -92,15 +94,20 @@ function StatsCards({ stats }) {
       {cards.map(({ title, value, icon, color, change }) => {
         const IconComponent = icon;
         return (
-          <div key={title} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
+          <div key={title} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow duration-200">
+
             <div className="flex items-center justify-between mb-4">
-              <div className={`p-2 rounded-lg bg-${color}-100`}>
-                <IconComponent size={20} className={`text-${color}-600`} />
-              </div>
-              <span className="text-2xl font-bold text-gray-900">{value}</span>
+            <div className={`p-2 rounded-lg bg-${color}-100 dark:bg-${color}-900/40`}>
+              <IconComponent size={20} className={`text-${color}-600 dark:text-${color}-400`} />
             </div>
-            <h3 className="text-sm font-medium text-gray-700 mb-1">{title}</h3>
-            <p className="text-xs text-gray-500">{change}</p>
+
+              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">{value}</span>
+
+            </div>
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{title}</h3>
+
+            <p className="text-xs text-gray-500 dark:text-gray-400">{change}</p>
+
           </div>
         );
       })}
@@ -109,7 +116,7 @@ function StatsCards({ stats }) {
 }
 
 // Enhanced Task Card Component
-function TaskCard({ task, onClick, isToday = false }) {
+function TaskCard({ task, isToday = false }) {
   const priorityStyles = {
     high: "bg-red-50 border-red-200 hover:bg-red-100",
     medium: "bg-yellow-50 border-yellow-200 hover:bg-yellow-100",
@@ -117,27 +124,29 @@ function TaskCard({ task, onClick, isToday = false }) {
   };
 
   const priorityColors = {
-    high: "bg-red-100 text-red-700",
-    medium: "bg-yellow-100 text-yellow-700",
-    low: "bg-green-100 text-green-700"
+    high: "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300",
+    medium: "bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300",
+    low: "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300"
   };
+  
 
   return (
-    <div
-      className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:scale-102 hover:shadow-md ${task.status === 'completed'
-        ? 'bg-green-50 border-green-200 opacity-75'
-        : priorityStyles[task.priority] || priorityStyles.low
-        } ${isToday ? 'ring-2 ring-blue-200' : ''}`}
-      onClick={onClick}
+    <div className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 
+      ${task.status === 'completed'
+        ? 'bg-green-50 dark:bg-green-900 border-green-200 dark:border-green-700 opacity-75'
+        : priorityStyles[task.priority] + ' dark:' + priorityStyles[task.priority]
+      } ${isToday ? 'ring-2 ring-blue-200 dark:ring-blue-700' : ''}`}
     >
+    
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
-          <h4 className={`font-semibold text-sm lg:text-base mb-1 ${task.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-900'
-            }`}>
+        <h4 className={`font-semibold text-sm lg:text-base mb-1 ${task.status === 'completed' ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-gray-100'}`}>
             {task.name}
-          </h4>
+        </h4>
+
           {task.description && (
-            <p className="text-sm text-gray-600 line-clamp-2">{task.description}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{task.description}</p>
+
           )}
         </div>
         <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ml-3 ${task.status === 'completed' ? 'bg-green-500 border-green-500' : 'border-gray-300'
@@ -157,7 +166,8 @@ function TaskCard({ task, onClick, isToday = false }) {
             <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full">🔄</span>
           )}
         </div>
-        <span className="text-xs text-gray-500">{task.status}</span>
+        <span className="text-xs text-gray-500 dark:text-gray-300">{task.status}</span>
+
       </div>
     </div>
   );
@@ -266,14 +276,15 @@ ${reportData.weeklyTasks.map(day =>
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
+
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
 
         {/* Header */}
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Schedule Dashboard</h1>
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">Schedule Dashboard</h1>
               <p className="text-gray-600">Plan, track, and optimize your productivity</p>
             </div>
             <div className="flex items-center space-x-3 mt-4 sm:mt-0">
@@ -305,15 +316,17 @@ ${reportData.weeklyTasks.map(day =>
         {view === "tasks" ? (
           <div className="space-y-8">
             {/* Today's Tasks Section */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
                     <Clock className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h2 className="text-xl lg:text-2xl font-bold text-gray-900">Today's Focus</h2>
-                    <p className="text-gray-600 text-sm">
+                  <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-gray-100">Today's Focus</h2>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+
                       {new Date().toLocaleDateString('en-US', {
                         weekday: 'long',
                         year: 'numeric',
@@ -353,7 +366,7 @@ ${reportData.weeklyTasks.map(day =>
                       <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Target className="w-10 h-10 text-gray-400" />
                       </div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                         {filter === 'all' ? 'No tasks for today' : `No ${filter} tasks`}
                       </h3>
                       <p className="text-gray-500 mb-4">
@@ -388,7 +401,8 @@ ${reportData.weeklyTasks.map(day =>
             </div>
 
             {/* Weekly Overview */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+
               <div className="flex items-center mb-6">
                 <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
                   <Calendar className="w-6 h-6 text-purple-600" />
@@ -414,12 +428,16 @@ ${reportData.weeklyTasks.map(day =>
                     const isToday = dateStr === new Date().toISOString().split('T')[0];
 
                     return (
-                      <div key={day} className={`p-4 rounded-xl border-2 transition-colors ${isToday ? 'border-blue-300 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
+                      <div key={day} className={`p-4 rounded-xl border-2 transition-colors ${isToday
+                        ? 'border-blue-300 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/40'
+                        : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700'
                         }`}>
+                      
                         <div className="text-center mb-3">
-                          <h4 className={`font-semibold ${isToday ? 'text-blue-700' : 'text-gray-700'}`}>
-                            {day} {isToday && '(Today)'}
-                          </h4>
+                        <h4 className={`font-semibold ${isToday ? 'text-blue-700 dark:text-blue-400' : 'text-gray-700 dark:text-gray-200'}`}>
+                              {day} {isToday && '(Today)'}
+                        </h4>
+
                           <p className="text-xs text-gray-500">
                             {dayDate.getDate()}
                           </p>
@@ -442,13 +460,14 @@ ${reportData.weeklyTasks.map(day =>
                             </div>
                           ))}
                           {dayTasks.length > 2 && (
-                            <p className="text-xs text-gray-500 text-center">
-                              +{dayTasks.length - 2} more
-                            </p>
-                          )}
-                          {dayTasks.length === 0 && (
-                            <p className="text-xs text-gray-400 text-center italic">No tasks</p>
-                          )}
+                          <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                            +{dayTasks.length - 2} more
+                          </p>
+                        )}
+                        {dayTasks.length === 0 && (
+                          <p className="text-xs text-gray-400 dark:text-gray-500 text-center italic">No tasks</p>
+                        )}
+
                         </div>
 
                         <div className="mt-2 text-center">
@@ -464,7 +483,8 @@ ${reportData.weeklyTasks.map(day =>
             </div>
           </div>
         ) : view === "daily" ? (
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+
             <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mr-4">
                 <Clock className="w-6 h-6 text-green-600" />
@@ -473,7 +493,8 @@ ${reportData.weeklyTasks.map(day =>
             </div>
 
             {/* Add Task Form */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8 p-4 bg-gray-50 rounded-xl">
+            <div className="flex flex-col sm:flex-row gap-4 mb-8 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+
               <input
                 type="time"
                 value={taskTime}
@@ -511,7 +532,7 @@ ${reportData.weeklyTasks.map(day =>
                   .map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between bg-white shadow-sm rounded-xl p-4 border border-gray-200 hover:shadow-md transition-shadow"
+                      className="flex items-center justify-between bg-white dark:bg-gray-800 shadow-sm rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
                     >
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -534,7 +555,8 @@ ${reportData.weeklyTasks.map(day =>
             )}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 lg:p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
@@ -565,8 +587,11 @@ ${reportData.weeklyTasks.map(day =>
                   const isToday = dateStr === new Date().toISOString().split('T')[0];
 
                   return (
-                    <div key={day} className={`rounded-xl border-2 p-6 transition-all duration-200 ${isToday ? 'border-blue-300 bg-blue-50 shadow-lg' : 'border-gray-200 bg-white hover:shadow-md'
+                    <div key={day} className={`rounded-xl border-2 p-6 transition-all duration-200 ${isToday
+                      ? 'border-blue-300 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/40 shadow-lg'
+                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md dark:hover:bg-gray-700'
                       }`}>
+                    
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h3 className={`text-lg font-bold ${isToday ? 'text-blue-700' : 'text-gray-900'}`}>
@@ -581,7 +606,8 @@ ${reportData.weeklyTasks.map(day =>
                           </p>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-gray-500 bg-white px-3 py-1 rounded-full border">
+                        <span className="text-sm text-gray-500 dark:text-gray-300 bg-white dark:bg-gray-700 px-3 py-1 rounded-full border dark:border-gray-600">
+
                             {dayTasks.length} task{dayTasks.length !== 1 ? 's' : ''}
                           </span>
                           {dayTasks.filter(t => t.status === 'completed').length > 0 && (
