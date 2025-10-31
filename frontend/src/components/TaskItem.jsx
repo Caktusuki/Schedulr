@@ -62,28 +62,41 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
   const recurrenceInfo = getRecurrenceInfo(task);
 
   return (
-    <div className={`bg-white dark:bg-gray-900 rounded-lg shadow-md p-4 mb-4 transition hover:shadow-lg border-l-4 ${
+    <article 
+    className={`bg-white dark:bg-gray-900 rounded-lg shadow-md p-4 mb-4 transition hover:shadow-lg border-l-4 ${
       isOverdue() ? 'border-l-red-500' : 
       task.status === 'completed' ? 'border-l-green-500' :
       'border-l-blue-500'
-    } ${task.isInstance ? 'bg-gradient-to-r from-blue-50 to-white dark:from-blue-900 dark:to-gray-900' : ''}`}>
+    } ${task.isInstance ? 'bg-gradient-to-r from-blue-50 to-white dark:from-blue-900 dark:to-gray-900' : ''}`}
+    role="group"
+    aria-labelledby={`task-title-${task.id}`}
+    aria-describedby={`task-desc-${task.id}`}
+    >
       <div className="flex flex-col sm:flex-row gap-6 items-start justify-between">
         <div className="flex-1">
           {/* Header */}
           <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <h3 className={`text-sm sm:text-md md:text-lg font-semibold ${
+            <h3 id={`task-title-${task.id}`} className={`text-sm sm:text-md md:text-lg font-semibold ${
               task.status === 'completed' ? 'line-through text-gray-500 dark:text-gray-400' : 'text-blue-700 dark:text-blue-400'
             }`}>
               {task.name}
             </h3>
 
             {/* Priority Badge */}
-            <span className={`px-2 py-1 text-xs font-medium rounded-full border ${priorityColors[task.priority]}`}>
+            <span 
+            className={`px-2 py-1 text-xs font-medium rounded-full border ${priorityColors[task.priority]}`}
+            role="status"
+            aria-label={`Priority: ${task.priority}`}
+            >
               {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
             </span>
 
             {/* Status Badge */}
-            <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusColors[task.status]}`}>
+            <span 
+            className={`px-2 py-1 text-xs font-medium rounded-full ${statusColors[task.status]}`}
+            role="status"
+            aria-label={`Status: ${task.status}`}
+            >
               {task.status === 'in-progress' ? 'In Progress' : 
                task.status.charAt(0).toUpperCase() + task.status.slice(1)}
             </span>
@@ -97,7 +110,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
 
           {/* Description */}
           {task.description && (
-            <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-2 line-clamp-2">
+            <p id={`task-desc-${task.id}`} className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-2 line-clamp-2">
               {task.description}
             </p>
           )}
@@ -139,7 +152,8 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
           {onShowDetails && (
             <button 
               onClick={() => onShowDetails(task)}
-              className="px-3 py-1 bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-700 text-xs transition"
+              className="px-3 py-1 bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-700 text-xs transition focus-visible:outline focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
+              aria-label={`View details of task ${task.name}`}
             >
               Details
             </button>
@@ -148,12 +162,14 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
           {onToggleStatus && (
             <button
               onClick={() => onToggleStatus(task)}
-              className={`p-2 rounded-lg transition-colors ${
+              className={`p-2 rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400 ${
                 task.status === 'completed' 
                   ? 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-100 hover:bg-green-200 dark:hover:bg-green-800'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-600 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
-              title={task.status === 'completed' ? 'Mark as pending' : 'Mark as completed'}
+              aria-label={task.status === 'completed' 
+                ? `Mark ${task.name} as pending` 
+                : `Mark ${task.name} as completed`}
             >
               ✔
             </button>
@@ -162,8 +178,8 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
           {onEdit && (
             <button
               onClick={() => onEdit(task)}
-              className="p-2 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-100 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
-              title="Edit task"
+              className="p-2 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-100 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
+              aria-label={`Edit task ${task.name}`}
             >
               ✏️
             </button>
@@ -171,12 +187,13 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
 
           <button 
             onClick={() => onDelete(task)}
-            className="px-3 py-1 bg-red-500 dark:bg-red-600 text-white rounded hover:bg-red-600 dark:hover:bg-red-700 text-xs transition"
+            className="px-3 py-1 bg-red-500 dark:bg-red-600 text-white rounded hover:bg-red-600 dark:hover:bg-red-700 text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
+            aria-label={`Delete task ${task.name}`}
           >
             Delete
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
