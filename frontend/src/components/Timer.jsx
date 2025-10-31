@@ -89,12 +89,12 @@ export default function Timer({ taskName, onClose, isVisible }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900">Pomodoro Timer</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Pomodoro Timer</h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100 transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -104,20 +104,20 @@ export default function Timer({ taskName, onClose, isVisible }) {
 
         {/* Task Name */}
         <div className="text-center mb-4">
-          <p className="text-sm text-gray-600">Working on:</p>
-          <p className="font-medium text-gray-900">{taskName}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">Working on:</p>
+          <p className="font-medium text-gray-900 dark:text-gray-100">{taskName}</p>
         </div>
 
         {/* Mode Tabs */}
-        <div className="flex space-x-1 mb-6 bg-gray-100 rounded-lg p-1">
+        <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
           {Object.entries(modes).map(([key, modeInfo]) => (
             <button
               key={key}
               onClick={() => switchMode(key)}
               className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
                 mode === key
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100'
               }`}
             >
               {modeInfo.label}
@@ -137,7 +137,7 @@ export default function Timer({ taskName, onClose, isVisible }) {
                 stroke="currentColor"
                 strokeWidth="8"
                 fill="none"
-                className="text-gray-200"
+                className="text-gray-200 dark:text-gray-700"
               />
               <circle
                 cx="100"
@@ -155,10 +155,10 @@ export default function Timer({ taskName, onClose, isVisible }) {
             
             {/* Time Display */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-4xl font-bold text-gray-900">
+              <div className="text-4xl font-bold text-gray-900 dark:text-gray-100">
                 {formatTime(time)}
               </div>
-              <div className="text-sm text-gray-500 mt-1">
+              <div className="text-sm text-gray-500 dark:text-gray-300 mt-1">
                 {modes[mode].label}
               </div>
             </div>
@@ -179,14 +179,14 @@ export default function Timer({ taskName, onClose, isVisible }) {
           </button>
           <button
             onClick={resetTimer}
-            className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            className="px-6 py-3 bg-gray-600 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
           >
             Reset
           </button>
         </div>
 
         {/* Session Counter */}
-        <div className="text-center text-sm text-gray-600">
+        <div className="text-center text-sm text-gray-600 dark:text-gray-300">
           <p>Session {session} • Total completed: {totalSessions}</p>
         </div>
 

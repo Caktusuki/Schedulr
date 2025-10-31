@@ -1,14 +1,14 @@
 export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onToggleStatus }) {
   const priorityColors = {
-    Low: 'bg-green-100 text-green-800 border-green-200',
-    Medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    High: 'bg-red-100 text-red-800 border-red-200'
+    Low: 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-100 dark:border-green-700',
+    Medium: 'bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-100 dark:border-yellow-700',
+    High: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-100 dark:border-red-700'
   };
 
   const statusColors = {
-    pending: 'bg-gray-100 text-gray-800',
-    'in-progress': 'bg-blue-100 text-blue-800',
-    completed: 'bg-green-100 text-green-800'
+    pending: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100',
+    'in-progress': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100',
+    completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
   };
 
   const formatDate = (dateString) => {
@@ -42,7 +42,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
       return {
         icon: '🔄',
         text: 'Recurring Task Instance',
-        color: 'bg-blue-100 text-blue-800 border-blue-200'
+        color: 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-100 dark:border-blue-700'
       };
     }
 
@@ -52,7 +52,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
       return {
         icon: '🔄',
         text,
-        color: 'bg-blue-100 text-blue-800 border-blue-200'
+        color: 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-100 dark:border-blue-700'
       };
     }
 
@@ -62,17 +62,17 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
   const recurrenceInfo = getRecurrenceInfo(task);
 
   return (
-    <div className={`bg-white rounded-lg shadow-md p-4 mb-4 transition hover:shadow-lg border-l-4 ${
+    <div className={`bg-white dark:bg-gray-900 rounded-lg shadow-md p-4 mb-4 transition hover:shadow-lg border-l-4 ${
       isOverdue() ? 'border-l-red-500' : 
       task.status === 'completed' ? 'border-l-green-500' :
       'border-l-blue-500'
-    } ${task.isInstance ? 'bg-gradient-to-r from-blue-50 to-white' : ''}`}>
+    } ${task.isInstance ? 'bg-gradient-to-r from-blue-50 to-white dark:from-blue-900 dark:to-gray-900' : ''}`}>
       <div className="flex flex-col sm:flex-row gap-6 items-start justify-between">
         <div className="flex-1">
           {/* Header */}
           <div className="flex items-center gap-2 mb-2 flex-wrap">
             <h3 className={`text-sm sm:text-md md:text-lg font-semibold ${
-              task.status === 'completed' ? 'line-through text-gray-500' : 'text-blue-700'
+              task.status === 'completed' ? 'line-through text-gray-500 dark:text-gray-400' : 'text-blue-700 dark:text-blue-400'
             }`}>
               {task.name}
             </h3>
@@ -97,7 +97,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
 
           {/* Description */}
           {task.description && (
-            <p className="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">
+            <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-2 line-clamp-2">
               {task.description}
             </p>
           )}
@@ -105,14 +105,14 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
           {/* Deadline Info */}
           <div className="flex items-center gap-4 text-sm flex-wrap">
             <div className={`flex items-center gap-1 ${
-              isOverdue() ? 'text-red-600' :
-              daysUntil <= 3 ? 'text-orange-600' :
-              'text-gray-500'
+              isOverdue() ? 'text-red-600 dark:text-red-400' :
+              daysUntil <= 3 ? 'text-orange-600 dark:text-orange-400' :
+              'text-gray-500 dark:text-gray-400'
             }`}>
               📅 Due: {formatDate(task.deadline)}
               {isOverdue() && <span className="font-medium">(Overdue)</span>}
               {!isOverdue() && daysUntil >= 0 && (
-                <span className="text-gray-400">
+                <span className="text-gray-400 dark:text-gray-500">
                   ({daysUntil === 0 ? 'Today' : 
                     daysUntil === 1 ? 'Tomorrow' : 
                     `${daysUntil} days left`})
@@ -121,7 +121,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
             </div>
 
             {task.isRecurring && task.recurrence?.endDate && (
-              <div className="text-gray-500 text-xs">
+              <div className="text-gray-500 dark:text-gray-400 text-xs">
                 🏁 Ends: {formatDate(task.recurrence.endDate)}
               </div>
             )}
@@ -131,7 +131,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-2 ml-4">
           {task.isInstance && (
-            <span className="text-xs text-blue-600 font-medium px-2 py-1 bg-blue-50 rounded">
+            <span className="text-xs text-blue-600 dark:text-blue-200 font-medium px-2 py-1 bg-blue-50 dark:bg-blue-900 rounded">
               Instance
             </span>
           )}
@@ -139,7 +139,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
           {onShowDetails && (
             <button 
               onClick={() => onShowDetails(task)}
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs transition"
+              className="px-3 py-1 bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-700 text-xs transition"
             >
               Details
             </button>
@@ -150,8 +150,8 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
               onClick={() => onToggleStatus(task)}
               className={`p-2 rounded-lg transition-colors ${
                 task.status === 'completed' 
-                  ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-100 hover:bg-green-200 dark:hover:bg-green-800'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
               title={task.status === 'completed' ? 'Mark as pending' : 'Mark as completed'}
             >
@@ -162,7 +162,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
           {onEdit && (
             <button
               onClick={() => onEdit(task)}
-              className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+              className="p-2 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-100 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
               title="Edit task"
             >
               ✏️
@@ -171,7 +171,7 @@ export default function TaskItem({ task, onShowDetails, onEdit, onDelete, onTogg
 
           <button 
             onClick={() => onDelete(task)}
-            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs transition"
+            className="px-3 py-1 bg-red-500 dark:bg-red-600 text-white rounded hover:bg-red-600 dark:hover:bg-red-700 text-xs transition"
           >
             Delete
           </button>

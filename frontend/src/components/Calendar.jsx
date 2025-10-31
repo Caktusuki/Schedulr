@@ -72,7 +72,7 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
 
     // Empty cells for offset
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className={`${cellHeight} border border-gray-100 bg-gray-50`} />);
+      days.push(<div key={`empty-${i}`} className={`${cellHeight} border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800`} />);
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -83,13 +83,13 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
         <div
           key={day}
           onClick={() => handleDayClick(day)}
-          className={`relative border border-gray-200 rounded-md p-1 flex flex-col cursor-pointer transition-all hover:bg-blue-50 ${cellHeight}
-            ${isToday(day) ? "ring-2 ring-blue-400 bg-blue-50" : ""}
-            ${isSelectedDate(day) ? "ring-2 ring-purple-300 bg-purple-50" : ""}`}
+          className={`relative border border-gray-200 dark:border-gray-700 rounded-md p-1 flex flex-col cursor-pointer transition-all hover:bg-blue-50 dark:hover:bg-blue-900 ${cellHeight}
+            ${isToday(day) ? "ring-2 ring-blue-400 dark:ring-blue-300 bg-blue-50 dark:bg-blue-900" : ""}
+            ${isSelectedDate(day) ? "ring-2 ring-purple-300 dark:ring-purple-400 bg-purple-50 dark:bg-purple-800" : ""}`}
         >
           {/* Day header */}
           <div className="flex justify-between items-center mb-1 px-1">
-            <span className="font-semibold text-gray-700 text-sm">{day}</span>
+            <span className="font-semibold text-gray-700 dark:text-gray-200 text-sm">{day}</span>
             {isToday(day) && <div className="w-2 h-2 rounded-full bg-blue-500" />}
           </div>
 
@@ -99,10 +99,10 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
               const priority = task.priority?.toLowerCase();
               const priorityClasses =
                 priority === "high"
-                  ? "bg-red-100 text-red-800 border-red-200"
+                  ? "bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-400 dark:border-red-700"
                   : priority === "medium"
-                  ? "bg-yellow-100 text-yellow-800 border-yellow-200"
-                  : "bg-green-100 text-green-800 border-green-200";
+                  ? "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-400 dark:border-yellow-700"
+                  : "bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-400 dark:border-green-700";
 
               return (
                 <div key={task.id} className="relative">
@@ -126,18 +126,18 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 w-full overflow-hidden relative">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 w-full overflow-hidden relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <button onClick={() => navigateMonth(-1)} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">{"<"}</button>
-        <h2 className="text-xl font-semibold text-gray-800">
+        <button onClick={() => navigateMonth(-1)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">{"<"}</button>
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
           {months[currentDate.getMonth()]} {currentDate.getFullYear()}
         </h2>
-        <button onClick={() => navigateMonth(1)} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">{">"}</button>
+        <button onClick={() => navigateMonth(1)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">{">"}</button>
       </div>
 
       {/* Days of week */}
-      <div className="grid grid-cols-7 text-center font-medium text-gray-500 text-sm mb-2">
+      <div className="grid grid-cols-7 text-center font-medium text-gray-500 dark:text-gray-400 text-sm mb-2">
         {daysOfWeek.map(d => <div key={d} className="py-1">{d}</div>)}
       </div>
 
@@ -147,22 +147,22 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
       {/* Hover popup */}
       {activeTask && (
         <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-          <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 w-[360px] max-w-[90%] text-sm text-center transition-all duration-200 animate-fadeIn">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 w-[360px] max-w-[90%] text-sm text-center transition-all duration-200 animate-fadeIn">
             <div className="mb-3">
-              <p className="text-base font-semibold text-gray-700">Task Name:</p>
-              <p className="text-lg font-bold text-gray-900">
+              <p className="text-base font-semibold text-gray-700 dark:text-gray-200">Task Name:</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">
                 {activeTask.title || activeTask.name || "Unnamed Task"}
               </p>
             </div>
 
             {activeTask.description && (
               <div className="mb-4">
-                <p className="text-base font-semibold text-gray-700">Description:</p>
-                <p className="text-gray-600 italic">{activeTask.description}</p>
+                <p className="text-base font-semibold text-gray-700 dark:text-gray-200">Description:</p>
+                <p className="text-gray-600 dark:text-gray-300 italic">{activeTask.description}</p>
               </div>
             )}
 
-            <div className="text-gray-700 space-y-1">
+            <div className="text-gray-700 dark:text-gray-300 space-y-1">
               <p><strong>Priority:</strong> {activeTask.priority}</p>
               {activeTask.complexity && <p><strong>Complexity:</strong> {activeTask.complexity}</p>}
               <p><strong>Status:</strong> {activeTask.status}</p>
@@ -174,4 +174,3 @@ export default function Calendar({ tasks = [], onDateClick, selectedDate }) {
     </div>
   );
 }
-
