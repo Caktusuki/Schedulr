@@ -7,11 +7,13 @@ on:
     types: [opened, edited, reopened]
 
 jobs:
+  # This job will ONLY run for Pull Requests
   labeler:
+    if: github.event_name == 'pull_request'  # <-- ADD THIS CONDITION
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: write # This job only needs PR permissions
     steps:
       - name: Apply labels based on file changes
         uses: actions/labeler@v5
@@ -29,18 +31,22 @@ jobs:
               labels: ["GSSoC'25"]
             })
 
+  # This job will ONLY run for Issues
   issue-labeler:
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      issues: write
+      issues: write # This job only needs Issue permissions
     steps:
-      - uses: actions/labeler@v5
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          configuration-path: .github/labeler.yml
-          sync-labels: true
+      # --- REMOVE THIS STEP ---
+      # The actions/labeler@v5 is for PR files, it will not work on issues.
+      # - uses: actions/labeler@v5
+      #  with:
+      #    repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      #    configuration-path: .github/labeler.yml
+      #    sync-labels: true
+      # ------------------------
 
       - name: "Add GSSoC'25 label to Issue"
         uses: actions/github-script@v7
