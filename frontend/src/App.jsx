@@ -65,10 +65,15 @@ function AppContent() {
 
   return (
     <>
-    <MobileHeader showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
+    <header>
+      <MobileHeader showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
+    </header>
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex-1 transition-colors duration-200">
-      <Sidebar showSidebar={showSidebar} />
-      <main className={`${toggleSidebar? "md:ml-48": "md:ml-16"} flex-1 p-3 sm:p-4 lg:p-10 transition-all h-screen duration-300 overflow-x-hidden`}>
+      <Sidebar showSidebar={showSidebar} aria-label="Main navigation"/>
+      <main 
+      id="main-content"
+      role="main"
+      className={`${toggleSidebar? "md:ml-48": "md:ml-16"} flex-1 p-3 sm:p-4 lg:p-10 transition-all h-screen duration-300 overflow-x-hidden`}>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
